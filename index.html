@@ -237,8 +237,8 @@
         }
         .therapist-intro { text-align: center; }
         .therapist-avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             display: flex;
@@ -249,6 +249,12 @@
             color: white;
             font-family: 'Playfair Display', serif;
             font-weight: 600;
+            overflow: hidden;
+        }
+        .therapist-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .therapist-intro h3 {
             font-family: 'Playfair Display', serif;
@@ -579,7 +585,7 @@
         </div>
         <div class="hero-card">
             <div class="therapist-intro">
-                <div class="therapist-avatar">RS</div>
+                <div class="therapist-avatar"><img src="profile.jpg" alt="Rodrigo Silva — CBT Therapist Jersey"></div>
                 <h3>Rodrigo Silva</h3>
                 <p class="creds">MSc, MBABCP, PgDip (CBT)<br>CBT &amp; CAT Psychotherapist</p>
                 <!-- https://calendly.com/rodsil/cbt-session with your Calendly URL -->
@@ -662,6 +668,7 @@
                     <span class="cred-tag">PgDip CBT</span>
                     <span class="cred-tag">English &amp; Portuguese</span>
                 </div>
+                <a href="https://www.psychologytoday.com/gb/counselling/rodrigo-silva-saint-helier/1009468" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:1.5rem;color:var(--primary);font-weight:600;text-decoration:none;font-size:0.95rem;">View my Psychology Today profile &rarr;</a>
             </div>
             <div class="about-image">
                 <div class="about-stat-row">

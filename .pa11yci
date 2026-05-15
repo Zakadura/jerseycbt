@@ -1,0 +1,18 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "timeout": 30000,
+    "wait": 500
+  },
+  "urls": [
+    "http://localhost:4321/",
+    "http://localhost:4321/approach",
+    "http://localhost:4321/about",
+    "http://localhost:4321/articles",
+    "http://localhost:4321/what-i-treat",
+    "http://localhost:4321/fees",
+    "http://localhost:4321/book",
+    "http://localhost:4321/contact",
+    "http://localhost:4321/portugues"
+  ]
+}

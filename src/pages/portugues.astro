@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ConsultationCTA from '../components/ConsultationCTA.astro';
+import StickyBookButton from '../components/StickyBookButton.astro';
+---
+<BaseLayout
+  lang="pt"
+  title="Psicoterapia em português — Jersey & online — jerseycbt"
+  description="Psicoterapeuta acreditado (BABCP & ACAT) com sessões em inglês e português. Jersey ou online. Consulta gratuita de 15 minutos.">
+  <Nav />
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Psicoterapia em português</h1>
+
+    <section class="prose prose-lg prose-stone max-w-none mt-10">
+      {/* CONTENT_C3_PORTUGUES_BODY — ~600 words; replaced in C3.1 */}
+      <p>Placeholder. Real Portuguese-language copy lands in C3.1.</p>
+      <h2>Quem sou</h2>
+      <p>Placeholder.</p>
+      <h2>O que trato</h2>
+      <p>Placeholder.</p>
+      <h2>Como trabalho</h2>
+      <p>Placeholder.</p>
+      <h2>Línguas</h2>
+      <p>Sessões em inglês (prática principal) e português (nativo).</p>
+    </section>
+
+    <div class="mt-12">
+      <ConsultationCTA label="Agendar consulta gratuita de 15 minutos" />
+    </div>
+  </main>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

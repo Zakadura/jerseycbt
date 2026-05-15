@@ -1,0 +1,25 @@
+---
+const rows = [
+  { service: 'Free 15-min consultation',     price: 'Free',  duration: 'Fit/screening call' },
+  { service: 'Initial 50-min session',        price: '£100',  duration: 'First paid clinical session' },
+  { service: 'Standard 50-min session',       price: '£100',  duration: 'Per session, ongoing' },
+];
+---
+<table class="w-full mt-8 text-left border-collapse">
+  <thead>
+    <tr class="border-b border-warm-black text-xs tracking-trust uppercase text-subtle-text">
+      <th class="py-3">Service</th>
+      <th class="py-3 hidden sm:table-cell">Notes</th>
+      <th class="py-3 text-right">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map((r) => (
+      <tr class="border-b border-muted-cream">
+        <td class="py-4 font-serif text-warm-black">{r.service}</td>
+        <td class="py-4 text-subtle-text text-sm hidden sm:table-cell">{r.duration}</td>
+        <td class="py-4 text-right font-mono">{r.price}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

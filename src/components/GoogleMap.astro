@@ -1,0 +1,33 @@
+---
+import { PRACTICE } from '../lib/jsonld';
+const { latitude, longitude } = PRACTICE.geo;
+// TODO_RODRIGO: replace the static-image src with a Google Maps Static API URL
+// (requires API key) OR keep this OpenStreetMap-style preview to avoid the key.
+// For launch, we use a placeholder OpenStreetMap tile URL — no key needed, no
+// session tracking concerns. Click-to-load swaps in the real Google Maps iframe.
+const previewSrc = `https://staticmap.openstreetmap.de/staticmap.php?center=${latitude},${longitude}&zoom=15&size=600x300&markers=${latitude},${longitude},red-pushpin`;
+const iframeSrc = `https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
+---
+<div data-map-host class="relative mt-8 aspect-[2/1] w-full bg-muted-cream cursor-pointer overflow-hidden">
+  <img src={previewSrc} alt="Map showing practice location"
+       class="w-full h-full object-cover" loading="lazy" />
+  <button type="button"
+          class="absolute inset-0 w-full h-full flex items-center justify-center
+                 bg-warm-black/50 text-cream text-sm tracking-trust uppercase"
+          data-map-trigger
+          data-iframe-src={iframeSrc}>
+    Click to load interactive map
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-map-trigger]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const host = btn.closest('[data-map-host]');
+      if (!host) return;
+      const src = btn.getAttribute('data-iframe-src');
+      if (!src) return;
+      host.innerHTML = `<iframe src="${src}" class="w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+    });
+  });
+</script>

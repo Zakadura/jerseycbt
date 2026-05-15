@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import StickyBookButton from '../components/StickyBookButton.astro';
+
+const CONSULT_URL = 'https://calendly.com/rodsil/free-consultation';
+const SESSION_URL = 'https://calendly.com/rodsil/cbt-session';
+---
+<BaseLayout
+  title="Book — jerseycbt"
+  description="Book a free 15-min consultation or an initial 50-min session (£100). In person in Jersey or online.">
+  <Nav />
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Book</h1>
+
+    <section class="mt-10">
+      <h2 class="font-serif text-2xl text-warm-black">Free 15-min consultation</h2>
+      <p class="mt-2 text-subtle-text">
+        A fit / screening call — no clinical advice in the 15 minutes. We cover what you're bringing, whether CBT or CAT is likely a good fit, and how I work.
+      </p>
+      <CalendlyEmbed url={CONSULT_URL} />
+    </section>
+
+    <section class="mt-16">
+      <h2 class="font-serif text-2xl text-warm-black">Initial 50-min session — £100</h2>
+      <p class="mt-2 text-subtle-text">
+        First paid clinical session. Standard ongoing sessions are also £100.
+      </p>
+      <CalendlyEmbed url={SESSION_URL} />
+    </section>
+
+    <p class="mt-12 text-sm text-subtle-text">
+      If the booking widget doesn't load, email <a href="mailto:rod.gui.sil@gmail.com" class="underline">rod.gui.sil@gmail.com</a>.
+    </p>
+  </main>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

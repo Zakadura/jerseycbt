@@ -1,0 +1,12 @@
+---
+// TODO_RODRIGO: confirm/update insurance providers. Logos placed as plain text
+// at launch; replace with image assets once Rodrigo provides them or licenses
+// allow re-use.
+const providers = ['AXA', 'Aviva', 'Vitality', 'Aetna'];
+---
+<section class="mt-12 p-6 bg-muted-cream">
+  <p class="text-xs tracking-trust uppercase text-subtle-text mb-3">Accepted insurance</p>
+  <ul class="flex flex-wrap gap-x-8 gap-y-2 text-warm-black font-serif text-lg">
+    {providers.map((p) => <li>{p}</li>)}
+  </ul>
+</section>

@@ -1,0 +1,33 @@
+---
+// TODO_RODRIGO: replace FORMSPREE_ENDPOINT with the actual Formspree form URL
+// after creating the form in Formspree (https://formspree.io → New Form).
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/PLACEHOLDER';
+---
+<form action={FORMSPREE_ENDPOINT} method="POST" class="mt-8 space-y-5">
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+         class="absolute -left-[9999px] opacity-0" aria-hidden="true" />
+
+  <label class="block">
+    <span class="text-xs tracking-trust uppercase text-subtle-text">Your name</span>
+    <input type="text" name="name" required
+           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none" />
+  </label>
+
+  <label class="block">
+    <span class="text-xs tracking-trust uppercase text-subtle-text">Email</span>
+    <input type="email" name="email" required
+           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none" />
+  </label>
+
+  <label class="block">
+    <span class="text-xs tracking-trust uppercase text-subtle-text">Message</span>
+    <textarea name="message" rows="5" required
+              class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none"></textarea>
+  </label>
+
+  <button type="submit"
+          class="inline-block px-6 py-3 font-sans text-sm tracking-trust uppercase
+                 border border-warm-black bg-warm-black text-cream hover:bg-body-text">
+    Send message
+  </button>
+</form>

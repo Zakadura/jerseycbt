@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ContactForm from '../components/ContactForm.astro';
+import GoogleMap from '../components/GoogleMap.astro';
+import StickyBookButton from '../components/StickyBookButton.astro';
+import { PRACTICE } from '../lib/jsonld';
+---
+<BaseLayout
+  title="Contact — jerseycbt"
+  description="Get in touch — message form, email, or visit the practice in St Helier, Jersey.">
+  <Nav />
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Contact</h1>
+    <p class="mt-4 text-subtle-text">
+      Quickest way to start is to book a <a href="/book" class="underline">free 15-min consultation</a>. Otherwise:
+    </p>
+
+    <ContactForm />
+
+    <section class="mt-12">
+      <p class="text-xs tracking-trust uppercase text-subtle-text">Practice address</p>
+      <p class="mt-2 font-serif text-warm-black">
+        {PRACTICE.address.streetAddress}<br />
+        {PRACTICE.address.addressLocality}, {PRACTICE.address.addressRegion}<br />
+        {PRACTICE.address.postalCode}
+      </p>
+      <GoogleMap />
+    </section>
+
+    <p class="mt-8 text-sm text-subtle-text">
+      Email <a href="mailto:rod.gui.sil@gmail.com" class="underline">rod.gui.sil@gmail.com</a>
+    </p>
+  </main>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

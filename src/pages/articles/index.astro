@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import InstagramGrid from '../../components/InstagramGrid.astro';
+import StickyBookButton from '../../components/StickyBookButton.astro';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout
+  title="Articles — notes on CBT, CAT, and what gets in the way — jerseycbt"
+  description="Short articles on CBT, CAT, anxiety, depression, trauma, and the practical questions clients bring to a first session.">
+  <Nav />
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Articles</h1>
+    <p class="mt-4 text-subtle-text">
+      Short, practical writing on CBT, CAT, and the questions that come up before a first session.
+    </p>
+
+    <section class="mt-12">
+      {articles.length === 0 ? (
+        <p class="text-subtle-text italic">First articles publishing soon.</p>
+      ) : (
+        articles.map((a) => (
+          <ArticleCard
+            href={`/articles/${a.slug}/`}
+            title={a.data.title}
+            description={a.data.description}
+            date={a.data.date} />
+        ))
+      )}
+    </section>
+
+    <section class="mt-20">
+      <h2 class="font-serif text-2xl text-warm-black">On Instagram</h2>
+      <InstagramGrid />
+    </section>
+  </main>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ConsultationCTA from '../components/ConsultationCTA.astro';
+import LanguageNote from '../components/LanguageNote.astro';
+import StickyBookButton from '../components/StickyBookButton.astro';
+---
+<BaseLayout
+  title="My approach — CBT vs CAT — jerseycbt"
+  description="How I work: CBT for current patterns, CAT for relational ones. What to expect from sessions and how to know if we're a fit.">
+  <Nav />
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">My approach</h1>
+
+    <section class="prose prose-lg prose-stone max-w-none mt-10">
+      {/* CONTENT_C1_APPROACH_BODY — ~400 words, replaced in C1.1 */}
+      <p>Placeholder. Real prose lands in C1.1.</p>
+      <h2>Two evidence-based models</h2>
+      <p>Placeholder section on CBT.</p>
+      <p>Placeholder section on CAT.</p>
+      <h2>What sessions look like</h2>
+      <p>Placeholder.</p>
+      <h2>How to know if we're a fit</h2>
+      <p>Placeholder.</p>
+    </section>
+
+    <LanguageNote />
+
+    <div class="mt-12">
+      <ConsultationCTA />
+    </div>
+  </main>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

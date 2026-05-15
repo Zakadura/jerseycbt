@@ -1,0 +1,25 @@
+---
+// TODO_RODRIGO: replace BEHOLD_ID with the real Behold.so widget ID once
+// configured at https://behold.so. The script tag below pulls in Behold's
+// renderer which then mounts the grid in the <div data-behold-id>.
+const BEHOLD_ID = 'PLACEHOLDER_BEHOLD_ID';
+---
+<div data-behold-id={BEHOLD_ID} class="my-8 min-h-[200px]"></div>
+<script>
+  const host = document.querySelector('[data-behold-id]');
+  if (host) {
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          const s = document.createElement('script');
+          s.src = `https://w.behold.so/widget.js`;
+          s.type = 'module';
+          document.body.appendChild(s);
+          return;
+        }
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(host);
+  }
+</script>

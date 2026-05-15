@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import ConditionCard from '../../components/ConditionCard.astro';
+import ConsultationCTA from '../../components/ConsultationCTA.astro';
+import StickyBookButton from '../../components/StickyBookButton.astro';
+
+const conditions = (await getCollection('conditions', ({ data }) => !data.draft))
+  .sort((a, b) => a.data.condition.localeCompare(b.data.condition));
+
+const secondary = [
+  'Anger management', 'Addictions', 'Sleep', 'Self-esteem',
+  'Phobias', 'Grief', 'Personality patterns', 'Social anxiety',
+  'Panic', 'Health anxiety',
+];
+---
+<BaseLayout
+  title="What I treat — CBT & CAT for anxiety, depression, trauma — jerseycbt"
+  description="Conditions I commonly work with: anxiety, depression, trauma, OCD, relationship difficulties, burnout, and more. CBT or CAT, in Jersey or online.">
+  <Nav />
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">What I treat</h1>
+    <p class="mt-4 text-subtle-text">
+      The six areas below get their own page with treatment specifics. I also work with the conditions listed at the bottom — please get in touch if yours isn't shown.
+    </p>
+
+    <section class="mt-12 grid gap-4 sm:grid-cols-2">
+      {conditions.map((c) => (
+        <ConditionCard
+          href={`/what-i-treat/${c.slug}/`}
+          title={c.data.condition}
+          description={c.data.description} />
+      ))}
+    </section>
+
+    <section class="mt-16">
+      <h2 class="font-serif text-2xl text-warm-black">Other areas I work with</h2>
+      <ul class="mt-4 grid gap-2 sm:grid-cols-2 text-body-text">
+        {secondary.map((s) => <li>· {s}</li>)}
+      </ul>
+    </section>
+
+    <div class="mt-16 text-center">
+      <ConsultationCTA />
+    </div>
+  </main>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

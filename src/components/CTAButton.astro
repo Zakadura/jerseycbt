@@ -1,0 +1,24 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'ghost' | 'popup-trigger';
+  class?: string;
+  ['data-calendly-url']?: string;
+}
+
+const { href, variant = 'primary', class: classProp = '', ...rest } = Astro.props;
+
+const base = 'inline-block px-6 py-3 font-sans text-sm tracking-trust uppercase border transition-colors';
+const variants = {
+  primary: 'bg-warm-black text-cream border-warm-black hover:bg-body-text',
+  ghost: 'bg-transparent text-warm-black border-warm-black hover:bg-warm-black hover:text-cream',
+  'popup-trigger': 'bg-warm-black text-cream border-warm-black hover:bg-body-text cursor-pointer',
+};
+
+const className = `${base} ${variants[variant]} ${classProp}`;
+---
+{href ? (
+  <a href={href} class={className} {...rest}><slot /></a>
+) : (
+  <button type="button" class={className} {...rest}><slot /></button>
+)}

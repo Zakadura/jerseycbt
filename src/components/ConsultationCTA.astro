@@ -1,0 +1,18 @@
+---
+import CalendlyPopupButton from './CalendlyPopupButton.astro';
+
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const {
+  label = 'Book a free 15-min consultation',
+  class: classProp = '',
+} = Astro.props;
+
+// Calendly free 15-min consultation event URL.
+// TODO_RODRIGO: replace once Calendly admin creates the free-consult event.
+const CALENDLY_URL = 'https://calendly.com/rodsil/free-consultation';
+---
+<CalendlyPopupButton url={CALENDLY_URL} class={classProp}>{label}</CalendlyPopupButton>

@@ -1,0 +1,16 @@
+---
+import CalendlyPopupButton from './CalendlyPopupButton.astro';
+
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const {
+  label = 'Book your initial session (50 min, £100)',
+  class: classProp = '',
+} = Astro.props;
+
+const CALENDLY_URL = 'https://calendly.com/rodsil/cbt-session';
+---
+<CalendlyPopupButton url={CALENDLY_URL} class={classProp}>{label}</CalendlyPopupButton>

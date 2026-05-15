@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+import JsonLdSchema from '../components/JsonLdSchema.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonical?: string;
+  lang?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og-default.jpg',
+  canonical,
+  lang = 'en',
+} = Astro.props;
+
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = new URL(ogImage, Astro.site).toString();
+---
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <JsonLdSchema />
+
+    <!-- Plausible analytics; no cookies, no consent banner required under UK GDPR -->
+    <script defer data-domain="jerseycbt.com" src="https://plausible.io/js/script.js"></script>
+  </head>
+  <body class="bg-cream text-body-text">
+    <slot />
+  </body>
+</html>

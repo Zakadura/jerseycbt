@@ -1,10 +1,11 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<html lang="en">
-  <head><title>jerseycbt — redesign in progress</title></head>
-  <body>
-    <h1 class="text-3xl">Headline renders in serif</h1>
-    <p class="text-subtle-text">Body renders in sans, subtle-text token works.</p>
-  </body>
-</html>
+<BaseLayout
+  title="jerseycbt — redesign in progress"
+  description="Scaffold check.">
+  <main class="max-w-3xl mx-auto p-8">
+    <h1 class="text-3xl">BaseLayout works</h1>
+    <p>Visible at /.</p>
+  </main>
+</BaseLayout>

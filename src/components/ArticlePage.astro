@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ConsultationCTA from './ConsultationCTA.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import StickyBookButton from './StickyBookButton.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  hero?: ImageMetadata;
+}
+const { title, description, date } = Astro.props;
+---
+<BaseLayout title={`${title} — jerseycbt`} description={description}>
+  <Nav />
+  <article class="max-w-2xl mx-auto px-6 py-12">
+    <header class="mb-10">
+      <p class="text-xs tracking-trust uppercase text-subtle-text mb-3">
+        {date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+      </p>
+      <h1 class="font-serif text-4xl md:text-5xl leading-tight">{title}</h1>
+    </header>
+    <div class="prose prose-lg prose-stone max-w-none">
+      <slot />
+    </div>
+    <div class="mt-16 border-t border-muted-cream pt-10">
+      <ConsultationCTA />
+    </div>
+  </article>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

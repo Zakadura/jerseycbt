@@ -1,0 +1,14 @@
+---
+const items = [
+  'BABCP Accredited #101239',
+  'ACAT Accredited',
+  '21+ years in practice',
+  'NHS + private background',
+];
+---
+<section class="bg-muted-cream border-y border-cream">
+  <div class="max-w-5xl mx-auto px-6 py-5 flex flex-wrap gap-x-8 gap-y-2 justify-center
+              text-xs tracking-trust uppercase text-subtle-text">
+    {items.map((t) => <span>{t}</span>)}
+  </div>
+</section>

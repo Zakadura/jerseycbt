@@ -1,11 +1,74 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ConversionHero from '../components/ConversionHero.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import ConsultationCTA from '../components/ConsultationCTA.astro';
+import StickyBookButton from '../components/StickyBookButton.astro';
 ---
 <BaseLayout
-  title="jerseycbt — redesign in progress"
-  description="Scaffold check.">
-  <main class="max-w-3xl mx-auto p-8">
-    <h1 class="text-3xl">BaseLayout works</h1>
-    <p>Visible at /.</p>
-  </main>
+  title="CBT & CAT Psychotherapy in Jersey — Rodrigo Silva — jerseycbt"
+  description="BABCP & ACAT accredited CBT/CAT psychotherapist in St Helier, Jersey. 21+ years' experience. In person or online. Free 15-min consultation.">
+  <Nav />
+
+  <ConversionHero
+    eyebrow="CBT & CAT Psychotherapy · St Helier, Jersey · Online across UK and Europe"
+    headline="Considered psychotherapy for anxiety, depression, trauma, and burnout."
+    subhead="BABCP & ACAT accredited. 21+ years in NHS and private practice. In person in Jersey or online." />
+
+  <TrustStrip />
+
+  <!-- Approach teaser -->
+  <section class="max-w-3xl mx-auto px-6 py-20">
+    <p class="text-xs tracking-trust uppercase text-subtle-text">How I work</p>
+    <h2 class="mt-2 font-serif text-3xl text-warm-black">
+      {/* CONTENT_C1_HOME_APPROACH_INTRO */}
+      Two evidence-based models, one practitioner.
+    </h2>
+    <p class="mt-4 text-body-text leading-relaxed">
+      {/* CONTENT_C1_HOME_APPROACH_BODY — 80–120 words on CBT vs CAT, replaced in C1.1 */}
+      Placeholder. CBT focuses on the patterns of thought and behaviour that maintain
+      distress today. CAT looks at the relational patterns laid down earlier in life
+      that keep showing up under stress. Most of my clients benefit from a blend.
+    </p>
+    <a href="/approach" class="mt-6 inline-block text-warm-black underline underline-offset-4">
+      Read more about my approach →
+    </a>
+  </section>
+
+  <!-- Conditions teaser -->
+  <section class="bg-muted-cream py-20">
+    <div class="max-w-3xl mx-auto px-6">
+      <p class="text-xs tracking-trust uppercase text-subtle-text">What I treat</p>
+      <h2 class="mt-2 font-serif text-3xl text-warm-black">
+        {/* CONTENT_C1_HOME_CONDITIONS_INTRO */}
+        Common reasons people come to see me.
+      </h2>
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2 text-body-text">
+        <li><a href="/what-i-treat/anxiety"        class="underline underline-offset-4">Anxiety & GAD</a></li>
+        <li><a href="/what-i-treat/depression"     class="underline underline-offset-4">Depression</a></li>
+        <li><a href="/what-i-treat/trauma-ptsd"    class="underline underline-offset-4">Trauma & PTSD</a></li>
+        <li><a href="/what-i-treat/ocd"            class="underline underline-offset-4">OCD</a></li>
+        <li><a href="/what-i-treat/relationships"  class="underline underline-offset-4">Relationships</a></li>
+        <li><a href="/what-i-treat/burnout"        class="underline underline-offset-4">Burnout</a></li>
+      </ul>
+      <a href="/what-i-treat" class="mt-8 inline-block text-warm-black underline underline-offset-4">
+        See the full list →
+      </a>
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="max-w-2xl mx-auto px-6 py-20 text-center">
+    <p class="font-serif text-2xl text-warm-black">
+      {/* CONTENT_C1_HOME_CLOSING — 25–40 words, replaced in C1.1 */}
+      Not sure if therapy with me is the right fit? A free 15-min consultation
+      is the easiest way to find out.
+    </p>
+    <div class="mt-6"><ConsultationCTA /></div>
+  </section>
+
+  <Footer />
+  <StickyBookButton />
 </BaseLayout>

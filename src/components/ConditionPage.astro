@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import StickyBookButton from './StickyBookButton.astro';
+import ConsultationCTA from './ConsultationCTA.astro';
+import ResourceLinks from './ResourceLinks.astro';
+
+interface Props {
+  condition: string;
+  description: string;
+  symptoms: string[];
+  sessionsTypical: string;
+  resources: Array<{ label: string; url: string }>;
+}
+const { condition, description, symptoms, sessionsTypical, resources } = Astro.props;
+---
+<BaseLayout
+  title={`${condition} therapy in Jersey — CBT & CAT — jerseycbt`}
+  description={description}>
+  <Nav />
+  <article class="max-w-2xl mx-auto px-6 py-12">
+    <header class="mb-10">
+      <p class="text-xs tracking-trust uppercase text-subtle-text mb-3">What I Treat</p>
+      <h1 class="font-serif text-4xl md:text-5xl leading-tight">{condition}</h1>
+      <p class="mt-4 text-lg text-subtle-text">{description}</p>
+      <p class="mt-2 text-sm text-subtle-text">
+        Typical course: <strong>{sessionsTypical}</strong> sessions
+      </p>
+    </header>
+
+    <aside class="my-10 p-6 bg-muted-cream">
+      <p class="text-xs tracking-trust uppercase text-subtle-text mb-3">Common signs</p>
+      <ul class="list-disc pl-5 space-y-1">
+        {symptoms.map((s) => <li>{s}</li>)}
+      </ul>
+    </aside>
+
+    <div class="prose prose-lg prose-stone max-w-none">
+      <slot />
+    </div>
+
+    <div class="my-12 text-center">
+      <ConsultationCTA />
+    </div>
+
+    <ResourceLinks resources={resources} />
+  </article>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

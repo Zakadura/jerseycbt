@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import ConditionPage from '../../components/ConditionPage.astro';
+
+export async function getStaticPaths() {
+  const conditions = await getCollection('conditions', ({ data }) => !data.draft);
+  return conditions.map((c) => ({
+    params: { slug: c.slug },
+    props: { condition: c },
+  }));
+}
+
+const { condition } = Astro.props;
+const { Content } = await condition.render();
+const { data } = condition;
+---
+<ConditionPage
+  condition={data.condition}
+  description={data.description}
+  symptoms={data.symptoms}
+  sessionsTypical={data.sessions_typical}
+  resources={data.resources}>
+  <Content />
+</ConditionPage>

@@ -1,0 +1,43 @@
+---
+interface Props {
+  url: string;
+  eventType?: 'consultation' | 'session';
+  height?: number;
+}
+const { url, height = 700 } = Astro.props;
+---
+<div
+  data-calendly-inline
+  data-calendly-url={url}
+  style={`min-height:${height}px`}
+  class="w-full bg-muted-cream"
+>
+  <noscript>
+    <p class="p-6 text-subtle-text">
+      JavaScript is required to load the booking widget. Email rod.gui.sil@gmail.com to book.
+    </p>
+  </noscript>
+</div>
+
+<script>
+  import { observeAndLoad } from '../lib/lazyEmbed';
+
+  document.querySelectorAll<HTMLElement>('[data-calendly-inline]').forEach((host) => {
+    observeAndLoad(host, () => {
+      const url = host.getAttribute('data-calendly-url');
+      if (!url) return;
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://assets.calendly.com/assets/external/widget.css';
+      document.head.appendChild(link);
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      script.onload = () => {
+        // @ts-expect-error Calendly attaches at runtime
+        window.Calendly?.initInlineWidget({ url, parentElement: host });
+      };
+      document.body.appendChild(script);
+    });
+  });
+</script>

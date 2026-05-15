@@ -3,3 +3,6 @@ node_modules/
 dist/
 .DS_Store
 Thumbs.db
+.astro/
+.env
+.env.local

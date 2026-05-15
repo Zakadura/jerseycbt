@@ -12,12 +12,14 @@ interface Props {
   symptoms: string[];
   sessionsTypical: string;
   resources: Array<{ label: string; url: string }>;
+  hero?: ImageMetadata;
 }
-const { condition, description, symptoms, sessionsTypical, resources } = Astro.props;
+const { condition, description, symptoms, sessionsTypical, resources, hero } = Astro.props;
 ---
 <BaseLayout
   title={`${condition} therapy in Jersey — CBT & CAT — jerseycbt`}
-  description={description}>
+  description={description}
+  ogImage={hero?.src}>
   <Nav />
   <article class="max-w-2xl mx-auto px-6 py-12">
     <header class="mb-10">

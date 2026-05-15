@@ -11,9 +11,9 @@ interface Props {
   date: Date;
   hero?: ImageMetadata;
 }
-const { title, description, date } = Astro.props;
+const { title, description, date, hero } = Astro.props;
 ---
-<BaseLayout title={`${title} — jerseycbt`} description={description}>
+<BaseLayout title={`${title} — jerseycbt`} description={description} ogImage={hero?.src}>
   <Nav />
   <article class="max-w-2xl mx-auto px-6 py-12">
     <header class="mb-10">

@@ -1,0 +1,42 @@
+---
+// Mobile-only sticky bottom-screen CTA. Appears after scroll past hero;
+// dismissible. Hidden ≥ md breakpoint.
+---
+<div
+  id="sticky-book"
+  class="md:hidden fixed bottom-0 inset-x-0 bg-warm-black text-cream
+         flex items-center justify-between px-4 py-3 translate-y-full
+         transition-transform duration-300 z-50"
+>
+  <a href="/book" class="text-sm tracking-trust uppercase flex-1">
+    Book a free 15-min consultation
+  </a>
+  <button id="sticky-book-dismiss"
+          aria-label="Dismiss"
+          class="ml-3 text-cream/80 hover:text-cream text-xl leading-none">
+    ×
+  </button>
+</div>
+
+<script>
+  const el = document.getElementById('sticky-book');
+  const dismissBtn = document.getElementById('sticky-book-dismiss');
+  if (el && dismissBtn) {
+    const DISMISS_KEY = 'sticky-book-dismissed';
+    if (sessionStorage.getItem(DISMISS_KEY) === '1') {
+      el.remove();
+    } else {
+      const onScroll = () => {
+        if (window.scrollY > window.innerHeight * 0.6) {
+          el.classList.remove('translate-y-full');
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      dismissBtn.addEventListener('click', () => {
+        sessionStorage.setItem(DISMISS_KEY, '1');
+        el.classList.add('translate-y-full');
+        setTimeout(() => el.remove(), 300);
+      });
+    }
+  }
+</script>

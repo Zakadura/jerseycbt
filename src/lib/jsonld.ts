@@ -3,7 +3,7 @@ export const PRACTICE = {
   legalName: 'Rodrigo Silva Psychotherapy',
   url: 'https://jerseycbt.com',
   email: 'rod.gui.sil@gmail.com',
-  telephone: '+44-1534-XXXXXX', // TODO_RODRIGO: confirm public phone
+  telephone: '+44-7458-153479',
   address: {
     streetAddress: 'House 3, 8 Lewis St',
     addressLocality: 'St Helier',
@@ -12,10 +12,10 @@ export const PRACTICE = {
     addressCountry: 'JE',
   },
   geo: {
-    latitude: 49.1830,   // TODO_RODRIGO: confirm via Google Maps coordinates
-    longitude: -2.1095,
+    latitude: 49.1888196,
+    longitude: -2.1129293,
   },
-  openingHours: 'Mo-Fr 09:00-18:00', // TODO_RODRIGO: confirm
+  openingHours: 'Mo-Fr 10:00-18:00',
   languages: ['English', 'Portuguese'],
   founderCredentials: [
     'BABCP Accredited #101239',
@@ -23,7 +23,7 @@ export const PRACTICE = {
     'MSc, PgDip CBT',
     '21+ years in NHS and private practice',
   ],
-  insuranceAccepted: ['AXA', 'Aviva', 'Vitality', 'Aetna'], // TODO_RODRIGO: confirm/update
+  insuranceAccepted: ['AXA', 'Aviva', 'Vitality', 'Aetna'],
 } as const;
 
 export function buildJsonLd() {

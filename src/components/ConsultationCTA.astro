@@ -11,8 +11,6 @@ const {
   class: classProp = '',
 } = Astro.props;
 
-// Calendly free 15-min consultation event URL.
-// TODO_RODRIGO: replace once Calendly admin creates the free-consult event.
-const CALENDLY_URL = 'https://calendly.com/rodsil/free-consultation';
+const CALENDLY_URL = 'https://calendly.com/rodsil/15-min-onboard';
 ---
 <CalendlyPopupButton url={CALENDLY_URL} class={classProp}>{label}</CalendlyPopupButton>

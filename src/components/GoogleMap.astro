@@ -1,10 +1,6 @@
 ---
 import { PRACTICE } from '../lib/jsonld';
 const { latitude, longitude } = PRACTICE.geo;
-// TODO_RODRIGO: replace the static-image src with a Google Maps Static API URL
-// (requires API key) OR keep this OpenStreetMap-style preview to avoid the key.
-// For launch, we use a placeholder OpenStreetMap tile URL — no key needed, no
-// session tracking concerns. Click-to-load swaps in the real Google Maps iframe.
 const previewSrc = `https://staticmap.openstreetmap.de/staticmap.php?center=${latitude},${longitude}&zoom=15&size=600x300&markers=${latitude},${longitude},red-pushpin`;
 const iframeSrc = `https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
 ---

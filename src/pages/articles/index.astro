@@ -4,7 +4,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
-import InstagramGrid from '../../components/InstagramGrid.astro';
 import StickyBookButton from '../../components/StickyBookButton.astro';
 
 const articles = (await getCollection('articles', ({ data }) => !data.draft))
@@ -34,10 +33,6 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
       )}
     </section>
 
-    <section class="mt-20">
-      <h2 class="font-serif text-2xl text-warm-black">On Instagram</h2>
-      <InstagramGrid />
-    </section>
   </main>
   <Footer />
   <StickyBookButton />

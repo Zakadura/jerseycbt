@@ -3,10 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import SessionCTA from '../components/SessionCTA.astro';
 import StickyBookButton from '../components/StickyBookButton.astro';
+import { PRACTICE } from '../lib/jsonld';
 
-const CONSULT_URL = 'https://calendly.com/rodsil/free-consultation';
-const SESSION_URL = 'https://calendly.com/rodsil/cbt-session';
+const CONSULT_URL = 'https://calendly.com/rodsil/15-min-onboard';
 ---
 <BaseLayout
   title="Book — jerseycbt"
@@ -26,13 +27,15 @@ const SESSION_URL = 'https://calendly.com/rodsil/cbt-session';
     <section class="mt-16">
       <h2 class="font-serif text-2xl text-warm-black">Initial 50-min session — £100</h2>
       <p class="mt-2 text-subtle-text">
-        First paid clinical session. Standard ongoing sessions are also £100.
+        First paid clinical session. Standard ongoing sessions are also £100. Most clients book the free consultation first; if you already know you'd like to start, contact me directly:
       </p>
-      <CalendlyEmbed url={SESSION_URL} />
+      <div class="mt-4">
+        <SessionCTA />
+      </div>
     </section>
 
     <p class="mt-12 text-sm text-subtle-text">
-      If the booking widget doesn't load, email <a href="mailto:rod.gui.sil@gmail.com" class="underline">rod.gui.sil@gmail.com</a>.
+      If the booking widget doesn't load, email <a href={`mailto:${PRACTICE.email}`} class="underline">{PRACTICE.email}</a>.
     </p>
   </main>
   <Footer />

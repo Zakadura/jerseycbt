@@ -280,7 +280,7 @@ Linear playbook, one go-live event.
 
 These are decisions the operator should lock in before page #1 drafting begins:
 
-1. **Plausible analytics**: in scope for this launch, or follow-up? Default = in scope.
+1. **Plausible analytics**: in scope for this launch, or follow-up? **DECIDED 2026-05-19: ACCOUNT SETUP DEFERRED, SCRIPT ALREADY WIRED.** `src/layouts/BaseLayout.astro:45` already contains the Plausible script tag (cookieless, GDPR-compliant). No code work needed at launch. Operator creates a Plausible account at https://plausible.io with domain `jerseycbt.com` whenever convenient post-launch; traffic logs start immediately upon account creation. Privacy disclosure paragraph in `src/pages/privacy.astro` to be added in same follow-up commit (Plausible mentioned by name).
 2. **First-therapy-session article**: added to queue as item 17.5, or stays out? Default = stays out.
 3. **`npm run preflight` wrapper**: written during polish pass, or skipped? Default = written.
 4. **Keyword-volume verification step**: operator runs the primary-keyword list through Google Keyword Planner / Ubersuggest before pour starts (≈20 min), or skips and accepts the best-guess keyword map? Default = run the verification.

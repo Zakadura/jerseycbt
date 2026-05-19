@@ -2,8 +2,8 @@
 
 **Date:** 2026-05-19
 **Repo:** `Zakadura/jerseycbt`
-**Working branch:** `redesign` (HEAD `ced537e`, tagged `pre-redesign` at the prior live `Master` HEAD `8325ad1`)
-**Live domain:** `https://jerseycbt.com` (CNAME wired to GitHub Pages, currently serving `pre-redesign`)
+**Working branch:** `redesign`. Tags: `pre-redesign` (`ced537e`) marks the redesign-branch state *before* the content pour started; `live-master-pre-launch` (`8325ad1`) marks the original live `Master` HEAD = the old single-page hand-coded `index.html` currently in production. `live-master-pre-launch` is the nuclear-rollback anchor.
+**Live domain:** `https://jerseycbt.com` (CNAME wired to GitHub Pages, currently serving the old single-page site at `live-master-pre-launch` = `origin/Master`)
 **Practitioner:** Rodrigo Silva — BABCP (CBT) & ACAT (CAT) accredited, Ordem dos Psicólogos Portugueses, solo practice in St Helier, Jersey
 **Builds on:** `2026-05-15-jerseycbt-redesign-design.md`, `2026-05-15-jerseycbt-redesign-design-v2.md`
 
@@ -11,7 +11,7 @@
 
 The redesign branch is **structurally** ready to launch — Astro 5 site is built, CI workflow deploys to GitHub Pages with the correct CNAME, Calendly + Formspree + JSON-LD + OG images + pa11y all wired. The redesign is **content-poor**: Home, About, Approach, Fees, Portugues, all 6 condition pages, and all 3 article pages still hold placeholder text referencing content-pour slots (`C1.1`, `C2.1`, `C4.1`, etc.).
 
-Launch is therefore not an infrastructure project. It is a **content-pour project terminated by a single-merge cutover**. Pour content top-down into the existing Astro shells; pa11y and build stay green per page; when all placeholders are gone and gates green, fast-forward (or no-ff) merge `redesign` → `Master`; CI publishes to `gh-pages`; GitHub Pages serves the new site at the existing live domain. Old `Master` (tag `pre-redesign`) keeps serving until merge.
+Launch is therefore not an infrastructure project. It is a **content-pour project terminated by a single-merge cutover**. Pour content top-down into the existing Astro shells; pa11y and build stay green per page; when all placeholders are gone and gates green, no-ff merge `redesign` → `Master`; CI publishes to `gh-pages`; GitHub Pages serves the new site at the existing live domain. Old `Master` (= tag `live-master-pre-launch`, the single-page `index.html`) keeps serving until merge. The merge is a **complete site replacement**, not a content swap — `Master` currently has none of the Astro infrastructure; all 26+ redesign commits land in one go.
 
 Brand-voice contract has shifted from prior memory: **CBT and CAT are now presented in parallel**, with **Bion and Beck** as the paired ethos lineages. Two parallel signature assets — the reformulation letter (CAT) and the collaborative formulation (CBT) — anchor the site's specifics. Page-level modality lead is determined by presentation match, not by site-level priority.
 
@@ -20,7 +20,7 @@ Brand-voice contract has shifted from prior memory: **CBT and CAT are now presen
 - Replace every placeholder page with finished, voice-correct copy.
 - Preserve all existing infrastructure (CI, integrations, JSON-LD, accessibility audit, CNAME).
 - Cut over to live atomically — one merge into `Master`, one CI run, one go-live.
-- Maintain rollback safety via the `pre-redesign` tag throughout.
+- Maintain rollback safety via the `live-master-pre-launch` tag throughout.
 - Update brand-voice memory to reflect CBT/CAT parallel framing once the spec is committed.
 
 ## Non-goals
@@ -51,9 +51,9 @@ gh-pages (publish_dir: ./dist, cname: jerseycbt.com)
 GitHub Pages → https://jerseycbt.com (DNS unchanged)
 ```
 
-- Working branch: `redesign`. Live keeps serving from `pre-redesign` tag's HEAD throughout the pour.
+- Working branch: `redesign`. Live keeps serving from `origin/Master` (= tag `live-master-pre-launch`) throughout the pour.
 - Go-live: single `git merge --no-ff redesign` into `Master`, then `git push origin Master`. CI runtime ~2–4 min.
-- Rollback: `git revert -m 1 <merge-sha>` (preferred) or `git reset --hard pre-redesign && git push --force-with-lease` (nuclear). `pre-redesign` tag is the anchor.
+- Rollback: `git revert -m 1 <merge-sha>` (preferred) or `git reset --hard live-master-pre-launch && git push --force-with-lease` (nuclear). `live-master-pre-launch` is the anchor for "back to the old live site"; `pre-redesign` is the anchor for "back to the redesign branch state before pour started".
 
 ### Content shapes (unchanged from redesign)
 
@@ -250,7 +250,7 @@ All gates must be green before `redesign` merges into `Master`. Single red gate 
 - **G7 — Integrations smoke.** Calendly inline + popup load on `/book` and `ConsultationCTA` hosts. Formspree form on `/contact` posts a test row (marked test, deleted after). `tel:` link opens dialer on mobile. OSM map renders.
 - **G8 — Cross-page consistency.** Anchor phrases present on Home and at least one of About/Approach (not on all pages). Modality gating logic same on Approach and on parallel-lead condition pages. Nav labels match final titles. Footer includes Portuguese link. No orphan pages.
 - **G9 — Privacy + compliance.** `/privacy` and `/terms` reviewed against any copy changes. If Plausible added, privacy page mentions it by name. ICO / GDPR text intact. Insurer-claims wording unchanged unless explicitly revisited.
-- **G10 — Branch state.** `redesign` fast-forwards (or merges no-ff cleanly) onto current `Master`. `pre-redesign` tag still points at original `Master` HEAD.
+- **G10 — Branch state.** `redesign` merges no-ff cleanly onto current `Master`. `live-master-pre-launch` tag still points at the original live `Master` HEAD (`8325ad1`); `pre-redesign` tag still points at `ced537e`.
 - **G11 — SEO surface check.** Every page in queue items 1–17 has: meta title ≤60 chars containing the primary keyword from the keyword-to-page map; meta description ≤155 chars containing the primary keyword once and respecting hard bans; H1 voice-correct; URL slug matching map; ≥1 internal link to a related page (condition→article, article→condition, Home→top-pages). Verified by grep + hand-audit during polish pass.
 
 G1, G2, G4, G5 are scriptable (optional `npm run preflight` wrapper during polish pass). G3, G6, G7, G8, G9, G11 are operator-verified.
@@ -274,7 +274,7 @@ Linear playbook, one go-live event.
 - Visible-to-public regression with no quick fix-forward (<15 min) → roll back.
 - Cosmetic issues → fix-forward in a follow-up commit.
 - Mechanics: `git checkout Master && git revert --no-edit -m 1 <merge-sha> && git push origin Master`. CI re-deploys reverted state.
-- Nuclear (only if revert conflicts intractable): `git reset --hard pre-redesign && git push --force-with-lease origin Master`.
+- Nuclear (only if revert conflicts intractable): `git reset --hard live-master-pre-launch && git push --force-with-lease origin Master`.
 
 ## Open decisions to confirm before pour starts
 

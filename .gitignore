@@ -6,3 +6,5 @@ Thumbs.db
 .astro/
 .env
 .env.local
+# baseline placeholders inventory
+.baseline-placeholders.txt

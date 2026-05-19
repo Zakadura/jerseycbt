@@ -82,14 +82,23 @@ git log redesign..origin/redesign --oneline    # should print nothing
 
 Expected: branch `redesign`, working tree clean (except untracked `node_modules/`, `dist/`), no divergence from origin (the spec commit `6b96990` may not yet be pushed — that's fine, it'll go with the pour commits).
 
-- [ ] **Step 2: Confirm `pre-redesign` tag exists**
+- [ ] **Step 2: Confirm both rollback tags exist**
 
 ```bash
-git rev-parse pre-redesign
-git show pre-redesign --stat | head -3
+git rev-parse "pre-redesign^{commit}"             # → ced537e... (redesign branch state pre-pour, NOT the live old site)
+git rev-parse "live-master-pre-launch^{commit}"   # → 8325ad1... (old live single-page index.html, nuclear rollback anchor)
 ```
 
-Expected: SHA `8325ad1...`, commit on `Master`. This is the rollback anchor.
+Both must exist. `live-master-pre-launch` was created during Task 0.1 first execution (2026-05-19) at `origin/Master`'s HEAD and pushed to origin. If missing, recreate:
+
+```bash
+git tag -a live-master-pre-launch origin/Master -m "Old live single-page site, nuclear rollback anchor"
+git push origin live-master-pre-launch
+```
+
+The two tags serve different purposes:
+- `live-master-pre-launch` = back-to-old-live-site (the rollback target for "abort the launch")
+- `pre-redesign` = back-to-redesign-branch-pre-pour-state (useful for rebasing or comparing pre-pour state)
 
 - [ ] **Step 3: Baseline build + a11y green**
 
@@ -99,7 +108,18 @@ npm run build
 npm run a11y
 ```
 
-Expected: build exits 0 (warnings about placeholder content allowed), pa11y exits 0 on all configured routes. If a11y fails, fix BEFORE starting pour — placeholder pages must already be accessible.
+Expected: build exits 0. `npm run a11y` **requires the preview server running** — start it in another shell first:
+
+```bash
+npx astro preview --port 4321 &
+sleep 3
+npm run a11y
+# kill the preview server when done (find PID via `Get-NetTCPConnection -LocalPort 4321`)
+```
+
+pa11y exits 0 on all 9 configured top-level routes. Condition + article slugs are NOT in `.pa11yci` urls yet — added in Task 5.1 polish. If a11y fails, fix BEFORE starting pour.
+
+**Known baseline note:** all 9 condition + article placeholder files have `draft: true` in frontmatter, and the `[slug].astro` dynamic routes filter via `({ data }) => !data.draft`. Result: NO condition or article HTML files render to `dist/` until the draft flags are flipped during pour. The 11 page count in build output is correct because the dynamic-route iterations produce zero entries.
 
 - [ ] **Step 4: Baseline placeholder inventory**
 
@@ -761,6 +781,59 @@ git commit -m "content: Portugues — PT-EU register, carta de reformulacao (ite
 
 ---
 
+## Schema reference (READ BEFORE PHASE 3 AND PHASE 4)
+
+The content collections in `src/content/config.ts` enforce strict frontmatter. Every condition + article pour MUST match these schemas exactly OR the build fails with a Zod validation error.
+
+### Condition frontmatter (Phase 3 — all 6 conditions)
+
+```yaml
+---
+condition: "<Display title for the condition page (string)>"
+description: "<Meta description, max 160 chars>"
+target_keyword: "<lowercase primary keyword, e.g. 'anxiety therapy jersey'>"
+sessions_typical: "<e.g. '8-16' or '12-20'>"
+symptoms:
+  - "<3 to 8 short voice-correct phrases>"
+  - "<...>"
+resources:
+  - label: "<external resource title>"
+    url: "<https://...>"
+# draft: true   ← REMOVE this line during pour. The default is false; once removed the page renders.
+# hero: <optional image — only set if asset exists at the referenced path>
+---
+```
+
+**Preserve `symptoms` and `resources` arrays from the existing placeholder** unless they're voice-incorrect — they're already drafted and voice-aligned (NHS / Mind / Tavistock links curated). The pour is body markdown + description + draft-flag-removal, not full frontmatter rewrite.
+
+### Article frontmatter (Phase 4 — all 4 articles)
+
+```yaml
+---
+title: "<Article title, max 70 chars>"
+description: "<Meta description, max 160 chars>"
+date: 2026-05-19                                  # ← NOT 'pubDate'. z.date() requires ISO date.
+target_keyword: "<lowercase primary keyword>"
+tags: ["tag1", "tag2"]                            # optional, defaults to []
+# hero: <optional image>                          # ← NOT 'heroImage'. Field is optional.
+# draft: true                                     # ← REMOVE during pour.
+---
+```
+
+**Required by schema** (build fails without them): `title`, `description`, `date`, `target_keyword`. **Optional**: `tags`, `hero`, `draft`.
+
+### Universal pour rule
+
+- **Every Phase 3 and Phase 4 pour task MUST remove `draft: true`** (or change it to `draft: false`) in addition to writing content. Without this, the page won't render even though the file exists.
+- After the pour, verify the page renders:
+  ```bash
+  npm run build
+  ls dist/what-i-treat/<slug>/index.html     # conditions
+  ls dist/articles/<slug>/index.html          # articles
+  ```
+
+---
+
 ## Phase 3 — Condition pages
 
 ### Task 3.1: Anxiety (`src/content/conditions/anxiety.md`)
@@ -784,14 +857,11 @@ git commit -m "content: Portugues — PT-EU register, carta de reformulacao (ite
 
 **Structural skeleton (frontmatter + body):**
 
-```yaml
----
-title: "Anxiety, and the loop that keeps it going"
-description: "Anxiety therapy in Jersey — CBT for panic, GAD, health anxiety, social anxiety. CAT when the pattern keeps reasserting itself. Free 15-min consultation."
-keywords: ["anxiety therapy Jersey", "CBT for anxiety", "panic attacks", "GAD therapy"]
-ogImage: "/og-default.jpg"   # or per-page override if heroImage set
----
-```
+**Frontmatter changes** (see Schema Reference for canonical shape):
+- Keep `condition: "Anxiety & GAD"`, `target_keyword: "anxiety therapy jersey"`, `sessions_typical: "8-16"`, `symptoms` array, `resources` array.
+- Update `description:` to: `"Anxiety therapy in Jersey — CBT for panic, GAD, health anxiety, social anxiety. CAT when the pattern keeps reasserting itself. Free 15-min consultation."`
+- Remove `draft: true`.
+- H1 in body: `# Anxiety, and the loop that keeps it going`
 
 ```markdown
 [Opening paragraph — Beck-style:] Anxiety isn't the problem. The loop that keeps anxiety going is the problem — the avoidance that lowers it short-term and raises it medium-term, the catastrophic interpretation of an ordinary body sensation, the safety behaviour that prevents the disconfirming evidence. CBT works the loop directly.
@@ -879,13 +949,11 @@ git commit -m "content: Anxiety — CBT lead with CAT entry-point (item 8/17)"
 
 **Structural skeleton:**
 
-```yaml
----
-title: "Trauma, and the patterns it leaves"
-description: "Trauma and PTSD therapy in Jersey — CAT and the reformulation letter for complex relational trauma; trauma-focused CBT and exposure for discrete trauma."
-keywords: ["trauma therapy Jersey", "PTSD therapist Jersey", "trauma-informed therapy", "reformulation letter trauma"]
----
-```
+**Frontmatter changes** (see Schema Reference):
+- Keep `condition: "Trauma & PTSD"`, `target_keyword: "trauma therapy jersey"`, `sessions_typical: "12-20"`, `symptoms` array, `resources` array.
+- Update `description:` to: `"Trauma and PTSD therapy in Jersey — CAT and the reformulation letter for complex relational trauma; trauma-focused CBT and exposure for discrete trauma."`
+- Remove `draft: true`.
+- H1 in body: `# Trauma, and the patterns it leaves`
 
 ```markdown
 [Opening — Bion-style:] Trauma isn't only an event. It's the way the event keeps writing itself into how you relate to people, to your own body, to what feels safe to want. The work isn't to forget what happened. It's to read the letter the trauma is still writing.
@@ -963,13 +1031,11 @@ git commit -m "content: Trauma & PTSD — CAT lead, reformulation letter centrep
 
 **Structural skeleton:**
 
-```yaml
----
-title: "OCD — two routes, depending on the pattern"
-description: "OCD therapy in Jersey — Exposure and Response Prevention for ritual-driven OCD; CAT and reformulation letter for identity-driven and relational OCD."
-keywords: ["OCD therapy Jersey", "ERP Jersey", "intrusive thoughts therapy"]
----
-```
+**Frontmatter changes** (see Schema Reference):
+- Keep `condition: "OCD"`, `target_keyword: "ocd therapy jersey"`, `sessions_typical: "12-20"`, `symptoms` array, `resources` array.
+- Update `description:` to: `"OCD therapy in Jersey — Exposure and Response Prevention for ritual-driven OCD; CAT and reformulation letter for identity-driven and relational OCD."`
+- Remove `draft: true`.
+- H1 in body: `# OCD — two routes, depending on the pattern`
 
 ```markdown
 [Opening:] OCD doesn't run the same way for everyone. For some people the loop is intrusive thought → compulsion → relief → repeat, and Exposure and Response Prevention (ERP) is the established route. For others, the thoughts are about who they are, and the work is at the identity and relational level — that's where CAT comes in.
@@ -1043,13 +1109,11 @@ git commit -m "content: OCD — parallel ERP / CAT, explicit gating (item 10/17)
 
 **Structural skeleton:**
 
-```yaml
----
-title: "Depression, acute and recurrent"
-description: "Depression therapy in Jersey — BA and CBT for acute episodes; CAT and reformulation letter for recurrent, pattern-driven depression."
-keywords: ["depression therapy Jersey", "CBT for depression", "recurrent depression therapy"]
----
-```
+**Frontmatter changes** (see Schema Reference):
+- Keep `condition: "Depression"`, `target_keyword: "depression therapy jersey"`, `sessions_typical: "8-16"`, `symptoms` array, `resources` array.
+- Update `description:` to: `"Depression therapy in Jersey — BA and CBT for acute episodes; CAT and reformulation letter for recurrent, pattern-driven depression."`
+- Remove `draft: true`.
+- H1 in body: `# Depression, acute and recurrent`
 
 ```markdown
 [Opening:] Depression isn't one thing. A first acute episode after a clear precipitant is a different problem from depression that keeps coming back along the same lines. The two need different routes.
@@ -1122,13 +1186,11 @@ git commit -m "content: Depression — BA acute, CAT recurrent, explicit gating 
 
 **Structural skeleton:**
 
-```yaml
----
-title: "When relationships keep going the same way"
-description: "Relational therapy in Jersey for repeated relationship patterns — reciprocal roles, reformulation letter, CAT-led. I don't do couples work."
-keywords: ["relationship patterns therapy", "reciprocal roles therapy", "relational therapy Jersey"]
----
-```
+**Frontmatter changes** (see Schema Reference):
+- Keep `condition: "Relationship difficulties"`, `target_keyword: "relationship therapy jersey"` (consider substituting `"relationship patterns therapy"` if keyword verification supports), `sessions_typical: "12-20"`, `symptoms` array, `resources` array.
+- Update `description:` to: `"Relational therapy in Jersey for repeated relationship patterns — reciprocal roles, reformulation letter, CAT-led. I don't do couples work."`
+- Remove `draft: true`.
+- H1 in body: `# When relationships keep going the same way`
 
 ```markdown
 [Opening — Bion-style:] If your relationships keep landing in the same shape — same arguments, same disappointments, same exits — the question isn't whether you're choosing badly. It's what role you keep ending up in, and what role you keep casting the other person in.
@@ -1196,13 +1258,11 @@ git commit -m "content: Relationships — CAT lead, not-couples-work limit expli
 
 **Structural skeleton:**
 
-```yaml
----
-title: "Burnout, and what it's actually doing"
-description: "Burnout therapy in Jersey — behavioural rebalancing for exhaustion-led burnout; CAT and the reformulation letter for narrative and identity-led burnout."
-keywords: ["burnout therapy Jersey", "exhaustion therapy", "work burnout counselling"]
----
-```
+**Frontmatter changes** (see Schema Reference):
+- Keep `condition: "Burnout"`, `target_keyword: "burnout therapy jersey"`, `sessions_typical: "8-16"`, `symptoms` array, `resources` array.
+- Update `description:` to: `"Burnout therapy in Jersey — behavioural rebalancing for exhaustion-led burnout; CAT and the reformulation letter for narrative and identity-led burnout."`
+- Remove `draft: true`.
+- H1 in body: `# Burnout, and what it's actually doing`
 
 ```markdown
 [Opening:] Burnout is not a synonym for being tired. It's a specific pattern — a sustained mismatch between what you keep giving and what comes back, plus the meaning-collapse that follows. The work isn't "self-care". Self-care is what the burnout industry tries to sell to people who already over-perform. The work is reading the pattern.
@@ -1284,9 +1344,11 @@ git commit -m "content: Burnout — parallel behavioural / narrative, anti-self-
 ---
 title: "What is Cognitive Analytic Therapy? A plain-English guide"
 description: "A plain-English guide to Cognitive Analytical Therapy (CAT) — what it is, where it came from, what a reformulation letter does, how it differs from CBT."
-pubDate: 2026-05-19
-heroImage: "/images/articles/what-is-cat.jpg"   # if asset exists, else /og-default.jpg
+date: 2026-05-19
+target_keyword: "what is cognitive analytical therapy"
 tags: ["CAT", "modalities", "explainer"]
+# hero: optional; omit unless image asset added to public/images/articles/
+# draft: REMOVE after pour
 ---
 ```
 
@@ -1406,8 +1468,10 @@ git commit -m "content: Article — what is CAT (item 14/17)"
 ---
 title: "CBT or CAT — which fits the problem?"
 description: "CBT vs CAT — an honest comparison. What each modality does well, where each falls short, and how to tell which one your problem actually needs."
-pubDate: 2026-05-19
+date: 2026-05-19
+target_keyword: "cbt vs cat"
 tags: ["CBT", "CAT", "modalities", "comparison"]
+# draft: REMOVE after pour
 ---
 ```
 
@@ -1501,8 +1565,10 @@ git commit -m "content: Article — CBT vs CAT honest comparison (item 15/17)"
 ---
 title: "How long does CBT for anxiety actually take?"
 description: "How long CBT for anxiety actually takes — honest session counts by anxiety subtype, what makes treatment longer, and when CBT isn't the right route."
-pubDate: 2026-05-19
+date: 2026-05-19
+target_keyword: "how long does cbt for anxiety take"
 tags: ["CBT", "anxiety", "duration", "FAQ"]
+# draft: REMOVE after pour
 ---
 ```
 
@@ -1605,8 +1671,10 @@ git commit -m "content: Article — how long CBT for anxiety takes (item 16/17)"
 ---
 title: "The reformulation letter — the document at the centre of CAT"
 description: "The reformulation letter is the signature deliverable of Cognitive Analytic Therapy — what it is, what's in it, when it's written, and what it actually does."
-pubDate: 2026-05-19
+date: 2026-05-19
+target_keyword: "reformulation letter cat"
 tags: ["CAT", "reformulation letter", "explainer"]
+# draft: REMOVE after pour
 ---
 ```
 
@@ -1800,7 +1868,20 @@ grep -rnE "Placeholder|TODO|TODO_RODRIGO|FIXME|Lorem|C[0-9]+\.[0-9]+" src/
 
 Expected: zero matches. If any: fix and re-run.
 
-- [ ] **Step 8: Commit any consistency fixes**
+- [ ] **Step 8: Expand pa11y coverage to new condition + article routes**
+
+Edit `.pa11yci` urls array — append at minimum one condition and one article slug so accessibility is verified for the new dynamic-route pages, not just the top-level static ones:
+
+```json
+"http://localhost:4321/what-i-treat/anxiety",
+"http://localhost:4321/what-i-treat/trauma-ptsd",
+"http://localhost:4321/articles/reformulation-letter",
+"http://localhost:4321/articles/what-is-cat"
+```
+
+Re-run `npm run a11y` (with preview server up) to confirm new routes pass.
+
+- [ ] **Step 9: Commit any consistency fixes**
 
 ```bash
 git add <changed files>
@@ -1914,10 +1995,10 @@ Operator confirms — explicitly, per page — that each of items 1–17 had the
 - [ ] **Step 3: G6 — JSON-LD valid**
 
 ```bash
-git diff pre-redesign src/lib/jsonld.ts
+git diff 6bf9308 src/lib/jsonld.ts
 ```
 
-Expected: no changes from `6bf9308` baseline (other than any pre-existing redesign-branch edits).
+Expected: no changes from commit `6bf9308` (the TODO_RODRIGO-resolved baseline with real phone/coords/hours/insurance).
 
 Visit https://search.google.com/test/rich-results, paste the URL of one rendered page from `dist/index.html` (after `npm run build`) by serving locally:
 
@@ -1971,13 +2052,15 @@ Expected: ICO + GDPR + insurance still mentioned (per prior commit `6bf9308`).
 git fetch origin
 git status
 git log origin/Master..redesign --oneline | head -20
-git rev-parse pre-redesign
+git rev-parse "live-master-pre-launch^{commit}"
+git rev-parse "pre-redesign^{commit}"
 ```
 
 Expected:
 - Working tree clean.
 - All Phase 1–4 pour commits visible on `redesign`, none on `Master`.
-- `pre-redesign` tag still points at `8325ad1...`.
+- `live-master-pre-launch` → `8325ad1...` (the nuclear rollback anchor).
+- `pre-redesign` → `ced537e...` (redesign-branch pre-pour state).
 
 - [ ] **Step 8: G11 — SEO surface check**
 
@@ -2045,11 +2128,11 @@ Expected: one line with SHA matching `redesign` HEAD.
 
 ```bash
 git fetch origin
-git log origin/Master..pre-redesign --oneline
-git log pre-redesign..origin/Master --oneline
+git log origin/Master..live-master-pre-launch --oneline
+git log live-master-pre-launch..origin/Master --oneline
 ```
 
-Expected: both empty (i.e., `Master` HEAD == `pre-redesign`). If `Master` has moved: rebase `redesign` onto new `Master` first, re-run preflight, then proceed.
+Expected: both empty (i.e., `Master` HEAD == `live-master-pre-launch` = `8325ad1`). If `Master` has moved off the launch anchor: investigate. If a legitimate hotfix landed on Master since Task 0.1, rebase `redesign` onto new `Master` first, re-run preflight, then proceed.
 
 - [ ] **Step 2: Checkout Master + pull**
 
@@ -2216,11 +2299,11 @@ CI re-deploys the reverted state. Old site live again ~2–4 min later.
 
 ```bash
 git checkout Master
-git reset --hard pre-redesign
+git reset --hard live-master-pre-launch
 git push --force-with-lease origin Master
 ```
 
-WARNING: force push. Only if revert path is genuinely broken. CI re-deploys the pre-redesign state.
+WARNING: force push. Only if revert path is genuinely broken. CI re-deploys the original live single-page site (= `live-master-pre-launch` HEAD `8325ad1`).
 
 - [ ] **Step 3: Triage the regression on `redesign`**
 

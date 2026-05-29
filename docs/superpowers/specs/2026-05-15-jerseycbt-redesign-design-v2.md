@@ -1,10 +1,20 @@
-# jerseycbt.com redesign — design spec v2 (conversion-focused)
+# jerseycbt.com redesign — design spec v2.1 (conversion-focused)
 
-**Date:** 2026-05-15
+**Date:** 2026-05-15 (v2) · **v2.1 revision:** 2026-05-29
 **Repo:** `Zakadura/jerseycbt` (branch: `Master`)
 **Live domain:** `jerseycbt.com` (custom CNAME on GitHub Pages)
 **Practitioner:** Rodrigo Silva — BABCP & ACAT accredited CBT/CAT psychotherapist, solo practice in St Helier, Jersey
 **Supersedes:** `2026-05-15-jerseycbt-redesign-design.md` (v1) — same-day rewrite re-prioritising conversion over brand-restraint
+**Superseded (voice/content) by:** `2026-05-19-jerseycbt-launch-design.md` — parallel/co-equal CBT + CAT, two signature assets (reformulation letter + collaborative formulation), Bion + Beck lineage. IA/structure in this document remains current; on any voice/content disagreement, the 2026-05-19 spec wins.
+
+## v2.1 changelog (2026-05-29)
+
+**Change retained:**
+- **Onebright added to the insurer list** (active relationship, £85/session) — see Open decisions. Applied to the build at `src/components/InsuranceLogos.astro` (the user-facing list). `src/lib/jsonld.ts` is left **unchanged** — it is frozen per launch-spec gate G6 and does not emit the insurance field.
+
+**Credential confirmed:** Rodrigo holds **Ordem dos Psicólogos Portugueses (OPP)** registration — Member, Clinical Psychology, Reg. 26160. `psicólogo` is therefore legitimate on `/portugues` and retained as a keyword target. The credential is listed in the **About-page content pour** (2026-05-19 launch queue item 2: "BABCP + ACAT + OPP"); `src/lib/jsonld.ts` stays frozen per gate G6 (it does not currently emit credentials — publishing them in structured data is a separate post-launch enhancement).
+
+**Reverted (2026-05-29) — doctrinal drift, not adopted:** an earlier same-day review pass (reading this superseded v2 spec against a stale memory-index line) proposed (a) elevating the reformulation letter to *sole* flagship with a launch-article swap, (b) stripping `psicólogo`, and (c) adding a CaseVignette disclaimer. All three reverted: (a) contradicts the canonical parallel-framing decision — the reformulation letter is already a co-equal signature asset and a launch cornerstone (item 17) in the 2026-05-19 plan, and "How long does CBT for anxiety take" is a deliberate launch article (item 16); (b) `psicólogo` is accurate (OPP registered); (c) `CaseVignette.astro` already renders the composite disclaimer in the build. Lesson: ground in canonical sources before editing.
 
 ## Summary
 
@@ -452,7 +462,7 @@ Two paths:
 
 **Still open:**
 - Instagram home page placement: keep tease on home or only on `/articles` — depends on whether Rodrigo's IG content is uniformly professional
-- Insurance providers logo list: current site lists AXA, Aviva, Vitality, Aetna — Rodrigo to confirm/update (Bupa? Cigna?)
+- Insurance providers logo list: AXA, Aviva, Vitality, Aetna **+ Onebright (added v2.1 — active relationship, £85/session)**. If Onebright clients reach the practice solely through Onebright's own referral process rather than via the public site, Rodrigo may choose to omit the logo — but that omission must be a deliberate decision, not an oversight. Rodrigo to confirm/update the rest (Bupa? Cigna?).
 - Portuguese keywords: 4 candidates proposed, Rodrigo to validate via search volume
 - Photography commission: cheap path at launch; book Jersey photographer within 30 days post-launch
 - Privacy & terms pages: drafted during implementation using standard therapy templates, reviewed by Rodrigo before publish

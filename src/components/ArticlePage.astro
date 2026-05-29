@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ConsultationCTA from './ConsultationCTA.astro';
+import BookingCTA from './BookingCTA.astro';
 import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import StickyBookButton from './StickyBookButton.astro';
@@ -26,7 +26,7 @@ const { title, description, date, hero } = Astro.props;
       <slot />
     </div>
     <div class="mt-16 border-t border-muted-cream pt-10">
-      <ConsultationCTA />
+      <BookingCTA />
     </div>
   </article>
   <Footer />

@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import StickyBookButton from './StickyBookButton.astro';
-import ConsultationCTA from './ConsultationCTA.astro';
+import BookingCTA from './BookingCTA.astro';
 import ResourceLinks from './ResourceLinks.astro';
 
 interface Props {
@@ -42,8 +42,8 @@ const { condition, description, symptoms, sessionsTypical, resources, hero } = A
       <slot />
     </div>
 
-    <div class="my-12 text-center">
-      <ConsultationCTA />
+    <div class="my-12 flex flex-col items-center">
+      <BookingCTA />
     </div>
 
     <ResourceLinks resources={resources} />

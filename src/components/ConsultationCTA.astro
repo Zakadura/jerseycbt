@@ -3,14 +3,16 @@ import CalendlyPopupButton from './CalendlyPopupButton.astro';
 
 interface Props {
   label?: string;
+  variant?: 'button' | 'link';
   class?: string;
 }
 
 const {
   label = 'Book a free 15-min consultation',
+  variant = 'button',
   class: classProp = '',
 } = Astro.props;
 
 const CALENDLY_URL = 'https://calendly.com/rodsil/15-min-onboard';
 ---
-<CalendlyPopupButton url={CALENDLY_URL} class={classProp}>{label}</CalendlyPopupButton>
+<CalendlyPopupButton url={CALENDLY_URL} variant={variant} class={classProp}>{label}</CalendlyPopupButton>

@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import ConditionCard from '../../components/ConditionCard.astro';
-import ConsultationCTA from '../../components/ConsultationCTA.astro';
+import BookingCTA from '../../components/BookingCTA.astro';
 import StickyBookButton from '../../components/StickyBookButton.astro';
 
 const conditions = (await getCollection('conditions', ({ data }) => !data.draft))
@@ -42,8 +42,8 @@ const secondary = [
       </ul>
     </section>
 
-    <div class="mt-16 text-center">
-      <ConsultationCTA />
+    <div class="mt-16 flex flex-col items-center">
+      <BookingCTA />
     </div>
   </main>
   <Footer />

@@ -1,13 +1,17 @@
 ---
 interface Props {
   url: string;
+  variant?: 'button' | 'link';
   class?: string;
 }
-const { url, class: classProp = '' } = Astro.props;
+const { url, variant = 'button', class: classProp = '' } = Astro.props;
+
+const buttonCls = 'inline-block px-6 py-3 font-sans text-sm tracking-trust uppercase border bg-warm-black text-cream border-warm-black hover:bg-body-text transition-colors';
+const linkCls = 'inline-block font-sans text-sm underline underline-offset-4 text-warm-black hover:text-body-text cursor-pointer bg-transparent border-0 p-0';
 ---
 <button
   type="button"
-  class={`inline-block px-6 py-3 font-sans text-sm tracking-trust uppercase border bg-warm-black text-cream border-warm-black hover:bg-body-text transition-colors ${classProp}`}
+  class={`${variant === 'link' ? linkCls : buttonCls} ${classProp}`}
   data-calendly-url={url}
   data-calendly-popup
 >

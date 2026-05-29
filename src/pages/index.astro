@@ -4,12 +4,12 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import ConversionHero from '../components/ConversionHero.astro';
 import TrustStrip from '../components/TrustStrip.astro';
-import ConsultationCTA from '../components/ConsultationCTA.astro';
+import BookingCTA from '../components/BookingCTA.astro';
 import StickyBookButton from '../components/StickyBookButton.astro';
 ---
 <BaseLayout
   title="Rodrigo Silva — CBT & CAT Therapy in Jersey"
-  description="Private therapy in Jersey with Rodrigo Silva — BABCP CBT and ACAT CAT. Reformulation letters, behavioural experiments. I don't promise to fix anything.">
+  description="Private therapy in Jersey with Rodrigo Silva — BABCP CBT and ACAT CAT. Reformulation letters, behavioural experiments.">
   <Nav />
 
   <ConversionHero
@@ -92,7 +92,7 @@ import StickyBookButton from '../components/StickyBookButton.astro';
       bringing you; I say what I think we can do together. If I'm not the right
       person, I'll say so.
     </p>
-    <div class="mt-6"><ConsultationCTA /></div>
+    <div class="mt-6 flex flex-col items-center"><BookingCTA /></div>
     <p class="mt-4 text-sm">
       <a href="/fees" class="text-warm-black underline underline-offset-4">See fees and how sessions work →</a>
     </p>

@@ -1,0 +1,12 @@
+---
+import CTAButton from './CTAButton.astro';
+
+interface Props {
+  label?: string;
+  href?: string;
+  class?: string;
+}
+
+const { label = 'Book an initial appointment', href = '/book', class: classProp = '' } = Astro.props;
+---
+<CTAButton href={href} variant="primary" class={classProp}>{label}</CTAButton>

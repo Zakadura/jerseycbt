@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import ConsultationCTA from '../components/ConsultationCTA.astro';
+import BookingCTA from '../components/BookingCTA.astro';
 import StickyBookButton from '../components/StickyBookButton.astro';
 ---
 <BaseLayout
@@ -27,7 +27,10 @@ import StickyBookButton from '../components/StickyBookButton.astro';
     </section>
 
     <div class="mt-12">
-      <ConsultationCTA label="Agendar consulta gratuita de 15 minutos" />
+      <BookingCTA
+        primaryLabel="Agendar uma consulta inicial"
+        secondaryPrefix="Ainda não tem a certeza?"
+        secondaryLabel="Agendar uma consulta gratuita de 15 minutos primeiro →" />
     </div>
   </main>
   <Footer />

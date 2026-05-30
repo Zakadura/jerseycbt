@@ -1,5 +1,6 @@
 ---
 condition: "Trauma & PTSD"
+seoTitle: "Trauma & PTSD Therapy in Jersey"
 description: "Trauma therapy in Jersey and online — EMDR, trauma-focused CBT, and CAT for PTSD, complex trauma, and memories that won't settle."
 target_keyword: "trauma therapy jersey"
 sessions_typical: "12-20"

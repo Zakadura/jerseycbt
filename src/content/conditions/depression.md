@@ -1,5 +1,6 @@
 ---
 condition: "Depression, Low Mood & Lack of Motivation"
+seoTitle: "Depression Therapy in Jersey — CBT & CAT"
 description: "Depression therapy in Jersey and online — CBT and CAT for low mood, lost motivation, and the patterns that keep it going."
 target_keyword: "depression therapy jersey"
 sessions_typical: "8-24"

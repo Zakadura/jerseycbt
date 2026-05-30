@@ -28,6 +28,7 @@ const conditions = defineCollection({
     })).min(1),
     draft: z.boolean().default(false),
     credibility: z.enum(['cbt', 'cat', 'none']).default('cbt'),
+    seoTitle: z.string().max(60).optional(),
   }),
 });
 

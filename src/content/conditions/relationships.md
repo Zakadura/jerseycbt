@@ -1,5 +1,6 @@
 ---
 condition: "Relationship Patterns"
+seoTitle: "Relationship Therapy in Jersey — CAT"
 description: "Therapy in Jersey and online for relationship patterns that keep repeating — CAT for the reciprocal roles underneath. Individual work, not couples."
 target_keyword: "relationship therapy jersey"
 sessions_typical: "16-24+"

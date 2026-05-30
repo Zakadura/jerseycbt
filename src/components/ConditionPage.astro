@@ -14,11 +14,12 @@ interface Props {
   resources: Array<{ label: string; url: string }>;
   hero?: ImageMetadata;
   credibility?: 'cbt' | 'cat' | 'none';
+  seoTitle?: string;
 }
-const { condition, description, symptoms, sessionsTypical, resources, hero, credibility = 'cbt' } = Astro.props;
+const { condition, description, symptoms, sessionsTypical, resources, hero, credibility = 'cbt', seoTitle } = Astro.props;
 ---
 <BaseLayout
-  title={`${condition} therapy in Jersey — CBT & CAT — jerseycbt`}
+  title={seoTitle ?? `${condition} therapy in Jersey — CBT & CAT — jerseycbt`}
   description={description}
   ogImage={hero?.src}>
   <Nav />

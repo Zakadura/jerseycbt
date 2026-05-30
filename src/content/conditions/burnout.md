@@ -1,5 +1,6 @@
 ---
 condition: "Work Stress & Burnout"
+seoTitle: "Work Stress & Burnout Therapy — Jersey"
 description: "Therapy in Jersey and online for work stress and burnout — CBT and CAT for exhaustion, cynicism, and the patterns that drive over-work."
 target_keyword: "burnout therapy jersey"
 sessions_typical: "8-16"

@@ -24,5 +24,11 @@ Items that live outside the codebase and must be done by the operator before (or
 - [ ] All pre-merge gates G1–G11 green (see launch design spec).
 - [ ] `git merge --no-ff redesign` → `Master`; confirm CI deploy; live smoke test on https://jerseycbt.com.
 
+## Post-launch / deferred (parked by operator 2026-05-30)
+
+- [ ] **Monthly-article automation** — a recurring scheduled agent that drafts each month's article from the content calendar for red-pen.
+- [ ] **Social-media automation** — scheduling / repurposing (e.g., turning articles into LinkedIn / Instagram posts).
+- [ ] **Skill development** — custom skills supporting the content + social workflows above.
+
 ---
 *Started 2026-05-30. Formspree-recipient item added per operator request.*

@@ -22,6 +22,8 @@
     "http://localhost:4321/fees",
     "http://localhost:4321/book",
     "http://localhost:4321/contact",
-    "http://localhost:4321/portugues"
+    "http://localhost:4321/portugues",
+    "http://localhost:4321/privacy",
+    "http://localhost:4321/terms"
   ]
 }

@@ -8,7 +8,7 @@ const { url, height = 700 } = Astro.props;
 ---
 <div
   data-calendly-inline
-  data-calendly-url={url}
+  data-url={url}
   style={`min-width:320px;height:${height}px`}
   class="calendly-inline-widget w-full bg-muted-cream"
 >
@@ -22,21 +22,28 @@ const { url, height = 700 } = Astro.props;
 <script>
   import { observeAndLoad } from '../lib/lazyEmbed';
 
+  // Calendly's bundled widget.js auto-initialises any `.calendly-inline-widget`
+  // element by reading its `data-url` attribute (set above). We lazy-load the
+  // asset only when the embed scrolls near the viewport.
+  //
+  // IMPORTANT: the host MUST carry the `data-url` attribute. If the element has
+  // the `calendly-inline-widget` class but no `data-url`, Calendly's auto-init
+  // throws (`parseOptions` does null.split) BEFORE `window.Calendly` is defined,
+  // and the widget silently never renders.
   document.querySelectorAll<HTMLElement>('[data-calendly-inline]').forEach((host) => {
     observeAndLoad(host, () => {
-      const url = host.getAttribute('data-calendly-url');
-      if (!url) return;
+      // If widget.js was already loaded (e.g. by a popup button elsewhere on the
+      // page), its auto-init has already rendered this host — nothing to do.
+      if ((window as any).Calendly) return;
+
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = 'https://assets.calendly.com/assets/external/widget.css';
       document.head.appendChild(link);
+
       const script = document.createElement('script');
       script.src = 'https://assets.calendly.com/assets/external/widget.js';
       script.async = true;
-      script.onload = () => {
-        // @ts-expect-error Calendly attaches at runtime
-        window.Calendly?.initInlineWidget({ url, parentElement: host });
-      };
       document.body.appendChild(script);
     });
   });

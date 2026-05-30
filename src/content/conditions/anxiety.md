@@ -27,7 +27,7 @@ Anxiety, obsessive-compulsive difficulties, and stress-related problems can look
 
 - **Anxiety** — generalised worry that won't switch off, panic that surges out of nowhere, social anxiety, and specific phobias.
 - **Obsessive-compulsive difficulties (OCD)** — unwanted intrusive thoughts, images, or urges, and the compulsions (checking, washing, repeating, mentally "putting right") meant to neutralise them.
-- **Stress-related** — acute stress, and the strain of adjusting after a difficult period or a big change. If your difficulties centre on trauma or PTSD, the [Trauma & PTSD](/what-i-treat/trauma-ptsd) page covers that in depth.
+- **Stress-related** — acute stress, and adjusting after a difficult event or change. (For ongoing work stress and burnout, see [Work Stress & Burnout](/what-i-treat/burnout); for trauma or PTSD, the [Trauma & PTSD](/what-i-treat/trauma-ptsd) page.)
 
 ## Why it keeps going
 

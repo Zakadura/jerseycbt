@@ -9,12 +9,12 @@ const { url, height = 700 } = Astro.props;
 <div
   data-calendly-inline
   data-calendly-url={url}
-  style={`min-height:${height}px`}
-  class="w-full bg-muted-cream"
+  style={`min-width:320px;height:${height}px`}
+  class="calendly-inline-widget w-full bg-muted-cream"
 >
   <noscript>
     <p class="p-6 text-subtle-text">
-      JavaScript is required to load the booking widget. Email rod.gui.sil@gmail.com to book.
+      JavaScript is required to load the booking widget. Email hello@jerseycbt.com to book.
     </p>
   </noscript>
 </div>

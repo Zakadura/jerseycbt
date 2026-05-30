@@ -1,29 +1,23 @@
 ---
 import { PRACTICE } from '../lib/jsonld';
 const { latitude, longitude } = PRACTICE.geo;
-const previewSrc = `https://staticmap.openstreetmap.de/staticmap.php?center=${latitude},${longitude}&zoom=15&size=600x300&markers=${latitude},${longitude},red-pushpin`;
-const iframeSrc = `https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
+// General-area OpenStreetMap embed — St Helier, town-wide. No marker/pin, so the
+// location is indicated generally without pinpointing the exact address.
+const dLon = 0.001875;
+const dLat = 0.00075;
+const bbox = [longitude - dLon, latitude - dLat, longitude + dLon, latitude + dLat].join(',');
+const embedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik`;
+const areaUrl = `https://www.openstreetmap.org/#map=17/${latitude}/${longitude}`;
 ---
-<div data-map-host class="relative mt-8 aspect-[2/1] w-full bg-muted-cream cursor-pointer overflow-hidden">
-  <img src={previewSrc} alt="Map showing practice location"
-       class="w-full h-full object-cover" loading="lazy" />
-  <button type="button"
-          class="absolute inset-0 w-full h-full flex items-center justify-center
-                 bg-warm-black/50 text-cream text-sm tracking-trust uppercase"
-          data-map-trigger
-          data-iframe-src={iframeSrc}>
-    Click to load interactive map
-  </button>
-</div>
-
-<script>
-  document.querySelectorAll<HTMLElement>('[data-map-trigger]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const host = btn.closest('[data-map-host]');
-      if (!host) return;
-      const src = btn.getAttribute('data-iframe-src');
-      if (!src) return;
-      host.innerHTML = `<iframe src="${src}" class="w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
-    });
-  });
-</script>
+<figure class="mt-6 max-w-sm">
+  <iframe
+    src={embedSrc}
+    title="General location — St Helier, Jersey"
+    loading="lazy"
+    class="w-full aspect-[16/9] border border-muted-cream bg-muted-cream"
+  ></iframe>
+  <figcaption class="mt-2 text-xs text-subtle-text">
+    St Helier, Jersey ·
+    <a href={areaUrl} target="_blank" rel="noopener" class="underline">view area</a>
+  </figcaption>
+</figure>

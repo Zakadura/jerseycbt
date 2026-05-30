@@ -2,7 +2,7 @@ export const PRACTICE = {
   name: 'Rodrigo Silva — CBT & CAT Psychotherapy',
   legalName: 'Rodrigo Silva Psychotherapy',
   url: 'https://jerseycbt.com',
-  email: 'rod.gui.sil@gmail.com',
+  email: 'hello@jerseycbt.com',
   telephone: '+44-7458-153479',
   address: {
     streetAddress: 'House 3, 8 Lewis St',

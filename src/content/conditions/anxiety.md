@@ -37,6 +37,8 @@ Most of this is held in place not by the thoughts themselves but by what they ma
 
 CBT is usually the first tool. Early on we build a **collaborative formulation** — a shared map of your particular loop: triggers, thoughts, feelings, and the safety behaviours that keep it turning. From there the work is practical and testable. **Behavioural experiments** check what anxiety predicts against what actually happens; **graded exposure** loosens avoidance. For OCD specifically, the method is **exposure and response prevention (ERP)** — facing the trigger while resisting the compulsion, so the obsession gradually loses its grip. For thoughts that don't hold up to scrutiny, **cognitive restructuring** helps you hold them more lightly.
 
+---
+
 ## When CAT is the better route
 
 Sometimes this isn't a single present-day loop but a **pattern** — the same dread, or the same need to control, reasserting itself across years and relationships, tied to how you learned to keep yourself safe a long time ago. When it's that woven into how you relate to yourself and others, CAT fits better. We name the pattern as reciprocal roles, and early on I write you a **reformulation letter** — an account, in your own story, of how it formed and what keeps it going. The choice between CBT and CAT is made together, at the first session. More on [how I work](/approach).

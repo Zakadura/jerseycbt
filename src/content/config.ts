@@ -27,6 +27,7 @@ const conditions = defineCollection({
       url: z.string().url(),
     })).min(1),
     draft: z.boolean().default(false),
+    credibility: z.enum(['cbt', 'cat', 'none']).default('cbt'),
   }),
 });
 

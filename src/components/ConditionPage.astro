@@ -13,8 +13,9 @@ interface Props {
   sessionsTypical: string;
   resources: Array<{ label: string; url: string }>;
   hero?: ImageMetadata;
+  credibility?: 'cbt' | 'cat' | 'none';
 }
-const { condition, description, symptoms, sessionsTypical, resources, hero } = Astro.props;
+const { condition, description, symptoms, sessionsTypical, resources, hero, credibility = 'cbt' } = Astro.props;
 ---
 <BaseLayout
   title={`${condition} therapy in Jersey — CBT & CAT — jerseycbt`}
@@ -29,6 +30,7 @@ const { condition, description, symptoms, sessionsTypical, resources, hero } = A
       <p class="mt-2 text-sm text-subtle-text">
         Typical course: <strong>{sessionsTypical}</strong> sessions
       </p>
+      {credibility === 'cbt' && (
       <div class="mt-5 border-l-2 border-warm-black pl-4">
         <p class="text-base md:text-lg text-body-text">
           CBT is a <strong>gold-standard talking therapy</strong>, recommended by the <a href="https://www.nice.org.uk/" target="_blank" rel="noopener" class="underline">National Institute for Health and Care Excellence (NICE)</a>.
@@ -37,6 +39,17 @@ const { condition, description, symptoms, sessionsTypical, resources, hero } = A
           <a href="https://www.babcp.com/" target="_blank" rel="noopener" class="underline">BABCP</a> accreditation is how a CBT therapist's competence in delivery is recognised.
         </p>
       </div>
+      )}
+      {credibility === 'cat' && (
+      <div class="mt-5 border-l-2 border-warm-black pl-4">
+        <p class="text-base md:text-lg text-body-text">
+          <strong>Cognitive Analytic Therapy (CAT)</strong> is an evidence-based, relational therapy for the patterns that repeat across relationships and time.
+        </p>
+        <p class="mt-1 text-sm text-subtle-text">
+          <a href="https://www.acat.org.uk/" target="_blank" rel="noopener" class="underline">ACAT</a> accreditation is how a CAT therapist's competence in delivery is recognised.
+        </p>
+      </div>
+      )}
     </header>
 
     <aside class="my-10 p-6 bg-muted-cream">

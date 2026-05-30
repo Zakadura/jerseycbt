@@ -1,0 +1,32 @@
+---
+const links = [
+  { href: '/approach',     label: 'Approach' },
+  { href: '/what-i-treat', label: 'What I Treat' },
+  { href: '/about',        label: 'About' },
+  { href: '/articles',     label: 'Articles' },
+  { href: '/fees',         label: 'Fees' },
+  { href: '/contact',      label: 'Contact' },
+];
+const current = Astro.url.pathname;
+---
+<header class="border-b border-muted-cream bg-cream">
+  <nav class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
+    <a href="/" class="font-serif text-xl text-warm-black">jerseycbt</a>
+    <ul class="hidden md:flex gap-7 text-sm">
+      {links.map((l) => (
+        <li>
+          <a href={l.href}
+             class={`hover:text-warm-black transition-colors ${
+               current.startsWith(l.href) ? 'text-warm-black' : 'text-subtle-text'
+             }`}>
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a href="/book"
+       class="md:hidden text-sm tracking-trust uppercase text-warm-black border border-warm-black px-3 py-1">
+      Book
+    </a>
+  </nav>
+</header>

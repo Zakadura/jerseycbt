@@ -1,0 +1,35 @@
+---
+import { PRACTICE } from '../lib/jsonld';
+---
+<footer class="mt-24 bg-muted-cream text-subtle-text text-sm">
+  <div class="max-w-5xl mx-auto px-6 py-12 grid gap-8 md:grid-cols-3">
+    <div>
+      <p class="font-serif text-warm-black text-lg mb-2">Rodrigo Silva</p>
+      <p>CBT & CAT Psychotherapy</p>
+      <p>{PRACTICE.address.streetAddress}<br />
+         {PRACTICE.address.addressLocality}, {PRACTICE.address.addressRegion}<br />
+         {PRACTICE.address.postalCode}</p>
+    </div>
+    <div>
+      <p class="uppercase tracking-trust text-xs mb-2">Accreditations</p>
+      <ul class="space-y-1">
+        <li>British Association for Behavioural &amp; Cognitive Psychotherapies (BABCP) — Accredited #101239</li>
+        <li>Association for Cognitive Analytic Therapy (ACAT) — Accredited #15172</li>
+        <li>Order of Portuguese Psychologists (OPP) — Clinical Psychology (Reg. 26160)</li>
+      </ul>
+    </div>
+    <div>
+      <p class="uppercase tracking-trust text-xs mb-2">Contact</p>
+      <ul class="space-y-1">
+        <li><a href="/book" class="underline">Book</a></li>
+        <li><a href="/contact" class="underline">Contact</a></li>
+        <li><a href="/portugues" class="underline">Português</a></li>
+        <li><a href="/privacy" class="underline">Privacy</a></li>
+        <li><a href="/terms" class="underline">Terms</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-cream py-4 text-center text-xs">
+    © {new Date().getFullYear()} Rodrigo Silva. All rights reserved.
+  </div>
+</footer>

@@ -1,0 +1,45 @@
+---
+import ConsultationCTA from './ConsultationCTA.astro';
+import InitialAppointmentCTA from './InitialAppointmentCTA.astro';
+
+interface Props {
+  eyebrow: string;
+  headline: string;
+  subhead: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
+const {
+  eyebrow,
+  headline,
+  subhead,
+  secondaryHref = '/approach',
+  secondaryLabel = 'Or read about how I work',
+} = Astro.props;
+---
+<section class="bg-cream">
+  <div class="max-w-5xl mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-20
+              grid md:grid-cols-[2fr_1fr] gap-10 items-center">
+    <div>
+      <p class="text-xs tracking-trust uppercase text-subtle-text">{eyebrow}</p>
+      <h1 class="mt-4 font-serif text-3xl md:text-5xl leading-tight text-warm-black">
+        {headline}
+      </h1>
+      <p class="mt-4 text-lg text-body-text max-w-prose">{subhead}</p>
+      <div class="mt-8">
+        <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+          <InitialAppointmentCTA />
+          <ConsultationCTA variant="link" label="Or a free 15-min consultation first →" />
+        </div>
+        <a href={secondaryHref}
+           class="mt-4 inline-block text-sm text-subtle-text underline decoration-subtle-text underline-offset-4">
+          {secondaryLabel} →
+        </a>
+      </div>
+    </div>
+    <div class="hidden md:block">
+      <img src="/images/profile.jpg" alt="Rodrigo Silva, psychotherapist"
+           class="w-full aspect-[4/5] object-cover" loading="eager" />
+    </div>
+  </div>
+</section>

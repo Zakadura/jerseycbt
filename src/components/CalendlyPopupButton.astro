@@ -1,0 +1,54 @@
+---
+interface Props {
+  url: string;
+  variant?: 'button' | 'link';
+  class?: string;
+}
+const { url, variant = 'button', class: classProp = '' } = Astro.props;
+
+const buttonCls = 'inline-block px-6 py-3 font-sans text-sm tracking-trust uppercase border bg-warm-black text-cream border-warm-black hover:bg-body-text transition-colors';
+const linkCls = 'inline-block font-sans text-sm underline underline-offset-4 text-warm-black hover:text-body-text cursor-pointer bg-transparent border-0 p-0';
+---
+<button
+  type="button"
+  class={`${variant === 'link' ? linkCls : buttonCls} ${classProp}`}
+  data-calendly-url={url}
+  data-calendly-popup
+>
+  <slot />
+</button>
+
+<script>
+  // Lazy-load Calendly widget assets on first click, then open popup.
+  // Subsequent clicks skip the load.
+  let loaded = false;
+
+  function ensureCalendlyLoaded() {
+    if (loaded) return Promise.resolve();
+    loaded = true;
+    return new Promise<void>((resolve) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://assets.calendly.com/assets/external/widget.css';
+      document.head.appendChild(link);
+
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      script.onload = () => resolve();
+      document.body.appendChild(script);
+    });
+  }
+
+  document.addEventListener('click', async (e) => {
+    const target = e.target as HTMLElement;
+    const btn = target.closest('[data-calendly-popup]') as HTMLElement | null;
+    if (!btn) return;
+    e.preventDefault();
+    const url = btn.getAttribute('data-calendly-url');
+    if (!url) return;
+    await ensureCalendlyLoaded();
+    // @ts-expect-error Calendly attaches at runtime
+    window.Calendly?.initPopupWidget({ url });
+  });
+</script>

@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import BookingCTA from '../components/BookingCTA.astro';
+import LanguageNote from '../components/LanguageNote.astro';
+import StickyBookButton from '../components/StickyBookButton.astro';
+---
+<BaseLayout
+  title="About Rodrigo Silva — Therapist in Jersey"
+  description="CBT, CAT and EMDR psychotherapist in Jersey — BABCP, ACAT and OPP registered. Over twenty years in the NHS and private practice.">
+  <Nav />
+  <main class="max-w-2xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">About</h1>
+    <img src="/images/profile.jpg" alt="Rodrigo Silva" class="my-10 w-full aspect-[4/5] object-cover" />
+
+    <section class="prose prose-lg prose-stone max-w-none">
+      <p>I'm Rodrigo Silva, a psychotherapist in Saint Helier, Jersey, working in person and online. I'm accredited in both Cognitive Behavioural Therapy (BABCP) and Cognitive Analytic Therapy (ACAT), an EMDR therapist, and a registered member of the Order of Portuguese Psychologists. Most of my work is with adults bringing anxiety, depression, trauma, OCD, and the relationship patterns that keep repeating.</p>
+
+      <p>I work mainly in two evidence-based modalities and choose between them — or combine them — on what the problem actually looks like, not on a house style. CBT is the right tool when a present-tense loop is keeping a problem going: we build a shared, collaborative formulation and test it with behavioural experiments. CAT is the right tool when the difficulty is a pattern laid down earlier and replayed in how you treat yourself and others — early on I write you a reformulation letter that sets the pattern out in your own story, and we map it so you can catch it as it happens. For trauma, I also use EMDR — a structured, evidence-based way of processing memories that stay stuck. I'll tell you, early and plainly, what I think fits.</p>
+
+      <p>I promise to think with you — to take what you bring seriously and work it through, rather than hand you reassurance. Sessions are available in English and Portuguese.</p>
+
+      <h2>How I think about the work</h2>
+      <p>Two influences shape how I work. From Wilfred Bion, the idea of thinking with a person rather than at them — staying with what's difficult long enough to make sense of it. From Aaron Beck, collaborative empiricism — treating you as a scientist of your own experience, testing what's true rather than taking thoughts at face value. CBT and CAT sit on those two lineages, and I hold them as equals.</p>
+
+      <h2>Training and accreditations</h2>
+      <ul>
+        <li>BABCP — Accredited Cognitive Behavioural Psychotherapist (Reg. 101239)</li>
+        <li>ACAT — Accredited Cognitive Analytic Therapist (Reg. 15172)</li>
+        <li>EMDR Therapist (EMDR Academy UK, 2019)</li>
+        <li>Member, Order of Portuguese Psychologists — Clinical Psychology (Reg. 26160)</li>
+      </ul>
+      <p>Qualifications: Postgraduate Diploma in Cognitive Behavioural Therapy (University of East Anglia); Licenciatura in Clinical Psychology (ISPA, Lisbon).</p>
+
+      <h2>Experience</h2>
+      <p>I've worked in psychological therapy for over twenty years, across the NHS, public services, and private practice.</p>
+      <p>Since 2022 I've been in full-time private practice in Jersey, working with private clients and through insurers and referral partners — including AXA Health International, Onebright, and Think CBT — alongside Portuguese-speaking referrals and medico-legal work. Before that I spent eight years as a Senior Psychological Therapist with Jersey Talking Therapies (States of Jersey), the island's primary-care talking-therapies service, delivering CBT, CAT and EMDR and supervising other therapists. Earlier, in England, I was a CBT psychotherapist and locality team lead with the Norfolk and Suffolk NHS Foundation Trust, and I began my career in community mental-health rehabilitation in Lisbon.</p>
+    </section>
+
+    <LanguageNote />
+
+    <div class="mt-12">
+      <BookingCTA />
+    </div>
+  </main>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

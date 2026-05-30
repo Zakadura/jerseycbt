@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import StickyBookButton from './StickyBookButton.astro';
+import BookingCTA from './BookingCTA.astro';
+import ResourceLinks from './ResourceLinks.astro';
+
+interface Props {
+  condition: string;
+  description: string;
+  symptoms: string[];
+  sessionsTypical: string;
+  resources: Array<{ label: string; url: string }>;
+  hero?: ImageMetadata;
+  credibility?: 'cbt' | 'cat' | 'none';
+  seoTitle?: string;
+}
+const { condition, description, symptoms, sessionsTypical, resources, hero, credibility = 'cbt', seoTitle } = Astro.props;
+---
+<BaseLayout
+  title={seoTitle ?? `${condition} therapy in Jersey — CBT & CAT — jerseycbt`}
+  description={description}
+  ogImage={hero?.src}>
+  <Nav />
+  <article class="max-w-2xl mx-auto px-6 py-12">
+    <header class="mb-10">
+      <p class="text-xs tracking-trust uppercase text-subtle-text mb-3">What I Treat</p>
+      <h1 class="font-serif text-4xl md:text-5xl leading-tight">{condition}</h1>
+      <p class="mt-4 text-lg text-subtle-text">{description}</p>
+      <p class="mt-2 text-sm text-subtle-text">
+        Typical course: <strong>{sessionsTypical}</strong> sessions
+      </p>
+      {credibility === 'cbt' && (
+      <div class="mt-5 border-l-2 border-warm-black pl-4">
+        <p class="text-base md:text-lg text-body-text">
+          CBT is a <strong>gold-standard talking therapy</strong>, recommended by the <a href="https://www.nice.org.uk/" target="_blank" rel="noopener" class="underline">National Institute for Health and Care Excellence (NICE)</a>.
+        </p>
+        <p class="mt-1 text-sm text-subtle-text">
+          <a href="https://www.babcp.com/" target="_blank" rel="noopener" class="underline">BABCP</a> accreditation is how a CBT therapist's competence in delivery is recognised.
+        </p>
+      </div>
+      )}
+      {credibility === 'cat' && (
+      <div class="mt-5 border-l-2 border-warm-black pl-4">
+        <p class="text-base md:text-lg text-body-text">
+          <strong>Cognitive Analytic Therapy (CAT)</strong> is an evidence-based, relational therapy for the patterns that repeat across relationships and time.
+        </p>
+        <p class="mt-1 text-sm text-subtle-text">
+          <a href="https://www.acat.org.uk/" target="_blank" rel="noopener" class="underline">ACAT</a> accreditation is how a CAT therapist's competence in delivery is recognised.
+        </p>
+      </div>
+      )}
+    </header>
+
+    <aside class="my-10 p-6 bg-muted-cream">
+      <p class="text-xs tracking-trust uppercase text-subtle-text mb-3">Common signs</p>
+      <ul class="list-disc pl-5 space-y-1">
+        {symptoms.map((s) => <li>{s}</li>)}
+      </ul>
+    </aside>
+
+    <div class="prose prose-lg prose-stone max-w-none">
+      <slot />
+    </div>
+
+    <div class="my-12 flex flex-col items-center">
+      <BookingCTA />
+    </div>
+
+    <ResourceLinks resources={resources} />
+  </article>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

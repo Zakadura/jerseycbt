@@ -1,0 +1,60 @@
+---
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdbrlrv';
+---
+<form action={FORMSPREE_ENDPOINT} method="POST" class="mt-8 space-y-5">
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+         class="absolute -left-[9999px] opacity-0" aria-hidden="true" />
+
+  <label class="block">
+    <span class="text-xs tracking-trust uppercase text-subtle-text">Your name</span>
+    <input type="text" name="name" required
+           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none" />
+  </label>
+
+  <label class="block">
+    <span class="text-xs tracking-trust uppercase text-subtle-text">Email</span>
+    <input type="email" name="email" required
+           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none" />
+  </label>
+
+  <label class="block">
+    <span class="text-xs tracking-trust uppercase text-subtle-text">Phone <span class="normal-case tracking-normal text-subtle-text/70">(optional)</span></span>
+    <input type="tel" name="phone"
+           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none" />
+  </label>
+
+  <fieldset>
+    <legend class="text-xs tracking-trust uppercase text-subtle-text">Preferred format</legend>
+    <div class="mt-2 flex flex-col sm:flex-row gap-3 sm:gap-6 text-warm-black">
+      <label class="inline-flex items-center gap-2">
+        <input type="radio" name="format" value="in-person" />
+        <span>In person (Jersey)</span>
+      </label>
+      <label class="inline-flex items-center gap-2">
+        <input type="radio" name="format" value="online" />
+        <span>Online</span>
+      </label>
+      <label class="inline-flex items-center gap-2">
+        <input type="radio" name="format" value="either" checked />
+        <span>Either</span>
+      </label>
+    </div>
+  </fieldset>
+
+  <label class="block">
+    <span class="text-xs tracking-trust uppercase text-subtle-text">Message</span>
+    <textarea name="message" rows="5" required
+              class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none"></textarea>
+  </label>
+
+  <button type="submit"
+          class="inline-block px-6 py-3 font-sans text-sm tracking-trust uppercase
+                 border border-warm-black bg-warm-black text-cream hover:bg-body-text">
+    Send message
+  </button>
+
+  <p class="text-sm text-subtle-text">
+    By sending this, you agree I can use your details to reply.
+    See the <a href="/privacy" class="underline hover:text-warm-black">Privacy notice</a> for how your data is handled.
+  </p>
+</form>

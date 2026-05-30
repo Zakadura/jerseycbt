@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ConversionHero from '../components/ConversionHero.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import BookingCTA from '../components/BookingCTA.astro';
+import StickyBookButton from '../components/StickyBookButton.astro';
+---
+<BaseLayout
+  title="Rodrigo Silva — CBT & CAT Therapy in Jersey"
+  description="Private therapy in Jersey with Rodrigo Silva — BABCP CBT and ACAT CAT. Reformulation letters, behavioural experiments.">
+  <Nav />
+
+  <ConversionHero
+    eyebrow="CBT & CAT Psychotherapy · St Helier, Jersey · Online across UK and Europe"
+    headline="Evidence-based therapy for the patterns that don't shift on their own."
+    subhead="Private psychotherapy in Saint Helier and online — BABCP-accredited (CBT), ACAT-accredited (CAT)." />
+
+  <TrustStrip />
+
+  <!-- NICE / gold-standard credibility -->
+  <section class="max-w-3xl mx-auto px-6 pt-12 text-center">
+    <p class="font-serif text-xl md:text-2xl text-warm-black leading-snug">
+      CBT is a gold-standard talking therapy, recommended by the <a href="https://www.nice.org.uk/" target="_blank" rel="noopener" class="underline">National Institute for Health and Care Excellence (NICE)</a>.
+    </p>
+    <p class="mt-3 text-sm text-subtle-text">
+      <a href="https://www.babcp.com/" target="_blank" rel="noopener" class="underline">BABCP</a> accreditation is how a CBT therapist's competence in delivery is recognised.
+    </p>
+  </section>
+
+  <!-- Approach teaser -->
+  <section class="max-w-3xl mx-auto px-6 py-20">
+    <p class="text-xs tracking-trust uppercase text-subtle-text">How I work</p>
+    <h2 class="mt-2 font-serif text-3xl text-warm-black">
+      Two structured routes.
+    </h2>
+
+    <div class="mt-10">
+      <h3 class="font-serif text-2xl text-warm-black">Cognitive Behavioural Therapy (CBT)</h3>
+      <p class="mt-2 font-serif text-xl text-subtle-text">Change the way you think, change the way you feel.</p>
+      <p class="mt-3 text-body-text leading-relaxed">
+        CBT works on the link between your thoughts, feelings, and behaviour. It's
+        practical and focused on the present — we look at what's keeping a problem
+        going and work out, step by step, how to shift it, through collaborative
+        formulation and behavioural experiments. Structured, time-limited, and
+        proven to help with anxiety and low mood.
+      </p>
+    </div>
+
+    <div class="mt-10">
+      <h3 class="font-serif text-2xl text-warm-black">Cognitive Analytic Therapy (CAT)</h3>
+      <p class="mt-2 font-serif text-xl text-subtle-text">Understand why it keeps happening. Recognise the pattern. Change it.</p>
+      <p class="mt-3 text-body-text leading-relaxed">
+        Some difficulties aren't about a single thought or habit — they're patterns
+        that repeat, often learned early in life and replayed in how we treat
+        ourselves and relate to others. CAT helps you see those patterns clearly
+        and step out of them. Early on, I write you a reformulation letter — your
+        patterns set out in your own story — and together we map them on paper so
+        you can spot them as they happen. It's collaborative and time-limited,
+        usually around 16 sessions.
+      </p>
+    </div>
+
+    <a href="/approach" class="mt-8 inline-block text-warm-black underline underline-offset-4">
+      Read more about my approach →
+    </a>
+  </section>
+
+  <!-- Conditions teaser -->
+  <section class="bg-muted-cream py-20">
+    <div class="max-w-3xl mx-auto px-6">
+      <p class="text-xs tracking-trust uppercase text-subtle-text">What I treat</p>
+      <h2 class="mt-2 font-serif text-3xl text-warm-black">
+        Common reasons people come to see me.
+      </h2>
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 text-body-text">
+        <li>Relationship Issues</li>
+        <li>Anxiety</li>
+        <li>Anger Management</li>
+        <li>Behavioural Issues</li>
+        <li>Depression</li>
+        <li>Self Esteem</li>
+        <li>Excessive Worry</li>
+        <li>Obsessions and Compulsions</li>
+        <li>Emotional Dysregulation</li>
+        <li>Sleep Difficulties</li>
+        <li>Work Stress</li>
+        <li>Trauma</li>
+        <li>Conflict</li>
+      </ul>
+      <a href="/what-i-treat" class="mt-8 inline-block text-warm-black underline underline-offset-4">
+        See the full list →
+      </a>
+    </div>
+  </section>
+
+  <!-- Closing CTA -->
+  <section class="max-w-2xl mx-auto px-6 py-20 text-center">
+    <p class="font-serif text-2xl text-warm-black">
+      The free 15-minute call is for triage, not therapy. You describe what's
+      bringing you; I say what I think we can do together. If I'm not the right
+      person, I'll say so.
+    </p>
+    <div class="mt-6 flex flex-col items-center"><BookingCTA /></div>
+    <p class="mt-4 text-sm">
+      <a href="/fees" class="text-warm-black underline underline-offset-4">See fees and how sessions work →</a>
+    </p>
+  </section>
+
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

@@ -1,0 +1,23 @@
+---
+import { PRACTICE } from '../lib/jsonld';
+
+interface Props {
+  heading?: string;
+  class?: string;
+}
+
+const {
+  heading = 'Already know you want to start?',
+  class: classProp = '',
+} = Astro.props;
+
+const telHref = `tel:${PRACTICE.telephone.replace(/[^+\d]/g, '')}`;
+const telDisplay = PRACTICE.telephone.replace(/^\+44-/, '0').replace(/-/g, ' ');
+---
+<div class={`p-5 border border-warm-black/15 bg-cream ${classProp}`}>
+  <p class="text-xs tracking-trust uppercase text-subtle-text">{heading}</p>
+  <p class="mt-2 font-serif text-warm-black">
+    Email <a href={`mailto:${PRACTICE.email}`} class="underline">{PRACTICE.email}</a><br />
+    Phone <a href={telHref} class="underline">{telDisplay}</a>
+  </p>
+</div>

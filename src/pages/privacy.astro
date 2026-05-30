@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+<BaseLayout
+  title="Privacy notice — jerseycbt"
+  description="How jerseycbt.com handles your data — what's collected, the third parties involved, and your rights under Jersey and UK data protection law.">
+  <Nav />
+  <main class="max-w-2xl mx-auto px-6 py-16 prose prose-stone max-w-none">
+    <h1>Privacy notice</h1>
+    <p class="text-sm text-subtle-text">Last reviewed: May 2026</p>
+
+    <h2>Who is responsible for your data</h2>
+    <p>Rodrigo Silva, trading as jerseycbt, is the data controller for this website, registered with the Jersey Office of the Information Commissioner (registration number 63174). You can reach me at <a href="mailto:hello@jerseycbt.com">hello@jerseycbt.com</a>, or at House 3, 8 Lewis Street, St Helier, Jersey JE2 3PB. My practice is based in Jersey and operates under the Data Protection (Jersey) Law 2018; where I work with clients in the UK or EU, UK GDPR and the EU GDPR may also apply.</p>
+    <p>This notice covers the website and initial enquiries. If you go on to become a client, you'll receive a separate, fuller privacy notice covering your clinical records.</p>
+
+    <h2>What I collect, and why</h2>
+    <ul>
+      <li><strong>The enquiry or appointment form</strong> — your name, email, phone (if you give it), and what you write. Used only to reply and to arrange a consultation or appointment. The form is processed by Formspree, which delivers the submission to my inbox.</li>
+      <li><strong>Booking a call</strong> — bookings run through Calendly, which collects your name, email, and the time you choose.</li>
+      <li><strong>Email or phone</strong> — I keep your message and contact details to respond and, if relevant, to arrange care.</li>
+      <li><strong>Analytics</strong> — I use Plausible, a privacy-focused tool that is cookieless and collects only aggregated, anonymous figures (page views, country-level location). It does not identify you or track you across sites.</li>
+      <li><strong>The map</strong> — the contact page embeds a map from OpenStreetMap; when it loads, your browser contacts OpenStreetMap, which may process your IP address.</li>
+    </ul>
+
+    <h2>Lawful basis</h2>
+    <p>For replying to enquiries and arranging appointments, the basis is taking steps at your request before entering into a contract, together with my legitimate interest in running the practice. Analytics rely on legitimate interest in understanding how the site is used; because Plausible is cookieless and anonymous, no consent banner is required.</p>
+
+    <h2>Who else is involved</h2>
+    <p>This site relies on a small number of third parties, each with their own privacy terms:</p>
+    <ul>
+      <li><strong>Formspree</strong> — receives and forwards form submissions.</li>
+      <li><strong>Calendly</strong> — handles consultation and appointment bookings.</li>
+      <li><strong>Plausible Analytics</strong> — cookieless, anonymous usage statistics.</li>
+      <li><strong>OpenStreetMap</strong> — serves the map on the contact page.</li>
+      <li><strong>GitHub Pages</strong> — hosts the website.</li>
+    </ul>
+    <p>I don't sell your data, and I don't share it for marketing.</p>
+
+    <h2>Cookies</h2>
+    <p>This website sets no tracking or advertising cookies of its own, and the analytics are cookieless. Embedded services (Calendly, the map) may set their own cookies if you interact with them, under their own terms.</p>
+
+    <h2>How long I keep it</h2>
+    <p>Enquiry and booking information is kept only as long as needed to respond and arrange care, then deleted. If you become a client, clinical records are retained in line with my professional bodies' and insurers' requirements; that is explained in the client privacy notice you receive at the start of therapy.</p>
+
+    <h2>Your rights</h2>
+    <p>Under the Data Protection (Jersey) Law 2018 — and UK or EU GDPR where they apply — you can ask to access, correct, delete, restrict, or object to the processing of your data, and to receive a copy of it. To exercise any of these, email <a href="mailto:hello@jerseycbt.com">hello@jerseycbt.com</a>.</p>
+
+    <h2>Complaints</h2>
+    <p>If you have a concern I can't resolve, you can complain to the Jersey Office of the Information Commissioner (<a href="https://jerseyoic.org/" target="_blank" rel="noopener">jerseyoic.org</a>). If you are in the UK, you may instead contact the Information Commissioner's Office (<a href="https://ico.org.uk/" target="_blank" rel="noopener">ico.org.uk</a>).</p>
+  </main>
+  <Footer />
+</BaseLayout>

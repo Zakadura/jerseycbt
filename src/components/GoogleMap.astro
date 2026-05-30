@@ -1,0 +1,23 @@
+---
+import { PRACTICE } from '../lib/jsonld';
+const { latitude, longitude } = PRACTICE.geo;
+// General-area OpenStreetMap embed — St Helier, town-wide. No marker/pin, so the
+// location is indicated generally without pinpointing the exact address.
+const dLon = 0.001875;
+const dLat = 0.00075;
+const bbox = [longitude - dLon, latitude - dLat, longitude + dLon, latitude + dLat].join(',');
+const embedSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik`;
+const areaUrl = `https://www.openstreetmap.org/#map=17/${latitude}/${longitude}`;
+---
+<figure class="mt-6 max-w-sm">
+  <iframe
+    src={embedSrc}
+    title="General location — St Helier, Jersey"
+    loading="lazy"
+    class="w-full aspect-[16/9] border border-muted-cream bg-muted-cream"
+  ></iframe>
+  <figcaption class="mt-2 text-xs text-subtle-text">
+    St Helier, Jersey ·
+    <a href={areaUrl} target="_blank" rel="noopener" class="underline">view area</a>
+  </figcaption>
+</figure>

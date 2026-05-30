@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import AppointmentForm from '../components/AppointmentForm.astro';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
+import SessionCTA from '../components/SessionCTA.astro';
+import StickyBookButton from '../components/StickyBookButton.astro';
+import { PRACTICE } from '../lib/jsonld';
+
+const CONSULT_URL = 'https://calendly.com/rodsil/15-min-onboard';
+---
+<BaseLayout
+  title="Book — jerseycbt"
+  description="Book an initial appointment with Rodrigo Silva, or a free 15-min consultation. In person in Jersey or online.">
+  <Nav />
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Book</h1>
+
+    <section class="mt-10">
+      <h2 class="font-serif text-2xl text-warm-black">Book an initial appointment</h2>
+      <p class="mt-2 text-subtle-text">
+        Tell me a little about what you're looking for and your preferred days and times, and I'll come back to you to confirm a slot. Sessions are £100 (50 minutes), in person in Jersey or online.
+      </p>
+      <AppointmentForm />
+    </section>
+
+    <section class="mt-16">
+      <h2 class="font-serif text-2xl text-warm-black">Prefer a free 15-min call first?</h2>
+      <p class="mt-2 text-subtle-text">
+        A short fit / screening call — no clinical advice in the 15 minutes. We cover what you're bringing, whether CBT or CAT is likely a good fit, and how I work.
+      </p>
+      <CalendlyEmbed url={CONSULT_URL} />
+    </section>
+
+    <section class="mt-16">
+      <SessionCTA />
+    </section>
+
+    <p class="mt-12 text-sm text-subtle-text">
+      If a form or widget doesn't load, email <a href={`mailto:${PRACTICE.email}`} class="underline">{PRACTICE.email}</a>.
+    </p>
+  </main>
+  <Footer />
+  <StickyBookButton />
+</BaseLayout>

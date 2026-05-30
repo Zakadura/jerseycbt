@@ -5,7 +5,8 @@ Items that live outside the codebase and must be done by the operator before (or
 ## Email & forms
 
 - [ ] **Set the Formspree recipient to `hello@jerseycbt.com`.** The appointment form (`/book`) and contact form both POST to Formspree form **`xbdbrlrv`**. The recipient/notification address is set in the Formspree dashboard, NOT in the site code. Set it to `hello@jerseycbt.com` (which already copies to `rod.gui.sil@gmail.com`). If Formspree asks to verify the new address, confirm it from the `hello@` inbox.
-- [ ] **Send a test submission** from the live `/book` form and confirm it arrives at `hello@jerseycbt.com` (and copies through to gmail). Delete the test entry afterwards.
+- [ ] **Send a test submission** from the live `/book` form and confirm it arrives at `hello@jerseycbt.com` (and copies through to gmail). **Use a real email + genuine message** — `test@example.com`-style addresses get caught by Formspree's spam filter (confirmed 2026-05-30: a fake-email test landed in Spam, not the Inbox, and wasn't emailed). Delete the test entry afterwards.
+- [ ] Note: Formspree's Formshield spam filter can over-flag early on — check the **Spam** tab periodically and mark legitimate submissions "Not spam" to train it.
 - [ ] Confirm `hello@jerseycbt.com` is receiving mail and forwarding/copying to `rod.gui.sil@gmail.com` as expected.
 
 ## Analytics & SEO

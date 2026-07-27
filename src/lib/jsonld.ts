@@ -123,9 +123,12 @@ export function buildJsonLd() {
     ],
   };
 
+  // MedicalClinic (a subtype of both MedicalBusiness and MedicalOrganization) is the
+  // correct type here: it defines `medicalSpecialty` and `availableService`, which the
+  // parent MedicalBusiness type does not.
   const medicalBusiness = {
     '@context': 'https://schema.org',
-    '@type': 'MedicalBusiness',
+    '@type': 'MedicalClinic',
     name: PRACTICE.name,
     url: PRACTICE.url,
     medicalSpecialty: 'Psychiatric',

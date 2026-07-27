@@ -4,6 +4,7 @@ import BookingCTA from './BookingCTA.astro';
 import Nav from './Nav.astro';
 import Footer from './Footer.astro';
 import StickyBookButton from './StickyBookButton.astro';
+import { buildArticleJsonLd } from '../lib/jsonld';
 
 interface Props {
   title: string;
@@ -12,8 +13,21 @@ interface Props {
   hero?: ImageMetadata;
 }
 const { title, description, date, hero } = Astro.props;
+
+const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const articleLd = buildArticleJsonLd({
+  title,
+  description,
+  date,
+  url: articleUrl,
+  image: hero?.src,
+});
 ---
-<BaseLayout title={`${title} — jerseycbt`} description={description} ogImage={hero?.src}>
+<BaseLayout
+  title={`${title} — jerseycbt`}
+  description={description}
+  ogImage={hero?.src}
+  jsonLd={[articleLd]}>
   <Nav />
   <article class="max-w-2xl mx-auto px-6 py-12">
     <header class="mb-10">

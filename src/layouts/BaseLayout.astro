@@ -8,6 +8,8 @@ interface Props {
   ogImage?: string;
   canonical?: string;
   lang?: string;
+  /** Page-specific JSON-LD appended to the site-wide schema. */
+  jsonLd?: unknown[];
 }
 
 const {
@@ -16,6 +18,7 @@ const {
   ogImage = '/og-default.jpg',
   canonical,
   lang = 'en',
+  jsonLd = [],
 } = Astro.props;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
@@ -39,7 +42,7 @@ const ogImageUrl = new URL(ogImage, Astro.site).toString();
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <JsonLdSchema />
+    <JsonLdSchema extra={jsonLd} />
 
     <!-- Plausible analytics; no cookies, no consent banner required under UK GDPR -->
     <script defer data-domain="jerseycbt.com" src="https://plausible.io/js/script.js"></script>

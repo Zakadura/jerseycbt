@@ -7,10 +7,15 @@ import InsuranceLogos from '../components/InsuranceLogos.astro';
 import BookingCTA from '../components/BookingCTA.astro';
 import SessionCTA from '../components/SessionCTA.astro';
 import StickyBookButton from '../components/StickyBookButton.astro';
+import { buildOfferJsonLd } from '../lib/jsonld';
+
+const feesUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const serviceLd = buildOfferJsonLd(feesUrl);
 ---
 <BaseLayout
   title="Fees & Sessions — Therapy in Jersey"
-  description="Private therapy fees in Jersey — £100 per 50-minute session, free 15-min consultation. CBT and CAT. AXA, Aviva, Vitality, Aetna.">
+  description="Private therapy fees in Jersey — £100 per 50-minute session, free 15-min consultation. CBT and CAT. AXA, Aviva, Vitality, Aetna."
+  jsonLd={[serviceLd]}>
   <Nav />
   <main class="max-w-2xl mx-auto px-6 py-16">
     <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Fees</h1>

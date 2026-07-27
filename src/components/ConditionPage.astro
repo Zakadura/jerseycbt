@@ -5,6 +5,7 @@ import Footer from './Footer.astro';
 import StickyBookButton from './StickyBookButton.astro';
 import BookingCTA from './BookingCTA.astro';
 import ResourceLinks from './ResourceLinks.astro';
+import { buildConditionJsonLd } from '../lib/jsonld';
 
 interface Props {
   condition: string;
@@ -17,11 +18,20 @@ interface Props {
   seoTitle?: string;
 }
 const { condition, description, symptoms, sessionsTypical, resources, hero, credibility = 'cbt', seoTitle } = Astro.props;
+
+const conditionUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const conditionLd = buildConditionJsonLd({
+  condition,
+  description,
+  url: conditionUrl,
+  symptoms,
+});
 ---
 <BaseLayout
   title={seoTitle ?? `${condition} therapy in Jersey — CBT & CAT — jerseycbt`}
   description={description}
-  ogImage={hero?.src}>
+  ogImage={hero?.src}
+  jsonLd={[conditionLd]}>
   <Nav />
   <article class="max-w-2xl mx-auto px-6 py-12">
     <header class="mb-10">

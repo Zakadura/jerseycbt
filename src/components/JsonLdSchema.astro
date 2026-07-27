@@ -1,6 +1,13 @@
 ---
 import { buildJsonLd } from '../lib/jsonld';
-const ld = buildJsonLd();
+
+interface Props {
+  /** Page-specific schema (Article, MedicalWebPage, Service…) appended to the site-wide blocks. */
+  extra?: unknown[];
+}
+const { extra = [] } = Astro.props;
+
+const ld = [...buildJsonLd(), ...extra];
 ---
 {ld.map((schema) => (
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -10,7 +10,7 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <BaseLayout
-  title="Articles — notes on CBT, CAT, and what gets in the way — jerseycbt"
+  title="CBT & CAT Articles — Notes from a Jersey Therapist"
   description="Short articles on CBT, CAT, anxiety, depression, trauma, and the practical questions clients bring to a first session.">
   <Nav />
   <main class="max-w-2xl mx-auto px-6 py-16">

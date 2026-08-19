@@ -13,7 +13,7 @@ const feesUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const serviceLd = buildOfferJsonLd(feesUrl);
 ---
 <BaseLayout
-  title="Fees & Sessions — Therapy in Jersey"
+  title="Therapy Costs in Jersey — £100 per Session | Fees"
   description="Private therapy fees in Jersey — £100 per 50-minute session, free 15-min consultation. CBT and CAT. AXA, Aviva, Vitality, Aetna."
   jsonLd={[serviceLd]}>
   <Nav />

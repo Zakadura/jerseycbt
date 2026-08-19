@@ -11,6 +11,7 @@
     "http://localhost:4321/articles",
     "http://localhost:4321/what-i-treat",
     "http://localhost:4321/what-i-treat/anxiety",
+    "http://localhost:4321/what-i-treat/ocd",
     "http://localhost:4321/what-i-treat/depression",
     "http://localhost:4321/what-i-treat/trauma-ptsd",
     "http://localhost:4321/what-i-treat/relationships",

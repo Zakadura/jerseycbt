@@ -3,7 +3,9 @@ export const PRACTICE = {
   legalName: 'Rodrigo Silva Psychotherapy',
   url: 'https://jerseycbt.com',
   email: 'hello@jerseycbt.com',
-  telephone: '+44-7458-153479',
+  // Live number — matches BABCP register, Psychology Today, and cbttherapist.com
+  // (all three switched to/confirmed as 07829 999963 on 2026-08-22).
+  telephone: '+44-7829-999963',
   address: {
     streetAddress: 'House 3, 8 Lewis St',
     addressLocality: 'St Helier',
@@ -39,6 +41,9 @@ export const PERSON = {
   // Do not remove the file from public/images/.
   image: 'https://jerseycbt.com/images/profile.jpg',
   sameAs: [
+    // BABCP Find a Therapist profile — server-rendered public page with a
+    // dofollow link back to jerseycbt.com; strongest register corroboration.
+    'https://portal.babcp.com/therapist/view/3710065',
     'https://www.psychologytoday.com/gb/counselling/rodrigo-silva-saint-helier/1009468',
     'https://thinkcbt.com/team/rodrigo-silva',
   ],

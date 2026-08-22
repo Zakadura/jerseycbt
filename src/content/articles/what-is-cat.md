@@ -4,6 +4,7 @@ description: "Cognitive Analytic Therapy (CAT) explained in plain English — re
 date: 2026-06-01
 tags: ["cat", "reformulation-letter", "how-therapy-works"]
 target_keyword: "what is cognitive analytic therapy"
+seoTitle: "What is Cognitive Analytic Therapy? CAT explained"
 draft: false
 ---
 

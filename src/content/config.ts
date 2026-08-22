@@ -9,6 +9,7 @@ const articles = defineCollection({
     hero: image().optional(),
     tags: z.array(z.string()).default([]),
     target_keyword: z.string(),
+    seoTitle: z.string().max(60).optional(),
     draft: z.boolean().default(false),
   }),
 });

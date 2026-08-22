@@ -34,6 +34,9 @@ export const PERSON = {
   name: 'Rodrigo Silva',
   jobTitle: 'Cognitive Behavioural & Cognitive Analytic Psychotherapist',
   honorificSuffix: 'MSc, MBABCP',
+  // Stable URL served from public/ — JSON-LD/og references need a permanent
+  // address, while <img> elements on pages use astro:assets srcset variants.
+  // Do not remove the file from public/images/.
   image: 'https://jerseycbt.com/images/profile.jpg',
   sameAs: [
     'https://www.psychologytoday.com/gb/counselling/rodrigo-silva-saint-helier/1009468',
@@ -46,7 +49,7 @@ export const PERSON = {
       organisationUrl: 'https://www.babcp.com/',
     },
     {
-      name: 'ACAT Accredited Cognitive Analytic Therapy Practitioner (#15172)',
+      name: 'ACAT Accredited Cognitive Analytic Therapy Practitioner (M146123)',
       organisation: 'Association for Cognitive Analytic Therapy',
       organisationUrl: 'https://www.acat.org.uk/',
     },
@@ -99,9 +102,13 @@ export function buildPersonJsonLd() {
 }
 
 export function buildJsonLd() {
-  const localBusiness = {
+  // LocalBusiness and MedicalClinic stacked on ONE @id'd node. MedicalClinic (a
+  // MedicalBusiness subtype) supplies `medicalSpecialty` and `availableService`,
+  // which LocalBusiness lacks; sharing the @id means search engines see a single
+  // connected entity carrying the address, geo, and founder — not two orphan blocks.
+  const practice = {
     '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    '@type': ['LocalBusiness', 'MedicalClinic'],
     '@id': PRACTICE_ID,
     name: PRACTICE.name,
     legalName: PRACTICE.legalName,
@@ -110,6 +117,11 @@ export function buildJsonLd() {
     telephone: PRACTICE.telephone,
     image: PERSON.image,
     priceRange: PRACTICE.priceRange,
+    medicalSpecialty: 'Psychiatric',
+    availableService: [
+      { '@type': 'MedicalTherapy', name: 'Cognitive Behavioural Therapy (CBT)' },
+      { '@type': 'MedicalTherapy', name: 'Cognitive Analytic Therapy (CAT)' },
+    ],
     address: { '@type': 'PostalAddress', ...PRACTICE.address },
     geo: { '@type': 'GeoCoordinates', ...PRACTICE.geo },
     openingHours: PRACTICE.openingHours,
@@ -123,21 +135,6 @@ export function buildJsonLd() {
     ],
   };
 
-  // MedicalClinic (a subtype of both MedicalBusiness and MedicalOrganization) is the
-  // correct type here: it defines `medicalSpecialty` and `availableService`, which the
-  // parent MedicalBusiness type does not.
-  const medicalBusiness = {
-    '@context': 'https://schema.org',
-    '@type': 'MedicalClinic',
-    name: PRACTICE.name,
-    url: PRACTICE.url,
-    medicalSpecialty: 'Psychiatric',
-    availableService: [
-      { '@type': 'MedicalTherapy', name: 'Cognitive Behavioural Therapy (CBT)' },
-      { '@type': 'MedicalTherapy', name: 'Cognitive Analytic Therapy (CAT)' },
-    ],
-  };
-
   const website = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -148,7 +145,7 @@ export function buildJsonLd() {
     publisher: { '@id': PRACTICE_ID },
   };
 
-  return [localBusiness, medicalBusiness, buildPersonJsonLd(), website];
+  return [practice, buildPersonJsonLd(), website];
 }
 
 /** Article schema — attributes the writing to Rodrigo, not to an anonymous page. */
@@ -240,5 +237,39 @@ export function buildOfferJsonLd(url: string) {
       availability: 'https://schema.org/InStock',
       url,
     },
+  };
+}
+
+/**
+ * Extract the Q&A pairs from a condition page's `## Common questions` markdown
+ * section. Questions there are written as `**Question?** Answer…` paragraphs.
+ * Returns [] when the section is missing or malformed.
+ */
+export function parseCommonQuestions(body: string): Array<{ q: string; a: string }> {
+  const afterHeading = body.split(/^## Common questions\s*$/m)[1];
+  if (!afterHeading) return [];
+  const nextHeading = afterHeading.search(/^## /m);
+  const section = nextHeading >= 0 ? afterHeading.slice(0, nextHeading) : afterHeading;
+
+  const qas: Array<{ q: string; a: string }> = [];
+  for (const para of section.split(/\n\s*\n/)) {
+    const m = para.trim().match(/^\*\*(.+?)\*\*\s*([\s\S]+)$/);
+    if (m) qas.push({ q: m[1].trim(), a: m[2].trim().replace(/\s*\n\s*/g, ' ') });
+  }
+  return qas;
+}
+
+/** FAQPage schema built from those same on-page questions — machine-readable mirror of visible content. */
+export function buildFaqJsonLd(url: string, qas: Array<{ q: string; a: string }>) {
+  if (!qas.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${url}#faq`,
+    mainEntity: qas.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
   };
 }

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import ConditionPage from '../../components/ConditionPage.astro';
+import { buildFaqJsonLd, parseCommonQuestions } from '../../lib/jsonld';
 
 export async function getStaticPaths() {
   const conditions = await getCollection('conditions', ({ data }) => !data.draft);
@@ -13,6 +14,16 @@ export async function getStaticPaths() {
 const { condition } = Astro.props;
 const { Content } = await condition.render();
 const { data } = condition;
+
+// FAQPage schema mirrors the visible "Common questions" section.
+const pageUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const faqLd = buildFaqJsonLd(pageUrl, parseCommonQuestions(condition.body));
+
+// Sibling condition pages — keeps every condition internally linked, not just hub-linked.
+const related = (await getCollection('conditions', ({ data }) => !data.draft))
+  .filter((c) => c.slug !== condition.slug)
+  .sort((a, b) => a.data.condition.localeCompare(b.data.condition))
+  .map((c) => ({ href: `/what-i-treat/${c.slug}/`, title: c.data.condition }));
 ---
 <ConditionPage
   condition={data.condition}
@@ -22,6 +33,8 @@ const { data } = condition;
   resources={data.resources}
   hero={data.hero}
   credibility={data.credibility}
-  seoTitle={data.seoTitle}>
+  seoTitle={data.seoTitle}
+  extraLd={faqLd ? [faqLd] : []}
+  related={related}>
   <Content />
 </ConditionPage>

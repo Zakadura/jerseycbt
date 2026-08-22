@@ -16,8 +16,12 @@ interface Props {
   hero?: ImageMetadata;
   credibility?: 'cbt' | 'cat' | 'none';
   seoTitle?: string;
+  /** Page-specific JSON-LD (FAQPage) appended to the MedicalWebPage block. */
+  extraLd?: unknown[];
+  /** Sibling condition pages, rendered as a related-links section. */
+  related?: Array<{ href: string; title: string }>;
 }
-const { condition, description, symptoms, sessionsTypical, resources, hero, credibility = 'cbt', seoTitle } = Astro.props;
+const { condition, description, symptoms, sessionsTypical, resources, hero, credibility = 'cbt', seoTitle, extraLd = [], related = [] } = Astro.props;
 
 const conditionUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const conditionLd = buildConditionJsonLd({
@@ -31,7 +35,7 @@ const conditionLd = buildConditionJsonLd({
   title={seoTitle ?? `${condition} therapy in Jersey — CBT & CAT — jerseycbt`}
   description={description}
   ogImage={hero?.src}
-  jsonLd={[conditionLd]}>
+  jsonLd={[conditionLd, ...extraLd]}>
   <Nav />
   <article class="max-w-2xl mx-auto px-6 py-12">
     <header class="mb-10">
@@ -79,6 +83,22 @@ const conditionLd = buildConditionJsonLd({
     </div>
 
     <ResourceLinks resources={resources} />
+
+    {related.length > 0 && (
+    <section class="mt-12 pt-8 border-t border-muted-cream">
+      <h2 class="font-serif text-2xl mb-4">Related</h2>
+      <ul class="space-y-2">
+        {related.map((r) => (
+          <li>
+            <a href={r.href}
+               class="text-warm-black underline decoration-subtle-text underline-offset-4">
+              {r.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+    )}
   </article>
   <Footer />
   <StickyBookButton />

@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import profileImg from '../assets/profile.jpg';
 import ConsultationCTA from './ConsultationCTA.astro';
 import InitialAppointmentCTA from './InitialAppointmentCTA.astro';
 
@@ -38,8 +40,10 @@ const {
       </div>
     </div>
     <div class="hidden md:block">
-      <img src="/images/profile.jpg" alt="Rodrigo Silva, psychotherapist"
-           class="w-full aspect-[4/5] object-cover" loading="eager" />
+      <Image src={profileImg} alt="Rodrigo Silva, psychotherapist"
+             widths={[400, 720]} sizes="(min-width: 768px) 360px, 100vw"
+             loading="eager" fetchpriority="high"
+             class="w-full aspect-[4/5] object-cover" />
     </div>
   </div>
 </section>

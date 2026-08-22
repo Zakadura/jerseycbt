@@ -4,6 +4,7 @@ description: "What a CAT reformulation letter is, what it does, what it can't do
 date: 2026-07-01
 tags: ["cat", "reformulation-letter", "how-therapy-works"]
 target_keyword: "reformulation letter cat"
+seoTitle: "The reformulation letter in CAT, explained"
 draft: false
 ---
 

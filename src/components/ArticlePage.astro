@@ -11,8 +11,10 @@ interface Props {
   description: string;
   date: Date;
   hero?: ImageMetadata;
+  /** Overrides the <title> tag when the full title would run long. */
+  seoTitle?: string;
 }
-const { title, description, date, hero } = Astro.props;
+const { title, description, date, hero, seoTitle } = Astro.props;
 
 const articleUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const articleLd = buildArticleJsonLd({
@@ -24,7 +26,7 @@ const articleLd = buildArticleJsonLd({
 });
 ---
 <BaseLayout
-  title={`${title} — jerseycbt`}
+  title={seoTitle ?? `${title} — jerseycbt`}
   description={description}
   ogImage={hero?.src}
   jsonLd={[articleLd]}>

@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import profileImg from '../assets/profile.jpg';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -12,7 +14,9 @@ import StickyBookButton from '../components/StickyBookButton.astro';
   <Nav />
   <main class="max-w-2xl mx-auto px-6 py-16">
     <h1 class="font-serif text-4xl md:text-5xl text-warm-black">About</h1>
-    <img src="/images/profile.jpg" alt="Rodrigo Silva" class="my-10 w-full aspect-[4/5] object-cover" />
+    <Image src={profileImg} alt="Rodrigo Silva" widths={[480, 960]}
+           sizes="(min-width: 768px) 672px, calc(100vw - 3rem)"
+           class="my-10 w-full aspect-[4/5] object-cover" />
 
     <section class="prose prose-lg prose-stone max-w-none">
       <p>I'm Rodrigo Silva, a psychotherapist in Saint Helier, Jersey, working in person and online. I'm accredited in both Cognitive Behavioural Therapy (BABCP) and Cognitive Analytic Therapy (ACAT), an EMDR therapist, and a registered member of the Order of Portuguese Psychologists. Most of my work is with adults bringing anxiety, depression, trauma, OCD, and the relationship patterns that keep repeating.</p>
@@ -27,7 +31,7 @@ import StickyBookButton from '../components/StickyBookButton.astro';
       <h2>Training and accreditations</h2>
       <ul>
         <li>BABCP — Accredited Cognitive Behavioural Psychotherapist (Reg. 101239)</li>
-        <li>ACAT — Accredited Cognitive Analytic Therapist (Reg. 15172)</li>
+        <li>ACAT — Accredited Cognitive Analytic Therapist (Reg. M146123)</li>
         <li>EMDR Therapist (EMDR Academy UK, 2019)</li>
         <li>Member, Order of Portuguese Psychologists — Clinical Psychology (Reg. 26160)</li>
       </ul>

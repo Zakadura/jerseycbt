@@ -9,7 +9,7 @@ jobs:
     uses: ./.github/workflows/quality.yml
     # Change this fixture to true in the separately authorized failure PR.
     with:
-      inject_failure: true
+      inject_failure: false
       performance_baseline: quality/ci-performance-baseline.json
   marker:
     needs: quality

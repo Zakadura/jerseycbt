@@ -26,14 +26,14 @@ jobs:
     uses: ./.github/workflows/quality.yml
     with:
       # Diagnostic fixture: change only for the authorized quality-failure case.
-      inject_failure: true
+      inject_failure: false
       performance_baseline: quality/ci-performance-baseline.json
   package:
     needs: [guard, quality]
     uses: ./.github/workflows/pages-package.yml
     with:
       # Diagnostic fixture: change only for the authorized package-failure case.
-      inject_failure: false
+      inject_failure: true
   marker:
     needs: [guard, quality, package]
     runs-on: ubuntu-latest

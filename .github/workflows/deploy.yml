@@ -1,33 +1,12 @@
-name: Deploy to GitHub Pages
-
+# Workflow-only transition draft. Replace .github/workflows/deploy.yml only
+# through the separately authorized Master preparation change.
+name: Website publication notice
 on:
-  push:
-    branches:
-      - Master
   workflow_dispatch:
-
 permissions:
-  contents: write
-
+  contents: read
 jobs:
-  deploy:
+  notice:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-node@v5
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-
-      - run: npm ci
-
-      - run: npm run build
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: gh-pages
-          cname: jerseycbt.com
+      - run: echo 'Workflow publication is paused. This action does not deploy. Direct gh-pages writes remain separately controlled.'

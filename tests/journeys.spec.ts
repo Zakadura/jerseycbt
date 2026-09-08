@@ -168,9 +168,137 @@ test('sticky booking never obscures a focused submit button or bottom-edge link'
   await expect(bar).toBeVisible();
   await link.evaluate((el: HTMLElement) => el.focus({ preventScroll: true }));
   await expect(link).toBeFocused();
-  await expect(bar).toBeHidden();
+  await expect(bar).toBeVisible();
   const rect = await link.boundingBox();
-  expect(rect!.y + rect!.height).toBeLessThanOrEqual(await page.evaluate(() => innerHeight));
+  expect(rect!.y + rect!.height).toBeLessThanOrEqual((await bar.boundingBox())!.y);
+});
+
+test('sticky booking controls are reachable in both keyboard directions', async ({ page }) => {
+  await page.goto('/about/');
+  const bar = page.locator('#sticky-book');
+  const lastLink = page.locator('footer a').last();
+  await lastLink.focus();
+  await expect(bar).toBeVisible();
+  await page.keyboard.press('Tab');
+  await expect(bar.locator('a')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(bar.getByRole('button')).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(bar.locator('a')).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(lastLink).toBeFocused();
+  await expect(bar).toBeVisible();
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Enter');
+  await expect(bar).toBeHidden();
+  await expect(page.locator('#main-content')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(bar.locator('button')).not.toBeFocused();
+});
+
+test('sticky footer clearance adapts to mobile width, language and enlarged text', async ({ page }) => {
+  for (const width of [320, 390]) for (const route of ['/about/', '/portugues/']) for (const size of ['100%', '200%']) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(route);
+    await page.addStyleTag({ content: `html { font-size: ${size} !important; }` });
+    await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+    const bar = page.locator('#sticky-book');
+    await expect(bar).toBeVisible();
+    await expect.poll(async () => {
+      await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
+      const footer = await page.locator('footer').boundingBox();
+      const reminder = await bar.boundingBox();
+      return footer!.y + footer!.height <= reminder!.y - 8;
+    }).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  }
+});
+
+test('sticky focus is preserved on scroll and recovered when switching to desktop', async ({ page }) => {
+  await page.goto('/about/');
+  const bar = page.locator('#sticky-book');
+  await page.locator('footer a').last().focus();
+  await expect(bar).toBeVisible();
+  await page.keyboard.press('Tab');
+  await expect(bar.locator('a')).toBeFocused();
+  await page.evaluate(() => scrollTo(0, 0));
+  await expect(bar.locator('a')).toBeFocused();
+  await expect(bar).toBeVisible();
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(bar).toBeHidden();
+  await expect(page.locator('#main-content')).toBeFocused();
+  expect(await page.locator('body').evaluate(el => parseFloat(getComputedStyle(el).paddingBottom))).toBe(0);
+});
+
+test('focused page links never pull manual scrolling back down', async ({ page, browserName }) => {
+  await page.goto('/about/');
+  const bar = page.locator('#sticky-book');
+  const terms = page.locator('footer a').last();
+  await terms.focus();
+  await expect(bar).toBeVisible();
+  await page.evaluate(() => scrollTo(0, 0));
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await expect(bar).toBeHidden();
+  await expect(terms).toBeFocused();
+  await terms.evaluate((el: HTMLElement) => el.scrollIntoView({ block: 'center' }));
+  await expect(bar).toBeVisible();
+  const beforeWheel = await page.evaluate(() => scrollY);
+  await page.mouse.wheel(0, -600);
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(beforeWheel - 300);
+  const wheelPosition = await page.evaluate(() => new Promise<number>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve(scrollY)))));
+  expect(wheelPosition).toBeLessThan(beforeWheel - 300);
+  await expect(terms).toBeFocused();
+  // The failed popup retains click focus in Chromium/Firefox. WebKit uses its
+  // native pointer-focus behaviour; the explicit keyboard case above runs there too.
+  await page.goto('/about/');
+  const popup = page.locator('[data-calendly-popup]').first();
+  await popup.click();
+  await expect(page.locator('[data-booking-fallback]').first()).toBeVisible();
+  if (browserName !== 'webkit') await expect(popup).toBeFocused();
+  await page.evaluate(() => scrollTo(0, 0));
+  const finalPosition = await page.evaluate(() => new Promise<number>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve(scrollY)))));
+  expect(finalPosition).toBe(0);
+});
+
+test('unclearable fixed focus hides the reminder without observer errors or scroll loops', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/about/');
+  await page.evaluate(() => scrollTo(0, 650));
+  await expect(page.locator('#sticky-book')).toBeVisible();
+  await page.evaluate(() => {
+    const control = document.createElement('button');
+    control.id = 'synthetic-fixed-control';
+    control.textContent = 'Synthetic fixed control';
+    control.style.cssText = 'position:fixed;bottom:0;left:0;width:180px;height:44px;z-index:60';
+    document.body.append(control);
+    control.focus({ preventScroll: true });
+  });
+  await expect(page.locator('#sticky-book')).toBeHidden();
+  await expect(page.locator('#synthetic-fixed-control')).toBeFocused();
+  const positions = await page.evaluate(() => new Promise<number[]>(resolve => {
+    const values: number[] = [];
+    const frame = () => { values.push(scrollY); values.length === 8 ? resolve(values) : requestAnimationFrame(frame); };
+    requestAnimationFrame(frame);
+  }));
+  expect(Math.max(...positions) - Math.min(...positions)).toBeLessThan(2);
+  expect(Math.max(...positions)).toBeLessThan(900);
+  expect(errors).toEqual([]);
+});
+
+test('explicit navigation links and native content links retain their documented keyboard behaviour', async ({ page, browserName }) => {
+  await page.goto('/about/');
+  const firstContentLink = page.locator('main a').first();
+  expect(await firstContentLink.getAttribute('tabindex')).toBeNull();
+  for (const link of await page.locator('footer a, #sticky-book a').all()) await expect(link).toHaveAttribute('tabindex', '0');
+  await page.locator('.mobile-book').focus();
+  await page.keyboard.press('Tab');
+  if (browserName === 'webkit') await expect(page.locator('footer a').first()).toBeFocused();
+  else await expect(firstContentLink).toBeFocused();
+  // Content links remain native focusable anchors regardless of browser settings.
+  await firstContentLink.focus();
+  await expect(firstContentLink).toBeFocused();
 });
 
 test('empty status regions are exposed before updates; inline and popup statuses stay separate', async ({ page }) => {

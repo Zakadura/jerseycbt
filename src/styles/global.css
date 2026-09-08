@@ -13,7 +13,8 @@ h1, h2, h3, h4 { font-family: Charter, Georgia, serif; color: #1a1612; }
 /* Shared reading and interaction rules use the existing practice palette. */
 [hidden] { display: none !important; }
 html { scroll-padding-block: 1rem; }
-html.has-booking-bar { scroll-padding-bottom: 6rem; }
+html.has-booking-bar { scroll-padding-bottom: var(--booking-bar-space, 6rem); }
+html.has-booking-bar body { padding-bottom: var(--booking-bar-space, 6rem); }
 body { overflow-wrap: break-word; }
 main { min-width: 0; }
 :focus-visible { outline: 2px solid #1a1612; outline-offset: 4px; }

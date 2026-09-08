@@ -18,6 +18,7 @@ test('workflow drafts retain real quality dependencies and bounded permissions',
   const release = read('quality/release-workflow.draft.yml');
   const paused = read('quality/deploy-paused.yml');
   const reference = read('.github/workflows/performance-reference.yml');
+  assert.deepEqual(read('.github/workflows/deploy.yml'), paused);
   assert.ok(reference.on.pull_request);
   assert.equal(reference.permissions.contents, 'read');
   assert.deepEqual(Object.keys(reference.jobs), ['measure']);
@@ -28,6 +29,10 @@ test('workflow drafts retain real quality dependencies and bounded permissions',
   assert.equal(rehearsal.jobs.marker.needs, 'quality');
   assert.equal(rehearsal.jobs.quality.uses, release.jobs.quality.uses);
   assert.deepEqual(release.jobs.deploy.needs, ['guard', 'quality']);
+  assert.equal(release.jobs.deploy.if, "${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/Master' && github.sha == inputs.approved_sha }}");
+  const guardCheckout = release.jobs.guard.steps.filter(step => step.uses?.startsWith('actions/checkout@'));
+  assert.equal(guardCheckout.length, 1);
+  assert.equal(guardCheckout[0].with.ref, '${{ github.sha }}');
   assert.equal(release.jobs.quality.needs, 'guard');
   assert.equal(release.jobs.deploy.steps.some(step => /build/.test(step.run || '')), false);
   assert.ok(release.jobs.deploy.steps.some(step => step.with?.name === 'checked-site'));
@@ -38,6 +43,14 @@ test('workflow drafts retain real quality dependencies and bounded permissions',
   assert.deepEqual(Object.keys(paused.jobs), ['notice']);
   assert.equal(quality.jobs.quality.steps.some(step => step.run === 'npm run quality'), true);
   assert.equal(quality.jobs.quality.steps.some(step => step.if === '${{ inputs.inject_failure }}' && step.run === 'exit 1'), true);
+  const siteUploads = quality.jobs.quality.steps.filter(step => step.with?.name === 'checked-site');
+  assert.equal(siteUploads.length, 1);
+  assert.match(siteUploads[0].uses, /^actions\/upload-artifact@/);
+  assert.equal(siteUploads[0].with.path, 'dist/');
+  assert.ok([undefined, 'success()', '${{ success() }}'].includes(siteUploads[0].if), 'checked-site must only upload after successful preceding checks');
+  const requiredIndex = quality.jobs.quality.steps.findIndex(step => step.run === 'npm run quality');
+  const failureIndex = quality.jobs.quality.steps.findIndex(step => step.name === 'Deliberate rehearsal failure');
+  assert.ok(quality.jobs.quality.steps.indexOf(siteUploads[0]) > failureIndex && failureIndex > requiredIndex);
 });
 
 test('a below-budget measurement still saves an explicitly unaccepted candidate', async () => {

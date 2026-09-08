@@ -3,7 +3,7 @@ const portuguese = Astro.url.pathname.startsWith('/portugues');
 const onBookingPage = /^\/book\/?$/.test(Astro.url.pathname);
 ---
 {!onBookingPage && <div id="sticky-book" class="sticky-book" lang={portuguese ? 'pt' : 'en'} hidden inert>
-  <a href="/book">{portuguese ? 'Marcar uma primeira consulta' : 'Book an initial appointment'}</a>
+  <a tabindex="0" href="/book">{portuguese ? 'Marcar uma primeira consulta' : 'Book an initial appointment'}</a>
   <button type="button" aria-label={portuguese ? 'Fechar lembrete de marcação' : 'Dismiss booking reminder'}>×</button>
 </div>}
 <script>
@@ -13,23 +13,48 @@ const onBookingPage = /^\/book\/?$/.test(Astro.url.pathname);
     let dismissed = false;
     try { dismissed = sessionStorage.getItem(key) === '1'; } catch { /* Memory-only dismissal still works. */ }
     const mobile = matchMedia('(max-width: 767px)');
-    const update = () => {
+    const measureSpace = () => {
+      if (!bar.hidden) document.documentElement.style.setProperty('--booking-bar-space', `${Math.ceil(bar.getBoundingClientRect().height) + 16}px`);
+    };
+    const update = (clearNewFocus = false) => {
       const active = document.activeElement;
-      // Keep every focused page control clear, including submit buttons and
-      // links already near the viewport edge when keyboard focus reaches them.
-      const pageControlFocused = active instanceof HTMLElement && !bar.contains(active) &&
-        (active.matches('a, button, input, textarea, select, summary, [tabindex]:not(main)') || active.isContentEditable);
+      const focusInBar = active instanceof HTMLElement && bar.contains(active);
+      const formFocused = active instanceof HTMLElement && !focusInBar &&
+        (active.closest('form') !== null || active.matches('input, textarea, select') || active.isContentEditable);
       const eligible = !dismissed && mobile.matches;
-      const visible = eligible && scrollY > innerHeight * 0.6 && !pageControlFocused;
+      // Reserve space while eligible so showing the bar cannot cover the footer
+      // or change the scroll threshold. Keep keyboard focus inside it visible.
+      document.documentElement.classList.toggle('has-booking-bar', eligible);
+      const visible = eligible && (scrollY > innerHeight * 0.6 || focusInBar) && !formFocused;
+      if (!visible && focusInBar) document.getElementById('main-content')?.focus({ preventScroll: true });
       bar.hidden = !visible;
       bar.inert = !visible;
-      document.documentElement.classList.toggle('has-booking-bar', eligible);
+      if (!visible) return;
+      measureSpace();
+      const pageControlFocused = active instanceof HTMLElement && !focusInBar &&
+        active.matches('a, button, summary, [tabindex]:not(main)');
+      if (pageControlFocused) {
+        // Clear a newly focused control once. Subsequent user scrolling must
+        // never be pulled back toward whichever page link still holds focus.
+        if (clearNewFocus) {
+          const overlap = active.getBoundingClientRect().bottom - bar.getBoundingClientRect().top + 12;
+          if (overlap > 0) window.scrollBy({ top: overlap, behavior: 'instant' });
+        }
+        const control = active.getBoundingClientRect();
+        const reminder = bar.getBoundingClientRect();
+        if (control.bottom > reminder.top && control.top < reminder.bottom && control.right > reminder.left && control.left < reminder.right) {
+          bar.hidden = true;
+          bar.inert = true;
+        }
+      }
     };
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    document.addEventListener('focusin', update);
-    document.addEventListener('focusout', () => requestAnimationFrame(update));
-    mobile.addEventListener('change', update);
+    window.addEventListener('scroll', () => update(), { passive: true });
+    window.addEventListener('resize', () => update());
+    document.addEventListener('focusin', () => update(true));
+    document.addEventListener('focusout', () => requestAnimationFrame(() => update()));
+    mobile.addEventListener('change', () => update());
+    // Measuring the bar must not show/hide its own observed box or scroll.
+    new ResizeObserver(measureSpace).observe(bar);
     bar.querySelector('button')?.addEventListener('click', () => {
       dismissed = true;
       try { sessionStorage.setItem(key, '1'); } catch { /* No storage requirement. */ }

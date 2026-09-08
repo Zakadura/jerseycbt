@@ -1,0 +1,39 @@
+name: Package checked website
+on:
+  workflow_call:
+    inputs:
+      inject_failure:
+        description: Rehearsal-only missing-directory fixture
+        type: boolean
+        default: false
+    outputs:
+      artifact_id:
+        description: ID of the Pages artifact produced by this run
+        value: ${{ jobs.package.outputs.artifact_id }}
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_id: ${{ steps.pages.outputs.artifact_id }}
+    steps:
+      - name: Download checked website from this run
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: checked-site
+          path: dist
+      - name: Package checked website
+        id: pages
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          name: github-pages
+          # A true rehearsal fixture makes the actual archive step fail.
+          path: ${{ inputs.inject_failure && 'missing-checked-site' || 'dist' }}
+          retention-days: 7
+      - name: Record packaged source and artifact
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+          ARTIFACT_ID: ${{ steps.pages.outputs.artifact_id }}
+        run: |
+          printf 'Source SHA: %s\nArtifact ID: %s\n' "$SOURCE_SHA" "$ARTIFACT_ID" >> "$GITHUB_STEP_SUMMARY"

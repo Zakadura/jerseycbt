@@ -10,6 +10,9 @@ on:
         type: string
 permissions:
   contents: read
+concurrency:
+  group: jerseycbt-pages-production
+  cancel-in-progress: false
 jobs:
   guard:
     runs-on: ubuntu-latest
@@ -30,22 +33,22 @@ jobs:
     needs: guard
     uses: ./.github/workflows/quality.yml
     with:
+      inject_failure: false
       performance_baseline: quality/ci-performance-baseline.json
-  deploy:
+  package:
     needs: [guard, quality]
+    uses: ./.github/workflows/pages-package.yml
+    with:
+      inject_failure: false
+  deploy:
+    needs: [guard, quality, package]
     if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/Master' && github.sha == inputs.approved_sha }}
     runs-on: ubuntu-latest
     environment: github-pages
     permissions:
-      contents: write
+      pages: write
+      id-token: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
         with:
-          name: checked-site
-          path: dist
-      - uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: gh-pages
-          cname: jerseycbt.com
+          artifact_name: github-pages

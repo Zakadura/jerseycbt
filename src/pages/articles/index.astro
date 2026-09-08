@@ -13,7 +13,7 @@ const articles = (await getCollection('articles', ({ data }) => !data.draft))
   title="CBT & CAT Articles — Notes from a Jersey Therapist"
   description="Short articles on CBT, CAT, anxiety, depression, trauma, and the practical questions clients bring to a first session.">
   <Nav />
-  <main class="max-w-2xl mx-auto px-6 py-16">
+  <main id="main-content" tabindex="-1" class="max-w-2xl mx-auto px-6 py-16">
     <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Articles</h1>
     <p class="mt-4 text-subtle-text">
       Short, practical writing on CBT, CAT, and the questions that come up before a first session.

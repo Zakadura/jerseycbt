@@ -5,21 +5,35 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/routes.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "a11y": "pa11y-ci"
+    "a11y": "playwright test accessibility.spec.ts --project=chromium",
+    "check": "astro check",
+    "test:e2e": "playwright test journeys.spec.ts",
+    "test:guard": "node --test tests/release-guard.test.mjs",
+    "test:performance": "node scripts/performance.mjs",
+    "quality": "npm run check && npm run build && npm run test:guard && npm run test:e2e && npm run a11y && npm run test:performance"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.18",
+    "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/tailwind": "^6.0.2",
-    "astro": "^5.18.1",
+    "astro": "5.18.2",
     "tailwindcss": "^3.4.19"
   },
   "devDependencies": {
-    "@types/node": "^25.8.0",
-    "pa11y-ci": "^4.1.1",
+    "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.11.1",
+    "@lhci/cli": "0.15.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.13.3",
+    "chrome-launcher": "1.2.1",
+    "js-yaml": "4.3.2",
+    "lighthouse": "12.8.2",
     "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": "24.20.x"
   }
 }

@@ -1,0 +1,29 @@
+name: Non-publishing release rehearsal
+on:
+  pull_request:
+    branches: [Master]
+permissions:
+  contents: read
+jobs:
+  quality:
+    uses: ./.github/workflows/quality.yml
+    # Change this fixture to true in the separately authorized failure PR.
+    with:
+      inject_failure: false
+  marker:
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+      - name: Labelled eligible-candidate fixture (never publication authority)
+        run: node scripts/release-guard.mjs
+        env:
+          RELEASE_EVENT: workflow_dispatch
+          RELEASE_REF: refs/heads/Master
+          RELEASE_SHA: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+          APPROVED_SHA: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+      - name: Harmless marker
+        run: echo 'Quality and labelled release fixture passed. No deployment.'

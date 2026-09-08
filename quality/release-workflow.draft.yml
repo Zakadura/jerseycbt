@@ -1,0 +1,51 @@
+# NOT AN ACTIVE WORKFLOW. Activate on Master only after separately authorized
+# workflow transition, remote proof, runner baseline and protection decisions.
+name: Approved website release
+on:
+  workflow_dispatch:
+    inputs:
+      approved_sha:
+        description: Owner-approved immutable Master commit
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+      - run: node scripts/release-guard.mjs
+        env:
+          RELEASE_EVENT: ${{ github.event_name }}
+          RELEASE_REF: ${{ github.ref }}
+          RELEASE_SHA: ${{ github.sha }}
+          APPROVED_SHA: ${{ inputs.approved_sha }}
+  quality:
+    needs: guard
+    uses: ./.github/workflows/quality.yml
+    with:
+      performance_baseline: quality/ci-performance-baseline.json
+  deploy:
+    needs: [guard, quality]
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/Master' && github.sha == inputs.approved_sha }}
+    runs-on: ubuntu-latest
+    environment: github-pages
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: checked-site
+          path: dist
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          cname: jerseycbt.com

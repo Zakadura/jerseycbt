@@ -45,9 +45,10 @@ const ogImageUrl = new URL(ogImage, Astro.site).toString();
     <JsonLdSchema extra={jsonLd} />
 
     <!-- Plausible analytics; no cookies, no consent banner required under UK GDPR -->
-    <script defer data-domain="jerseycbt.com" src="https://plausible.io/js/script.js"></script>
+    <script is:inline defer data-domain="jerseycbt.com" src="https://plausible.io/js/script.js"></script>
   </head>
   <body class="bg-cream text-body-text">
+    <a tabindex="0" class="skip-link" href="#main-content">{lang === "pt" ? "Passar para o conteúdo" : "Skip to content"}</a>
     <slot />
   </body>
 </html>

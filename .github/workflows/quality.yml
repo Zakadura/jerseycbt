@@ -1,0 +1,46 @@
+name: Website quality
+on:
+  workflow_call:
+    inputs:
+      inject_failure:
+        type: boolean
+        default: false
+      performance_baseline:
+        type: string
+        default: ''
+permissions:
+  contents: read
+jobs:
+  quality:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npx --no-install playwright install chromium firefox webkit
+      - name: Required checks
+        run: npm run quality
+        env:
+          PERFORMANCE_BASELINE: ${{ inputs.performance_baseline }}
+      - name: Deliberate rehearsal failure
+        if: ${{ inputs.inject_failure }}
+        run: exit 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quality-evidence-${{ inputs.inject_failure }}
+          path: |
+            .quality/*.log
+            .quality/*.json
+            .quality/performance/*.json
+            .quality/performance/*.html
+          include-hidden-files: true
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: checked-site
+          path: dist/
+          retention-days: 7

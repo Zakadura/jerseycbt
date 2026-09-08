@@ -37,6 +37,7 @@ const conditionLd = buildConditionJsonLd({
   ogImage={hero?.src}
   jsonLd={[conditionLd, ...extraLd]}>
   <Nav />
+  <main id="main-content" tabindex="-1">
   <article class="max-w-2xl mx-auto px-6 py-12">
     <header class="mb-10">
       <p class="text-xs tracking-trust uppercase text-subtle-text mb-3">What I Treat</p>
@@ -74,7 +75,7 @@ const conditionLd = buildConditionJsonLd({
       </ul>
     </aside>
 
-    <div class="prose prose-lg prose-stone max-w-none">
+    <div class="content-prose">
       <slot />
     </div>
 
@@ -100,6 +101,7 @@ const conditionLd = buildConditionJsonLd({
     </section>
     )}
   </article>
+  </main>
   <Footer />
   <StickyBookButton />
 </BaseLayout>

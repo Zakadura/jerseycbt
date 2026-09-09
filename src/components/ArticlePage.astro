@@ -31,6 +31,7 @@ const articleLd = buildArticleJsonLd({
   ogImage={hero?.src}
   jsonLd={[articleLd]}>
   <Nav />
+  <main id="main-content" tabindex="-1">
   <article class="max-w-2xl mx-auto px-6 py-12">
     <header class="mb-10">
       <p class="text-xs tracking-trust uppercase text-subtle-text mb-3">
@@ -38,13 +39,14 @@ const articleLd = buildArticleJsonLd({
       </p>
       <h1 class="font-serif text-4xl md:text-5xl leading-tight">{title}</h1>
     </header>
-    <div class="prose prose-lg prose-stone max-w-none">
+    <div class="content-prose">
       <slot />
     </div>
     <div class="mt-16 border-t border-muted-cream pt-10">
       <BookingCTA />
     </div>
   </article>
+  </main>
   <Footer />
   <StickyBookButton />
 </BaseLayout>

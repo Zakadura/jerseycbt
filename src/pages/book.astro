@@ -11,16 +11,16 @@ import { PRACTICE } from '../lib/jsonld';
 const CONSULT_URL = 'https://calendly.com/rodsil/15-min-onboard';
 ---
 <BaseLayout
-  title="Book a Therapy Session in Jersey — Free 15-min Consultation"
-  description="Book an initial appointment with Rodrigo Silva, or a free 15-min consultation. In person in Jersey or online.">
+  title="Request a Therapy Appointment in Jersey — Free 15-min Screening Call"
+  description="Request a therapy appointment with Rodrigo Silva in Jersey or online, or book a free 15-minute screening call.">
   <Nav />
-  <main class="max-w-3xl mx-auto px-6 py-16">
-    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Book</h1>
+  <main id="main-content" tabindex="-1" class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Appointments and screening calls</h1>
 
     <section class="mt-10">
-      <h2 class="font-serif text-2xl text-warm-black">Book an initial appointment</h2>
+      <h2 class="font-serif text-2xl text-warm-black">Request an initial appointment</h2>
       <p class="mt-2 text-subtle-text">
-        Tell me a little about what you're looking for and your preferred days and times, and I'll come back to you to confirm a slot. Sessions are £100 (50 minutes), in person in Jersey or online.
+        Tell me briefly what you're looking for and your preferred days and times. I'll reply within two working days to discuss next steps; sending this form does not reserve a slot. Sessions are £100 for 50 minutes, in person in Jersey or online. Please avoid including detailed medical information in this initial enquiry.
       </p>
       <AppointmentForm />
     </section>
@@ -29,6 +29,9 @@ const CONSULT_URL = 'https://calendly.com/rodsil/15-min-onboard';
       <h2 class="font-serif text-2xl text-warm-black">Prefer a free 15-min call first?</h2>
       <p class="mt-2 text-subtle-text">
         A short fit / screening call — no clinical advice in the 15 minutes. We cover what you're bringing, whether CBT or CAT is likely a good fit, and how I work.
+      </p>
+      <p class="mt-2 text-subtle-text">
+        Complete your booking in Calendly to reserve a free 15-minute screening call. Calendly will show a confirmation and send the booking details by email. This confirms the screening call; a therapy appointment is arranged separately.
       </p>
       <CalendlyEmbed url={CONSULT_URL} />
     </section>

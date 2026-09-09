@@ -1,0 +1,12 @@
+# Workflow-only transition draft. Replace .github/workflows/deploy.yml only
+# through the separately authorized Master preparation change.
+name: Website publication notice
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  notice:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Workflow publication is paused. This action does not deploy. Direct gh-pages writes remain separately controlled.'

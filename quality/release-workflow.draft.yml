@@ -1,4 +1,5 @@
-# Manual publication requires an owner-approved Master SHA and protected environment approval.
+# NOT AN ACTIVE WORKFLOW. Activate on Master only after separately authorized
+# workflow transition, remote proof, runner baseline and protection decisions.
 name: Approved website release
 on:
   workflow_dispatch:

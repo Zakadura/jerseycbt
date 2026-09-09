@@ -7,6 +7,6 @@ interface Props {
   class?: string;
 }
 
-const { label = 'Book an initial appointment', href = '/book', class: classProp = '' } = Astro.props;
+const { label = 'Request an initial appointment', href = '/book', class: classProp = '' } = Astro.props;
 ---
 <CTAButton href={href} variant="primary" class={classProp}>{label}</CTAButton>

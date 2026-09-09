@@ -1,0 +1,27 @@
+# Prepared for the separately authorized public measurement PR. This never feeds a release marker.
+name: Candidate CI performance reference
+on:
+  pull_request:
+    branches: [Master]
+permissions:
+  contents: read
+jobs:
+  measure:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - run: node scripts/performance.mjs --collect-reference
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: candidate-performance-reference
+          path: .quality/performance/
+          include-hidden-files: true
+          retention-days: 7

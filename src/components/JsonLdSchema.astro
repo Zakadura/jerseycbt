@@ -10,5 +10,5 @@ const { extra = [] } = Astro.props;
 const ld = [...buildJsonLd(), ...extra];
 ---
 {ld.map((schema) => (
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
 ))}

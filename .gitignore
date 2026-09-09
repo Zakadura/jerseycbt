@@ -8,3 +8,9 @@ Thumbs.db
 .env.local
 # baseline placeholders inventory
 .baseline-placeholders.txt
+
+# Local quality evidence (synthetic inputs; never deploy reports)
+.quality/
+.lighthouseci/
+playwright-report/
+test-results/

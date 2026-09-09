@@ -10,10 +10,10 @@ import StickyBookButton from '../components/StickyBookButton.astro';
   title="Psicólogo e Psicoterapeuta em Jersey — Terapia em Português"
   description="Psicoterapeuta e psicólogo clínico (Ordem dos Psicólogos), acreditado pela BABCP e ACAT. Consultas de psicoterapia em português, em Jersey ou online.">
   <Nav />
-  <main class="max-w-2xl mx-auto px-6 py-16">
+  <main id="main-content" tabindex="-1" class="max-w-2xl mx-auto px-6 py-16">
     <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Psicoterapia em português</h1>
 
-    <section class="prose prose-lg prose-stone max-w-none mt-10">
+    <section class="content-prose mt-10">
       <p>
         Sou Rodrigo Silva, psicoterapeuta em Saint Helier, Jersey, com consultas presenciais e online. Trabalho em inglês e em português — a minha língua materna — com adultos que procuram ajuda para ansiedade, depressão, trauma, perturbação obsessivo-compulsiva e padrões que se repetem nas relações.
       </p>
@@ -40,15 +40,18 @@ import StickyBookButton from '../components/StickyBookButton.astro';
 
       <h2>Como começar</h2>
       <p>
-        A forma mais simples de começar é agendar uma consulta inicial. Se preferir falar antes, há uma chamada gratuita de 15 minutos — uma conversa para perceber o que o traz e como trabalho, sem compromisso.
+        Para começar, envie um pedido de consulta com uma breve indicação do que procura e dos dias e horários que prefere. Responderei no prazo de dois dias úteis para falarmos dos próximos passos; o envio do formulário não reserva um horário. Evite incluir informação médica detalhada neste primeiro contacto.
+      </p>
+      <p>
+        Se preferir falar antes, pode marcar uma chamada gratuita de 15 minutos no Calendly — uma conversa para perceber o que o traz e como trabalho, sem compromisso. A chamada fica marcada quando o Calendly apresenta a confirmação e envia os detalhes por email. A consulta de terapia é combinada separadamente.
       </p>
     </section>
 
     <div class="mt-12">
       <BookingCTA
-        primaryLabel="Agendar uma consulta inicial"
+        primaryLabel="Pedir uma consulta inicial"
         secondaryPrefix="Ainda não tem a certeza?"
-        secondaryLabel="Agendar uma consulta gratuita de 15 minutos primeiro →" />
+        secondaryLabel="Marcar primeiro uma chamada gratuita de 15 minutos →" />
     </div>
   </main>
   <Footer />

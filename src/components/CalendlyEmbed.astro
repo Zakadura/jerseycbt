@@ -1,50 +1,44 @@
 ---
-interface Props {
-  url: string;
-  eventType?: 'consultation' | 'session';
-  height?: number;
-}
+import CalendlyPopupButton from './CalendlyPopupButton.astro';
+interface Props { url: string; eventType?: 'consultation' | 'session'; height?: number; }
 const { url, height = 700 } = Astro.props;
 ---
-<div
-  data-calendly-inline
-  data-url={url}
-  style={`min-width:320px;height:${height}px`}
-  class="calendly-inline-widget w-full bg-muted-cream"
->
-  <noscript>
-    <p class="p-6 text-subtle-text">
-      JavaScript is required to load the booking widget. Email hello@jerseycbt.com to book.
-    </p>
-  </noscript>
-</div>
-
+<section data-booking-inline data-url={url} class="booking-inline" aria-label="Screening-call booking" lang="en">
+  <p class="text-sm mb-4">You can also <a href={url} target="_blank" rel="noopener" class="underline">open booking directly</a> or <a href="mailto:hello@jerseycbt.com" class="underline">email me</a>.</p>
+  <p class="text-sm mb-4"><CalendlyPopupButton url={url} variant="link">Open booking in a window</CalendlyPopupButton></p>
+  <p role="status" class="booking-status"></p>
+  <div data-booking-host class="booking-host bg-muted-cream" style={`height:${height}px`} hidden></div>
+  <button type="button" data-booking-retry class="booking-retry" hidden>Try loading booking again</button>
+  <noscript><p>Use the booking or email link above to book a screening call.</p></noscript>
+</section>
 <script>
+  import { loadCalendly } from '../lib/calendly';
   import { observeAndLoad } from '../lib/lazyEmbed';
-
-  // Calendly's bundled widget.js auto-initialises any `.calendly-inline-widget`
-  // element by reading its `data-url` attribute (set above). We lazy-load the
-  // asset only when the embed scrolls near the viewport.
-  //
-  // IMPORTANT: the host MUST carry the `data-url` attribute. If the element has
-  // the `calendly-inline-widget` class but no `data-url`, Calendly's auto-init
-  // throws (`parseOptions` does null.split) BEFORE `window.Calendly` is defined,
-  // and the widget silently never renders.
-  document.querySelectorAll<HTMLElement>('[data-calendly-inline]').forEach((host) => {
-    observeAndLoad(host, () => {
-      // If widget.js was already loaded (e.g. by a popup button elsewhere on the
-      // page), its auto-init has already rendered this host — nothing to do.
-      if ((window as any).Calendly) return;
-
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://assets.calendly.com/assets/external/widget.css';
-      document.head.appendChild(link);
-
-      const script = document.createElement('script');
-      script.src = 'https://assets.calendly.com/assets/external/widget.js';
-      script.async = true;
-      document.body.appendChild(script);
-    });
+  document.querySelectorAll<HTMLElement>('[data-booking-inline]').forEach(section => {
+    const host = section.querySelector<HTMLElement>('[data-booking-host]')!;
+    const status = section.querySelector<HTMLElement>(':scope > [role="status"]')!;
+    const retry = section.querySelector<HTMLButtonElement>('[data-booking-retry]')!;
+    let pending = false;
+    let ready = false;
+    const load = async () => {
+      if (pending || ready) return;
+      pending = true;
+      status.textContent = 'Loading booking…';
+      retry.hidden = true;
+      host.hidden = false;
+      try {
+        const api = await loadCalendly();
+        host.replaceChildren();
+        api.initInlineWidget({ url: section.dataset.url!, parentElement: host });
+        ready = true;
+        status.textContent = '';
+      } catch {
+        status.textContent = 'Booking could not load here. Use the booking or email link above, or try again.';
+        host.hidden = true;
+        retry.hidden = false;
+      } finally { pending = false; }
+    };
+    retry.addEventListener('click', load);
+    observeAndLoad(section, load);
   });
 </script>

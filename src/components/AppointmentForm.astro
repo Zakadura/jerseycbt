@@ -1,27 +1,27 @@
 ---
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdbrlrv';
 ---
-<form action={FORMSPREE_ENDPOINT} method="POST" class="mt-8 space-y-5">
+<form data-enquiry-form="appointment" action={FORMSPREE_ENDPOINT} method="POST" class="mt-8 space-y-5">
   <input type="hidden" name="_subject" value="Initial appointment request — jerseycbt.com" />
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
          class="absolute -left-[9999px] opacity-0" aria-hidden="true" />
 
   <label class="block">
     <span class="text-xs tracking-trust uppercase text-subtle-text">Your name</span>
-    <input type="text" name="name" required
-           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none" />
+    <input type="text" name="name" autocomplete="name" required
+           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black" />
   </label>
 
   <label class="block">
     <span class="text-xs tracking-trust uppercase text-subtle-text">Email</span>
-    <input type="email" name="email" required
-           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none" />
+    <input type="email" name="email" autocomplete="email" spellcheck="false" required
+           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black" />
   </label>
 
   <label class="block">
-    <span class="text-xs tracking-trust uppercase text-subtle-text">Phone <span class="normal-case tracking-normal text-subtle-text/70">(optional)</span></span>
-    <input type="tel" name="phone"
-           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none" />
+    <span class="text-xs tracking-trust uppercase text-subtle-text">Phone <span class="normal-case tracking-normal text-subtle-text">(optional)</span></span>
+    <input type="tel" name="phone" autocomplete="tel"
+           class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black" />
   </label>
 
   <fieldset>
@@ -46,13 +46,13 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdbrlrv';
     <span class="text-xs tracking-trust uppercase text-subtle-text">Preferred days &amp; times</span>
     <textarea name="preferred_times" rows="3" required
               placeholder="e.g. weekday mornings, or Tuesday / Thursday after 5pm"
-              class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none"></textarea>
+              class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black"></textarea>
   </label>
 
   <label class="block">
-    <span class="text-xs tracking-trust uppercase text-subtle-text">What you'd like help with <span class="normal-case tracking-normal text-subtle-text/70">(optional)</span></span>
+    <span class="text-xs tracking-trust uppercase text-subtle-text">What you'd like help with <span class="normal-case tracking-normal text-subtle-text">(optional)</span></span>
     <textarea name="message" rows="4"
-              class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black outline-none"></textarea>
+              class="mt-2 w-full border border-muted-cream bg-cream px-3 py-2 focus:border-warm-black"></textarea>
   </label>
 
   <button type="submit"
@@ -60,9 +60,15 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbdbrlrv';
                  border border-warm-black bg-warm-black text-cream hover:bg-body-text">
     Request appointment
   </button>
+  <p data-form-status role="status" aria-live="polite" tabindex="-1" class="form-status"></p>
 
   <p class="text-sm text-subtle-text">
     By requesting an appointment, you agree I can use your details to reply and arrange a session.
     See the <a href="/privacy" class="underline hover:text-warm-black">Privacy notice</a> for how your data is handled.
   </p>
 </form>
+
+<script>
+  import { enhanceForms } from "../lib/contactForm";
+  enhanceForms();
+</script>

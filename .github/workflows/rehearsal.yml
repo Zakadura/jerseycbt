@@ -1,0 +1,42 @@
+name: Non-publishing release rehearsal
+on:
+  pull_request:
+    branches: [Master]
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+      - name: Labelled eligible-candidate fixture (never publication authority)
+        run: node scripts/release-guard.mjs
+        env:
+          RELEASE_EVENT: workflow_dispatch
+          RELEASE_REF: refs/heads/Master
+          RELEASE_SHA: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+          APPROVED_SHA: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+  quality:
+    # Keep this required check independent: skipped dependent checks may allow merging.
+    uses: ./.github/workflows/quality.yml
+    with:
+      # Diagnostic fixture: change only for the authorized quality-failure case.
+      inject_failure: false
+      performance_baseline: quality/ci-performance-baseline.json
+  package:
+    needs: [guard, quality]
+    uses: ./.github/workflows/pages-package.yml
+    with:
+      # Diagnostic fixture: change only for the authorized package-failure case.
+      inject_failure: false
+  marker:
+    needs: [guard, quality, package]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harmless marker
+        run: echo 'Quality, labelled release fixture and packaging passed. No deployment.'

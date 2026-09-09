@@ -1,32 +1,38 @@
 ---
 const links = [
-  { href: '/approach',     label: 'Approach' },
+  { href: '/approach', label: 'Approach' },
   { href: '/what-i-treat', label: 'What I Treat' },
-  { href: '/about',        label: 'About' },
-  { href: '/articles',     label: 'Articles' },
-  { href: '/fees',         label: 'Fees' },
-  { href: '/contact',      label: 'Contact' },
+  { href: '/about', label: 'About' },
+  { href: '/articles', label: 'Articles' },
+  { href: '/fees', label: 'Fees' },
+  { href: '/contact', label: 'Contact' },
 ];
-const current = Astro.url.pathname;
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
-<header class="border-b border-muted-cream bg-cream">
-  <nav class="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
-    <a href="/" class="font-serif text-xl text-warm-black">jerseycbt</a>
-    <ul class="hidden md:flex gap-7 text-sm">
-      {links.map((l) => (
-        <li>
-          <a href={l.href}
-             class={`hover:text-warm-black transition-colors ${
-               current.startsWith(l.href) ? 'text-warm-black' : 'text-subtle-text'
-             }`}>
-            {l.label}
-          </a>
-        </li>
-      ))}
+<header class="site-header" lang="en">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a tabindex="0" href="/" class="font-serif text-xl text-warm-black" translate="no">jerseycbt</a>
+    <ul class="desktop-links">
+      {links.map(link => <li><a tabindex="0" href={link.href} aria-current={current === link.href ? 'page' : undefined} class:list={{ 'current-section': current.startsWith(link.href) }}>{link.label}</a></li>)}
     </ul>
-    <a href="/book"
-       class="md:hidden text-sm tracking-trust uppercase text-warm-black border border-warm-black px-3 py-1">
-      Book
-    </a>
+    <div class="mobile-actions">
+      <details class="mobile-menu">
+        <summary>Menu<span class="menu-symbol" aria-hidden="true"></span></summary>
+        <ul>{links.map(link => <li><a tabindex="0" href={link.href} aria-current={current === link.href ? 'page' : undefined}>{link.label}</a></li>)}</ul>
+      </details>
+      <a tabindex="0" href="/book" class="mobile-book" aria-current={current === '/book' ? 'page' : undefined}>Book</a>
+    </div>
   </nav>
 </header>
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+  if (menu) {
+    menu.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && menu.open) { menu.open = false; menu.querySelector('summary')?.focus(); }
+    });
+    menu.addEventListener('click', event => { if ((event.target as Element).closest('a')) menu.open = false; });
+    menu.addEventListener('focusout', () => requestAnimationFrame(() => { if (!menu.contains(document.activeElement)) menu.open = false; }));
+    document.addEventListener('click', event => { if (!menu.contains(event.target as Node)) menu.open = false; });
+    matchMedia('(min-width: 768px)').addEventListener('change', event => { if (event.matches) menu.open = false; });
+  }
+</script>

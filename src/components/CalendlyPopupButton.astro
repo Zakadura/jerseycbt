@@ -1,54 +1,39 @@
 ---
-interface Props {
-  url: string;
-  variant?: 'button' | 'link';
-  class?: string;
-}
+interface Props { url: string; variant?: 'button' | 'link'; class?: string; }
 const { url, variant = 'button', class: classProp = '' } = Astro.props;
-
-const buttonCls = 'inline-block px-6 py-3 font-sans text-sm tracking-trust uppercase border bg-warm-black text-cream border-warm-black hover:bg-body-text transition-colors';
-const linkCls = 'inline-block font-sans text-sm underline underline-offset-4 text-warm-black hover:text-body-text cursor-pointer bg-transparent border-0 p-0';
+const buttonCls = 'inline-block px-6 py-3 font-sans text-sm tracking-trust uppercase border bg-warm-black text-cream border-warm-black hover:bg-body-text';
+const linkCls = 'inline-block font-sans text-sm underline underline-offset-4 text-warm-black hover:text-body-text';
 ---
-<button
-  type="button"
-  class={`${variant === 'link' ? linkCls : buttonCls} ${classProp}`}
-  data-calendly-url={url}
-  data-calendly-popup
->
-  <slot />
-</button>
-
+<span data-booking-popup>
+  <a href={url} data-calendly-popup class={`${variant === 'link' ? linkCls : buttonCls} ${classProp}`}><slot /></a>
+  <span class="booking-status" role="status" lang="en"></span>
+  <span data-booking-fallback class="booking-status" lang="en" hidden>
+    <a href={url} target="_blank" rel="noopener" class="underline">Open booking directly</a> or <a href="mailto:hello@jerseycbt.com" class="underline">email me</a>.
+  </span>
+</span>
 <script>
-  // Lazy-load Calendly widget assets on first click, then open popup.
-  // Subsequent clicks skip the load.
-  let loaded = false;
-
-  function ensureCalendlyLoaded() {
-    if (loaded) return Promise.resolve();
-    loaded = true;
-    return new Promise<void>((resolve) => {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://assets.calendly.com/assets/external/widget.css';
-      document.head.appendChild(link);
-
-      const script = document.createElement('script');
-      script.src = 'https://assets.calendly.com/assets/external/widget.js';
-      script.async = true;
-      script.onload = () => resolve();
-      document.body.appendChild(script);
+  import { loadCalendly } from '../lib/calendly';
+  document.querySelectorAll<HTMLElement>('[data-booking-popup]').forEach(host => {
+    const link = host.querySelector<HTMLAnchorElement>('[data-calendly-popup]')!;
+    const status = host.querySelector<HTMLElement>('[role="status"]')!;
+    const fallback = host.querySelector<HTMLElement>('[data-booking-fallback]')!;
+    let pending = false;
+    link.addEventListener('click', async event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      if (pending) return;
+      pending = true;
+      link.setAttribute('aria-busy', 'true');
+      status.textContent = 'Opening booking…';
+      try {
+        const api = await loadCalendly();
+        api.initPopupWidget({ url: link.href });
+        status.textContent = '';
+        fallback.hidden = true;
+      } catch {
+        status.textContent = 'Booking could not open here. Please use a link below or try again.';
+        fallback.hidden = false;
+      } finally { pending = false; link.removeAttribute('aria-busy'); }
     });
-  }
-
-  document.addEventListener('click', async (e) => {
-    const target = e.target as HTMLElement;
-    const btn = target.closest('[data-calendly-popup]') as HTMLElement | null;
-    if (!btn) return;
-    e.preventDefault();
-    const url = btn.getAttribute('data-calendly-url');
-    if (!url) return;
-    await ensureCalendlyLoaded();
-    // @ts-expect-error Calendly attaches at runtime
-    window.Calendly?.initPopupWidget({ url });
   });
 </script>

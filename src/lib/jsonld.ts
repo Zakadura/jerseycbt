@@ -1,6 +1,6 @@
 export const PRACTICE = {
   name: 'Rodrigo Silva — CBT & CAT Psychotherapy',
-  legalName: 'Rodrigo Silva Psychotherapy',
+  legalName: 'Rodrigo Silva',
   url: 'https://jerseycbt.com',
   email: 'hello@jerseycbt.com',
   // Live number — matches BABCP register, Psychology Today, and cbttherapist.com
@@ -17,12 +17,12 @@ export const PRACTICE = {
     latitude: 49.1888196,
     longitude: -2.1129293,
   },
-  openingHours: 'Mo-Fr 10:00-18:00',
+  openingHours: 'Mo-Fr 10:00-19:00',
   languages: ['English', 'Portuguese'],
   founderCredentials: [
     'BABCP Accredited #101239',
     'ACAT Accredited',
-    'MSc, PgDip CBT',
+    'Licenciatura in Clinical Psychology; PgDip CBT',
     '21+ years in NHS and private practice',
   ],
   insuranceAccepted: ['AXA', 'Aviva', 'Vitality', 'Aetna'],
@@ -35,7 +35,7 @@ export const PRACTICE = {
 export const PERSON = {
   name: 'Rodrigo Silva',
   jobTitle: 'Cognitive Behavioural & Cognitive Analytic Psychotherapist',
-  honorificSuffix: 'MSc, MBABCP',
+  honorificSuffix: 'MBABCP',
   // Stable URL served from public/ — JSON-LD/og references need a permanent
   // address, while <img> elements on pages use astro:assets srcset variants.
   // Do not remove the file from public/images/.
@@ -59,7 +59,7 @@ export const PERSON = {
       organisationUrl: 'https://www.acat.org.uk/',
     },
     {
-      name: 'Clinical Psychologist, Ordem dos Psicólogos Portugueses (Reg. 26160)',
+      name: 'Clinical Psychologist, Ordem dos Psicólogos Portugueses (Reg. 20307)',
       organisation: 'Ordem dos Psicólogos Portugueses',
       organisationUrl: 'https://www.ordemdospsicologos.pt/',
     },

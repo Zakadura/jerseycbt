@@ -15,7 +15,7 @@ const releaseCondition = "${{ github.event_name == 'workflow_dispatch' && github
 const graph = () => ({
   rehearsal: read('.github/workflows/rehearsal.yml'),
   quality: read('.github/workflows/quality.yml'),
-  release: read('quality/release-workflow.draft.yml'),
+  release: read('.github/workflows/deploy.yml'),
   packaging: read('.github/workflows/pages-package.yml'),
 });
 
@@ -105,13 +105,13 @@ test('only actual manual Master event with an approved immutable matching SHA is
   assert.equal(releaseAllowed(candidate), true);
   for (const change of [{ event: 'push' }, { ref: 'refs/heads/feature' }, { sha: 'b'.repeat(40) }, { approvedSha: '' }, { approvedSha: 'Master' }]) assert.equal(releaseAllowed({ ...candidate, ...change }), false);
 });
-test('workflow drafts retain real quality dependencies and bounded permissions', () => {
+test('active manual release retains reviewed quality dependencies and bounded permissions', () => {
   const rehearsal = read('.github/workflows/rehearsal.yml');
   const quality = read('.github/workflows/quality.yml');
   const release = read('quality/release-workflow.draft.yml');
   const paused = read('quality/deploy-paused.yml');
   const reference = read('.github/workflows/performance-reference.yml');
-  assert.deepEqual(read('.github/workflows/deploy.yml'), paused);
+  assert.deepEqual(read('.github/workflows/deploy.yml'), release);
   assert.ok(reference.on.pull_request);
   assert.equal(reference.permissions.contents, 'read');
   assert.deepEqual(Object.keys(reference.jobs), ['measure']);

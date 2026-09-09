@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CTAButton from '../components/CTAButton.astro';
+---
+<BaseLayout
+  title="Page not found — jerseycbt"
+  description="Find your way back to jerseycbt, request an appointment or get in touch."
+  canonical="https://jerseycbt.com/404.html"
+  isErrorPage>
+  <Nav />
+  <main id="main-content" tabindex="-1" class="max-w-2xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-4xl md:text-5xl text-warm-black">Page not found</h1>
+    <p class="mt-4 text-subtle-text">This link may be out of date, or the address may have been entered incorrectly.</p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-4 items-start">
+      <CTAButton href="/">Go to the home page</CTAButton>
+      <CTAButton href="/book/" variant="ghost">Request an appointment</CTAButton>
+    </div>
+    <p class="mt-8 text-subtle-text">You can also <a href="/contact/" class="underline">contact me</a>.</p>
+    <p class="mt-4"><a href="/portugues/" lang="pt" class="underline">Psicoterapia em português</a></p>
+  </main>
+  <Footer />
+</BaseLayout>

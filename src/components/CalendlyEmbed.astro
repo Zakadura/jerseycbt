@@ -3,13 +3,13 @@ import CalendlyPopupButton from './CalendlyPopupButton.astro';
 interface Props { url: string; eventType?: 'consultation' | 'session'; height?: number; }
 const { url, height = 700 } = Astro.props;
 ---
-<section data-booking-inline data-url={url} class="booking-inline" aria-label="Consultation booking" lang="en">
+<section data-booking-inline data-url={url} class="booking-inline" aria-label="Screening-call booking" lang="en">
   <p class="text-sm mb-4">You can also <a href={url} target="_blank" rel="noopener" class="underline">open booking directly</a> or <a href="mailto:hello@jerseycbt.com" class="underline">email me</a>.</p>
   <p class="text-sm mb-4"><CalendlyPopupButton url={url} variant="link">Open booking in a window</CalendlyPopupButton></p>
   <p role="status" class="booking-status"></p>
   <div data-booking-host class="booking-host bg-muted-cream" style={`height:${height}px`} hidden></div>
   <button type="button" data-booking-retry class="booking-retry" hidden>Try loading booking again</button>
-  <noscript><p>Use the booking or email link above to arrange a consultation.</p></noscript>
+  <noscript><p>Use the booking or email link above to book a screening call.</p></noscript>
 </section>
 <script>
   import { loadCalendly } from '../lib/calendly';

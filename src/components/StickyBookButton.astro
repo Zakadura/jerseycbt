@@ -3,7 +3,7 @@ const portuguese = Astro.url.pathname.startsWith('/portugues');
 const onBookingPage = /^\/book\/?$/.test(Astro.url.pathname);
 ---
 {!onBookingPage && <div id="sticky-book" class="sticky-book" lang={portuguese ? 'pt' : 'en'} hidden inert>
-  <a tabindex="0" href="/book">{portuguese ? 'Marcar uma primeira consulta' : 'Book an initial appointment'}</a>
+  <a tabindex="0" href="/book">{portuguese ? 'Pedir uma primeira consulta' : 'Request an initial appointment'}</a>
   <button type="button" aria-label={portuguese ? 'Fechar lembrete de marcação' : 'Dismiss booking reminder'}>×</button>
 </div>}
 <script>

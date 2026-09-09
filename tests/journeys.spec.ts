@@ -3,6 +3,32 @@ import { test, expect, type Page } from '@playwright/test';
 test.beforeEach(async ({ context }) => {
   await context.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
 });
+
+test('missing pages retain 404 status and offer working recovery without JavaScript', async ({ browser, request }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  await context.route('**/*', route => new URL(route.request().url()).hostname === '127.0.0.1' ? route.continue() : route.abort());
+  try {
+    const page = await context.newPage();
+    const missingUrl = 'http://127.0.0.1:4321/missing/deep/page/?example=synthetic';
+    const response = await page.goto(missingUrl);
+    expect(response?.status()).toBe(404);
+    await expect(page.getByRole('heading', { name: 'Page not found', exact: true })).toBeVisible();
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,follow');
+    await expect(page.locator('script[src*="plausible"]')).toHaveCount(0);
+    for (const link of await page.locator('main a').all()) {
+      const target = await link.getAttribute('href');
+      expect(target).toMatch(/^\//);
+      expect((await request.get(target!)).status()).toBe(200);
+    }
+    const head = await request.head(missingUrl);
+    expect(head.status()).toBe(404);
+    expect(await head.text()).toBe('');
+    await page.getByRole('link', { name: 'Go to the home page', exact: true }).click();
+    await expect(page).toHaveURL('http://127.0.0.1:4321/');
+    await expect(page.locator('h1')).toBeVisible();
+  } finally { await context.close(); }
+});
+
 async function fillForm(page: Page, path: string) {
   await page.goto(path);
   await expect(page.locator('form')).toHaveAttribute('data-enhanced', 'true');

@@ -14,7 +14,7 @@ const serviceLd = buildOfferJsonLd(feesUrl);
 ---
 <BaseLayout
   title="Therapy Costs in Jersey — £100 per Session | Fees"
-  description="Private therapy fees in Jersey — £100 per 50-minute session, free 15-min consultation. CBT and CAT. AXA, Aviva, Vitality, Aetna."
+  description="Private therapy fees in Jersey — £100 per 50-minute session, free 15-min screening call. CBT and CAT. AXA, Aviva, Vitality, Aetna."
   jsonLd={[serviceLd]}>
   <Nav />
   <main id="main-content" tabindex="-1" class="max-w-2xl mx-auto px-6 py-16">
@@ -33,6 +33,7 @@ const serviceLd = buildOfferJsonLd(feesUrl);
     </section>
 
     <InsuranceLogos />
+    <p class="mt-4 text-subtle-text">Bupa</p>
 
     <div class="mt-12 flex flex-col sm:flex-row gap-6">
       <BookingCTA />

@@ -13,7 +13,16 @@ const server = http.createServer(async (req, res) => {
     const content = await readFile(file);
     res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
     res.end(req.method === 'HEAD' ? undefined : content);
-  } catch { res.writeHead(404).end('Not found'); }
+  } catch {
+    try {
+      const content = await readFile(path.join(root, '404.html'));
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' });
+      res.end(req.method === 'HEAD' ? undefined : content);
+    } catch {
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' });
+      res.end(req.method === 'HEAD' ? undefined : 'Not found');
+    }
+  }
 });
 server.listen(Number(process.env.PORT || 4321), '127.0.0.1', () => process.send?.({ ready: true }));
 process.on('SIGTERM', () => server.close());

@@ -1,3 +1,13 @@
+# Manual release activation prepared locally
+
+9 September 2026. The active deploy.yml in this candidate now contains the previously reviewed manual artifact-release workflow. Its parsed configuration must equal quality/release-workflow.draft.yml; guard tests and unsafe mutation tests exercise the active workflow. It has no push trigger. The owner-approved immutable Master SHA, passing quality and packaging jobs, and protected github-pages approval are still required. The stored deploy-paused.yml is the historical pause reference, not the active candidate workflow.
+
+This local candidate does not change GitHub or publish the site. The remote branch remains on the pause until this exact candidate is separately approved and pushed/merged. Pages source-mode and Master-only environment policy changes, followed by the exact-SHA manual release, require the concrete publication decision. Keep the gh-pages lock, domain and HTTPS. The prior four normal/failure/restored rehearsals remain evidence for the unchanged workflow graph; do not repeat deliberate failure cases for this file promotion. A normal hosted check of the new source is still needed.
+
+The current site contains 22 HTML pages including the branded404; quality now covers123browser journeys and23accessibility cases. Previous counts below are historical. Provider tests and settings inspection are complete; owner accepted current factual/privacy details. No repeated confirmation loop is needed. Bupa is displayed without descriptors at the owner's request. Broader programme/app/campaign work is outside this website release candidate.
+
+## Historical implementation and evidence
+
 # M2 checks and release preparation
 
 The website draft started from published source `452064017b4dc4974cac7c675637cadb49d67578` and incorporates the workflow-only pause merged on Master as `53e90599c333fa1ea604e49acb10e77f14c46f44`. The original OneDrive checkout and currently served site are unchanged. This branch is not a release instruction.

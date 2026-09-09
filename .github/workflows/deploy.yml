@@ -1,12 +1,53 @@
-# Workflow-only transition draft. Replace .github/workflows/deploy.yml only
-# through the separately authorized Master preparation change.
-name: Website publication notice
+# Manual publication requires an owner-approved Master SHA and protected environment approval.
+name: Approved website release
 on:
   workflow_dispatch:
+    inputs:
+      approved_sha:
+        description: Owner-approved immutable Master commit
+        required: true
+        type: string
 permissions:
   contents: read
+concurrency:
+  group: jerseycbt-pages-production
+  cancel-in-progress: false
 jobs:
-  notice:
+  guard:
     runs-on: ubuntu-latest
     steps:
-      - run: echo 'Workflow publication is paused. This action does not deploy. Direct gh-pages writes remain separately controlled.'
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+      - run: node scripts/release-guard.mjs
+        env:
+          RELEASE_EVENT: ${{ github.event_name }}
+          RELEASE_REF: ${{ github.ref }}
+          RELEASE_SHA: ${{ github.sha }}
+          APPROVED_SHA: ${{ inputs.approved_sha }}
+  quality:
+    needs: guard
+    uses: ./.github/workflows/quality.yml
+    with:
+      inject_failure: false
+      performance_baseline: quality/ci-performance-baseline.json
+  package:
+    needs: [guard, quality]
+    uses: ./.github/workflows/pages-package.yml
+    with:
+      inject_failure: false
+  deploy:
+    needs: [guard, quality, package]
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/Master' && github.sha == inputs.approved_sha }}
+    runs-on: ubuntu-latest
+    environment: github-pages
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+        with:
+          artifact_name: github-pages

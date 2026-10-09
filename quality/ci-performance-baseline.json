@@ -1,11 +1,11 @@
 {
-  "sourceSha": "184d0339a849f4f5d0af2b0d4484ad5f6d5615cc",
-  "provenance": "Initial hosted reference proposed from GitHub run 34186514243, artifact 10040731516. Acceptance requires review of the exact M2-CI-REFERENCE.patch; not a release approval.",
+  "sourceSha": "6896440161e2d9ccdc54fce0672a629744503627",
+  "provenance": "Hosted environment update from GitHub run 37917853346, artifact 11610832081, for the ADHD article release. Original settings, budgets and four 100-point target medians preserved; independent review required before release.",
   "platform": "win32",
-  "runnerImage": "20260824.214.3",
+  "runnerImage": "20260925.250.1",
   "launcherVersion": "1.2.1",
   "lighthouseVersion": "12.8.2",
-  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+  "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
   "settings": {
     "output": [
       "json",
@@ -80,8 +80,8 @@
     "/book/": 100,
     "/contact/": 100
   },
-  "sourceTree": "2c76230e35b88fcb5af36a0d9348fd530343de40",
-  "sourceHeadSha": "bf7085171c2133187b199056498cbedddd747ba0",
-  "sourceRun": "https://github.com/Zakadura/jerseycbt/actions/runs/34186514243",
-  "artifactDigest": "sha256:cf256fe45951ad35122d3d32a4abcc2e8fb220367c9ca20b2eb3020ce53f0a1c"
+  "sourceTree": "10fa9a772110c1447a1e65aa3eacc7173118ab41",
+  "sourceHeadSha": "b0d1a9262ffc990fe3a591569ab305e5f1f02ccf",
+  "sourceRun": "https://github.com/Zakadura/jerseycbt/actions/runs/37917853346",
+  "artifactDigest": "sha256:afbccc9a9a695a39bedaa58dc43a2394c390fd27a2cca6d4b8f15ec482a9448b"
 }

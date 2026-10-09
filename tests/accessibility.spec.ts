@@ -45,7 +45,7 @@ test('open menu, failed form and enlarged text remain accessible', async ({ page
   const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
   await info.attach('axe-failed-form', { body: JSON.stringify(result), contentType: 'application/json' });
   expect(result.violations).toEqual([]);
-  for (const route of ['/about/', '/approach/', '/fees/', '/privacy/', '/terms/', '/portugues/', '/articles/what-is-cat/', '/what-i-treat/anxiety/']) {
+  for (const route of ['/about/', '/approach/', '/fees/', '/privacy/', '/terms/', '/portugues/', '/articles/what-is-cat/', '/articles/cbt-for-adhd-jersey/', '/what-i-treat/anxiety/']) {
     await page.goto(route);
     await page.setViewportSize({ width: 320, height: 900 });
     await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });

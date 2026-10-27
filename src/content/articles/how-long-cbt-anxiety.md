@@ -35,4 +35,6 @@ If the anxiety keeps coming back in the same shape — if it's less a problem th
 
 ## How to find out for your situation
 
+For the treatment itself, read about [CBT and CAT for anxiety, panic and stress in Jersey](/what-i-treat/anxiety/), including how assessment and between-session work fit together.
+
 The only honest way to estimate is to look at what you're actually bringing. A [free 15-minute call](/book) is enough to give you a realistic sense of the likely shape and length — no obligation.

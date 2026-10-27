@@ -52,6 +52,8 @@ Most courses run between 8 and 24 sessions — often around 16 — weekly to beg
 
 ## Common questions
 
+For more on the practical questions, read [how long CBT for anxiety can take](/articles/how-long-cbt-anxiety/) and [how CBT and CAT differ](/articles/cbt-vs-cat/). We can discuss which approach fits at an initial appointment.
+
 **Is panic dangerous?** It doesn't feel that way in the moment, but no — a panic attack is your alarm system firing hard, not your body failing. Part of the work is testing that out rather than taking my word for it.
 
 **Do I have to do exposure?** Nothing happens that you haven't agreed to. It's graded and collaborative — we go at a pace you can stand, not one imposed on you.

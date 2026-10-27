@@ -1,3 +1,11 @@
+# 27 October 2026 hosted environment reference
+
+The existing-page SEO navigation candidate requires the current hosted Chrome 156 / Windows image 20261021.278.1 reference. Independent Claude review approved applying this metadata-only proposal on 27 October, subject to a passing required hosted check on the final source. Platform, launcher 1.2.1, Lighthouse 12.8.2, all collection settings, absolute budgets and all four 100-point medians are unchanged. No comparator or workflow code changed.
+
+Candidate run 40502447788, artifact 12732814137, digest `sha256:cdd08413b735d74bd5e7b1c263af249f102d2991e3d3dd564296b38fe0dc601a` measured test-merge `dfe7cea91580a24f91c972072a173850f4ae42af`. That merge and content head `78b7364beb96ef6123fc359baa595e16458b4205` both have tree `a58b6d69a2ce8934437063b61a9f4327719cad3a`. The candidate and required run 40502447760 each collected twelve measurements: one homepage performance 99, eleven 100, all route medians 100, all other categories 100. The required run also passed all 123 browser journeys and 24 accessibility cases; it failed on the old environment comparison, and packaging remained blocked as designed.
+
+The final source includes the reviewed comparison-link placement and accurate private-baseline wording, so it needs its own passing hosted run. This record does not approve merging or publishing any source revision. Keep the protected exact-Master-SHA release and owner environment approval. Further environment drift requires fresh evidence and independent review.
+
 # October 2026 hosted performance reference
 
 The ADHD article update uses hosted image 20260925.250.1 and Chrome 154, measured in [candidate run 37917853346](https://github.com/Zakadura/jerseycbt/actions/runs/37917853346), artifact 11610832081 (ZIP SHA256 `afbccc9a9a695a39bedaa58dc43a2394c390fd27a2cca6d4b8f15ec482a9448b`). Test-merge commit `6896440161e2d9ccdc54fce0672a629744503627` and article head `b0d1a9262ffc990fe3a591569ab305e5f1f02ccf` share tree `10fa9a772110c1447a1e65aa3eacc7173118ab41`. The updated `ci-performance-baseline.json` file SHA256 is `36ca3f8100509678635a022dd54ade0240208abc289ccf1d8d0b68e124bffdeb`. All twelve candidate measurements score 100 in all four categories. Platform, launcher 1.2.1, Lighthouse 12.8.2, settings, absolute budgets and four target medians of 100 are unchanged.
@@ -61,3 +69,4 @@ Future activation requires separate authorization to switch Pages build_type fro
 The new download, packaging and deployment actions are pinned to full commits. Existing quality checkout/setup-node/upload actions retain their earlier mutable major tags; pinning that existing toolchain is a future review item. Other tracked low follow-ups are the possible one-time focus-related page movement and the active pause notice's historical draft header. They are outside this workflow package.
 
 The branded 404 is assigned to M3, including noindex and real missing-path status verification. Broader programme/brand/app and clinical decisions remain with Rodrigo. Real integration outcomes above are verified; provider account settings and broader clinical/business claims remain separate owner decisions.
+

@@ -14,7 +14,7 @@ No new service page, clinical treatment claim, professional title, tracking serv
 
 Direct HTTP checks before editing returned 200 for sixteen sampled content pages, including four specific articles. Each sampled content page had one H1, a description, canonical and parseable JSON-LD. Robots and sitemap returned 200. A deliberately missing URL returned a real 404 with noindex. These checks do not establish Google index coverage or Core Web Vitals. Search discovery was not a controlled Jersey Google SERP or map-pack audit.
 
-The source includes a Plausible script; no analytics account, Google Search Console or Google Business Profile report was accessed. Organic and enquiry baselines remain unavailable. Before publication, preserve the available 28-day page/query baseline and longer query history, or explicitly record that it was unavailable. Keep baseline collection separate from claiming success after release.
+The source includes a Plausible script. After the public HTTP capture, the owner authorised reading jerseycbt.com's Google Search Console reports. A dated 28-day query/page baseline and all available historical query/page rows were captured privately before publication; the private values are not stored in this public repository. No analytics, enquiry or Google Business Profile account report was accessed. Keep baseline collection separate from claiming success after release.
 
 ## Verification and release
 

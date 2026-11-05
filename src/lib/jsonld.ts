@@ -27,7 +27,7 @@ export const PRACTICE = {
   ],
   insuranceAccepted: ['AXA', 'Aviva', 'Vitality', 'Aetna'],
   priceRange: '££',
-  sessionPrice: 100,
+  sessionMinimumPrice: 100,
   currency: 'GBP',
 } as const;
 
@@ -216,7 +216,7 @@ export function buildConditionJsonLd(opts: {
   };
 }
 
-/** Fees page — makes the rate machine-readable. */
+/** Fees page — makes the minimum session fee machine-readable. */
 export function buildOfferJsonLd(url: string) {
   return {
     '@context': 'https://schema.org',
@@ -236,9 +236,12 @@ export function buildOfferJsonLd(url: string) {
     ],
     offers: {
       '@type': 'Offer',
-      price: PRACTICE.sessionPrice,
-      priceCurrency: PRACTICE.currency,
-      description: '50-minute session, in person in St Helier or online',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        minPrice: PRACTICE.sessionMinimumPrice,
+        priceCurrency: PRACTICE.currency,
+      },
+      description: 'Therapy session from £100, in person in St Helier or online. Fee confirmed before booking.',
       availability: 'https://schema.org/InStock',
       url,
     },

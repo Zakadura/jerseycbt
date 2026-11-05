@@ -1,3 +1,11 @@
+# Fee update hosted-image reference
+
+This reference deliberately selects the `windows-2025-vs2026` image `20261103.298.1` measured by [candidate run 41937336065](https://github.com/Zakadura/jerseycbt/actions/runs/41937336065), artifact 13375425258, ZIP SHA256 `161a192716c08832b6a117599188c722f96bd50a83c68bbbae9e2fb500f40e80`. Test-merge `a97a73aff759b8e70eebabf7906064866f26071b` and fee head `ad5a1967ecf1926ab64f51bbb167fa6e4a529db3` share tree `525b87cfa168f0ef784787d7596024b0f5d54e36`. The updated baseline file SHA256 is `8f067ebe7b689aa22bf9eddbc274663e19fbb133fe8598db12307531fccf290e`.
+
+The initial required run 41937336128 used the same image label at version `20261030.294.1`, not the candidate version, and failed against the saved `20261021.278.1` image after its other checks passed. GitHub was serving mixed image versions. Candidate medians are 99/100/100/100; all four accepted target medians remain 100. Chrome 156, platform, launcher 1.2.1, Lighthouse 12.8.2, full settings and absolute budgets remain unchanged. Both the final required check and protected exact-SHA release must match the selected candidate image and pass before publication. Another image mismatch stops publication; do not iterate the reference value or weaken the gate.
+
+The sections titled "27 October 2026 hosted environment reference" and "October 2026 hosted performance reference" below are historical environment acceptance records. Their instructions about checks, review and deployment protections still apply.
+
 # 27 October 2026 hosted environment reference
 
 The existing-page SEO navigation candidate requires the current hosted Chrome 156 / Windows image 20261021.278.1 reference. Independent Claude review approved applying this metadata-only proposal on 27 October, subject to a passing required hosted check on the final source. Platform, launcher 1.2.1, Lighthouse 12.8.2, all collection settings, absolute budgets and all four 100-point medians are unchanged. No comparator or workflow code changed.

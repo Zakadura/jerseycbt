@@ -4,6 +4,7 @@ import { spawn } from 'node:child_process';
 import lighthouse from 'lighthouse';
 import { launch } from 'chrome-launcher';
 import { saveCandidateReference } from './performance-reference.mjs';
+import { assertAcceptedRunnerImage } from './performance-environment.mjs';
 const launcherVersion = JSON.parse(await fs.readFile(new URL('../node_modules/chrome-launcher/package.json', import.meta.url), 'utf8')).version;
 const out = path.resolve('.quality/performance');
 const collectReference = process.argv.includes('--collect-reference');
@@ -44,7 +45,7 @@ try {
 } finally {
   if (chrome) await chrome.kill();
   server.kill();
-  await fs.writeFile(path.join(out, 'summary.json'), JSON.stringify({ date: new Date().toISOString(), baseline: baseline.sourceSha, launcherVersion, runs }, null, 2));
+  await fs.writeFile(path.join(out, 'summary.json'), JSON.stringify({ date: new Date().toISOString(), baseline: baseline.sourceSha, runnerImage: process.env.ImageVersion || null, launcherVersion, runs }, null, 2));
 }
 // LHCI asserts the reports made with pinned Lighthouse 12.8.2; it does not
 // collect using its older transitive Lighthouse version or upload reports.
@@ -58,7 +59,7 @@ if (collectReference) {
 }
 if (code !== 0) throw new Error('Lighthouse CI budgets failed');
 if (runs.some(run => !run.comparable)) throw new Error('Performance environment changed: comparison unresolved. Do not silently replace the baseline.');
-if (process.env.CI && baseline.runnerImage !== process.env.ImageVersion) throw new Error('Hosted runner image changed: reviewed comparison required.');
+if (process.env.CI) assertAcceptedRunnerImage(baseline, process.env.ImageVersion);
 for (const route of Object.keys(baseline.medians)) {
   const median = runs.filter(run => run.route === route).map(run => run.scores.performance).sort((a,b) => a-b)[1];
   if (median < baseline.medians[route] - 5) throw new Error(`Performance regression on ${route}: ${median} versus ${baseline.medians[route]}`);

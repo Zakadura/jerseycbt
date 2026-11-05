@@ -1,8 +1,8 @@
 {
-  "sourceSha": "a97a73aff759b8e70eebabf7906064866f26071b",
-  "provenance": "Fee-update reference from candidate run 41937336065, artifact 13375425258, on windows-2025-vs2026 image 20261103.298.1. Required run 41937336128 used 20261030.294.1 during a mixed-image rollout. Browser, settings, budgets and four 100-point targets preserved; later required and release checks must match the selected candidate image.",
+  "sourceSha": "f1c4a485df58c21884a26c0d5e05f935d4e71519",
+  "provenance": "Fee-update reference re-pointed on 5 November 2026 to the general-release windows-2025-vs2026 image 20261030.294.1, measured by protected release run 41944097295 (artifact 13376984581) directly on merged Master f1c4a485. The previously selected 20261103.298.1 is a GitHub prerelease; four consecutive releases of this exact source matched every other check on 20261030.294.1. Browser, settings, budgets and four 100-point targets preserved; release checks must match this image.",
   "platform": "win32",
-  "runnerImage": "20261103.298.1",
+  "runnerImage": "20261030.294.1",
   "launcherVersion": "1.2.1",
   "lighthouseVersion": "12.8.2",
   "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
@@ -80,8 +80,8 @@
     "/book/": 100,
     "/contact/": 100
   },
-  "sourceTree": "525b87cfa168f0ef784787d7596024b0f5d54e36",
-  "sourceHeadSha": "ad5a1967ecf1926ab64f51bbb167fa6e4a529db3",
-  "sourceRun": "https://github.com/Zakadura/jerseycbt/actions/runs/41937336065",
-  "artifactDigest": "sha256:161a192716c08832b6a117599188c722f96bd50a83c68bbbae9e2fb500f40e80"
+  "sourceTree": "35e7fe6ed8a955191182401ae9481f0bcc40853d",
+  "sourceHeadSha": "f1c4a485df58c21884a26c0d5e05f935d4e71519",
+  "sourceRun": "https://github.com/Zakadura/jerseycbt/actions/runs/41944097295",
+  "artifactDigest": "sha256:c381b363d072cac3504e448c4a0326fde1823f6dd1f7d691349e3f345d949564"
 }

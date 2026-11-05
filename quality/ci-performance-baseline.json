@@ -1,8 +1,8 @@
 {
-  "sourceSha": "dfe7cea91580a24f91c972072a173850f4ae42af",
-  "provenance": "Hosted environment update proposed from GitHub run 40502447788, artifact 12732814137. Settings, budgets and four 100-point medians preserved. Requires independent review and a passing final hosted run before publication.",
+  "sourceSha": "a97a73aff759b8e70eebabf7906064866f26071b",
+  "provenance": "Fee-update reference from candidate run 41937336065, artifact 13375425258, on windows-2025-vs2026 image 20261103.298.1. Required run 41937336128 used 20261030.294.1 during a mixed-image rollout. Browser, settings, budgets and four 100-point targets preserved; later required and release checks must match the selected candidate image.",
   "platform": "win32",
-  "runnerImage": "20261021.278.1",
+  "runnerImage": "20261103.298.1",
   "launcherVersion": "1.2.1",
   "lighthouseVersion": "12.8.2",
   "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
@@ -80,8 +80,8 @@
     "/book/": 100,
     "/contact/": 100
   },
-  "sourceTree": "a58b6d69a2ce8934437063b61a9f4327719cad3a",
-  "sourceHeadSha": "78b7364beb96ef6123fc359baa595e16458b4205",
-  "sourceRun": "https://github.com/Zakadura/jerseycbt/actions/runs/40502447788",
-  "artifactDigest": "sha256:cdd08413b735d74bd5e7b1c263af249f102d2991e3d3dd564296b38fe0dc601a"
+  "sourceTree": "525b87cfa168f0ef784787d7596024b0f5d54e36",
+  "sourceHeadSha": "ad5a1967ecf1926ab64f51bbb167fa6e4a529db3",
+  "sourceRun": "https://github.com/Zakadura/jerseycbt/actions/runs/41937336065",
+  "artifactDigest": "sha256:161a192716c08832b6a117599188c722f96bd50a83c68bbbae9e2fb500f40e80"
 }

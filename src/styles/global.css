@@ -24,9 +24,10 @@ main { min-width: 0; }
 .site-header { border-bottom: 1px solid #ece9e2; background: #fbfaf7; }
 .site-nav { max-width: 64rem; margin-inline: auto; padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; position: relative; }
 .desktop-links { display: none; gap: 1.75rem; font-size: .875rem; color: #5a4f3c; }
+.desktop-phone { display: none; font-size: .875rem; color: #1a1612; white-space: nowrap; text-decoration: underline; text-underline-offset: .3em; }
 .site-nav a[aria-current="page"], .current-section { color: #1a1612; text-decoration: underline; text-underline-offset: .3em; }
 .mobile-actions { display: flex; flex-wrap: wrap; min-width: 0; max-width: 100%; align-items: center; gap: .5rem; font-size: .875rem; }
-.mobile-book, .mobile-menu summary { min-height: 44px; display: flex; align-items: center; padding: .5rem .75rem; border: 1px solid #1a1612; cursor: pointer; }
+.mobile-book, .mobile-call, .mobile-menu summary { min-height: 44px; display: flex; align-items: center; padding: .5rem .75rem; border: 1px solid #1a1612; cursor: pointer; }
 .mobile-menu .menu-symbol::after { content: ' +'; padding-left: .35rem; }
 .mobile-menu[open] .menu-symbol::after { content: ' −'; }
 .mobile-menu ul { position: absolute; top: 100%; inset-inline: 1.5rem; z-index: 60; padding: .5rem; background: #fbfaf7; border: 1px solid #5a4f3c; box-shadow: 0 8px 16px #1a16121a; }
@@ -35,6 +36,7 @@ main { min-width: 0; }
 .mobile-menu a { display: block; padding: .75rem; min-height: 44px; }
 .mobile-menu a:hover { background: #ece9e2; }
 @media (min-width: 768px) { .desktop-links { display: flex; } .mobile-actions { display: none; } }
+@media (min-width: 1024px) { .desktop-phone { display: inline; } }
 .content-prose { color: #2a2620; font-size: 1.0625rem; line-height: 1.8; }
 .content-prose :where(h1,h2,h3,h4) { color: #1a1612; font-family: Charter, Georgia, serif; line-height: 1.25; text-wrap: balance; }
 .content-prose :where(h1) { font-size: 2.25rem; margin-block: 0 1.25rem; }

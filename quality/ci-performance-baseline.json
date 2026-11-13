@@ -1,8 +1,14 @@
 {
   "sourceSha": "a97a73aff759b8e70eebabf7906064866f26071b",
-  "provenance": "Fee-update reference from candidate run 41937336065, artifact 13375425258, on windows-2025-vs2026 image 20261103.298.1. Required run 41937336128 used 20261030.294.1 during a mixed-image rollout. Browser, settings, budgets and four 100-point targets preserved; later required and release checks must match the selected candidate image.",
+  "provenance": "Fee-update reference from candidate run 41937336065, artifact 13375425258, on windows-2025-vs2026 image 20261103.298.1. Required run 41937336128 used 20261030.294.1 during a mixed-image rollout. Browser, settings, budgets and four 100-point targets preserved. Since 5 November 2026 the hosted comparison accepts this measured image plus every version listed in acceptedRunnerImages, each entered only with recorded passing-run evidence; any other version still stops the release.",
   "platform": "win32",
   "runnerImage": "20261103.298.1",
+  "acceptedRunnerImages": [
+    {
+      "version": "20261030.294.1",
+      "evidence": "windows-2025-vs2026 general-release version served alongside 20261103.298.1 on 4-5 November 2026. Rehearsal 41937336128 and protected releases 41940667922, 41941544479, 41942636649 and 41944097295 of Master f1c4a485 each passed 123 browser journeys, 24 accessibility cases, all absolute Lighthouse budgets and all twelve browser/settings comparability checks (performance medians 99-100), failing only the exact image equality. PR 6 rehearsal 41991142783 passed fully on this version with an independent approving review. Chrome 156, Lighthouse 12.8.2, launcher 1.2.1, settings and budgets identical to the measured image."
+    }
+  ],
   "launcherVersion": "1.2.1",
   "lighthouseVersion": "12.8.2",
   "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",

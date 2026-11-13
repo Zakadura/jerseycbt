@@ -6,6 +6,7 @@ import yaml from 'js-yaml';
 import os from 'node:os';
 import path from 'node:path';
 import { saveCandidateReference } from '../scripts/performance-reference.mjs';
+import { acceptedRunnerImages, assertAcceptedRunnerImage } from '../scripts/performance-environment.mjs';
 const candidate = { event: 'workflow_dispatch', ref: 'refs/heads/Master', sha: 'a'.repeat(40), approvedSha: 'a'.repeat(40) };
 const read = file => yaml.load(fs.readFileSync(file, 'utf8'));
 const downloadPin = 'actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093';
@@ -202,4 +203,49 @@ test('a below-budget measurement still saves an explicitly unaccepted candidate'
     fs.unlinkSync(path.join(output, 'candidate-baseline.json'));
     fs.rmdirSync(output);
   }
+});
+
+const imageBaseline = { runnerImage: '20261103.298.1', acceptedRunnerImages: [{ version: '20261030.294.1', evidence: 'Passing runs 41937336128, 41940667922 and 41991142783 on this version.' }] };
+test('hosted comparison accepts the measured image and every evidenced accepted image only', () => {
+  assert.deepEqual(acceptedRunnerImages(imageBaseline), ['20261103.298.1', '20261030.294.1']);
+  assert.equal(assertAcceptedRunnerImage(imageBaseline, '20261103.298.1'), '20261103.298.1');
+  assert.equal(assertAcceptedRunnerImage(imageBaseline, '20261030.294.1'), '20261030.294.1');
+  for (const image of ['20261021.278.1', '20261110.301.1', '20261030.294', '', undefined, null]) {
+    assert.throws(() => assertAcceptedRunnerImage(imageBaseline, image), /Hosted runner image changed: reviewed comparison required/);
+  }
+  // Without an allowlist the historical exact comparison still applies.
+  assert.equal(assertAcceptedRunnerImage({ runnerImage: '20261103.298.1' }, '20261103.298.1'), '20261103.298.1');
+  assert.throws(() => assertAcceptedRunnerImage({ runnerImage: '20261103.298.1' }, '20261030.294.1'), /reviewed comparison required/);
+});
+test('a malformed or unevidenced accepted-image record fails closed', () => {
+  const evidence = imageBaseline.acceptedRunnerImages[0].evidence;
+  const broken = {
+    'bare version string': ['20261030.294.1'],
+    'missing evidence': [{ version: '20261030.294.1' }],
+    'short evidence': [{ version: '20261030.294.1', evidence: 'ok' }],
+    'missing version': [{ evidence }],
+    'image label instead of version': [{ version: 'windows-2025-vs2026', evidence }],
+    'wildcard version': [{ version: '2026*', evidence }],
+    'duplicate of measured image': [{ version: '20261103.298.1', evidence }],
+    'object instead of array': { '20261030.294.1': evidence },
+  };
+  for (const [name, acceptedRunnerImages] of Object.entries(broken)) {
+    assert.throws(() => assertAcceptedRunnerImage({ runnerImage: '20261103.298.1', acceptedRunnerImages }, '20261030.294.1'), Error, name);
+    assert.throws(() => assertAcceptedRunnerImage({ runnerImage: '20261103.298.1', acceptedRunnerImages }, '20261103.298.1'), Error, name);
+  }
+  assert.throws(() => assertAcceptedRunnerImage({ acceptedRunnerImages: imageBaseline.acceptedRunnerImages }, '20261030.294.1'), /no measured runnerImage/);
+});
+test('committed hosted baseline lists both November 2026 image versions with evidence and unchanged strict fields', () => {
+  const baseline = JSON.parse(fs.readFileSync('quality/ci-performance-baseline.json', 'utf8'));
+  assert.deepEqual(acceptedRunnerImages(baseline), ['20261103.298.1', '20261030.294.1']);
+  for (const entry of baseline.acceptedRunnerImages) assert.match(entry.evidence, /\b4\d{10}\b/, 'each accepted image cites at least one GitHub Actions run id');
+  assert.equal(baseline.platform, 'win32');
+  assert.equal(baseline.lighthouseVersion, '12.8.2');
+  assert.equal(baseline.launcherVersion, '1.2.1');
+  assert.match(baseline.browser, /HeadlessChrome\/156\.0\.0\.0/);
+  assert.deepEqual(baseline.medians, { '/': 100, '/articles/what-is-cat/': 100, '/book/': 100, '/contact/': 100 });
+  assert.deepEqual(baseline.absoluteBudgets, { passed: true, exitCode: 0, advisory: true });
+  const source = fs.readFileSync('scripts/performance.mjs', 'utf8');
+  assert.match(source, /if \(process\.env\.CI\) assertAcceptedRunnerImage\(baseline, process\.env\.ImageVersion\);/);
+  assert.doesNotMatch(source, /baseline\.runnerImage !== process\.env\.ImageVersion/);
 });

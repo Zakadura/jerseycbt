@@ -25,7 +25,7 @@ export const PRACTICE = {
     'Licenciatura in Clinical Psychology; PgDip CBT',
     '21+ years in NHS and private practice',
   ],
-  insuranceAccepted: ['AXA', 'Aviva', 'Vitality', 'Aetna'],
+  insuranceAccepted: ['AXA', 'Aviva', 'WPA', 'Vitality', 'Aetna'],
   priceRange: '££',
   sessionMinimumPrice: 100,
   currency: 'GBP',
